@@ -19,6 +19,47 @@
   --margin: 8px;
 }
 
+.dark {
+  background-color: #020617;
+}
+
+.light {
+  background-color: white;
+}
+
+.darkProjects {
+  color: white;
+}
+
+.lightProjects {
+  color: black;
+}
+
+.darkChoose_a_project {
+  color: #a1a1aa;
+}
+
+.lightChoose_a_project {
+  color: black;
+  font-weight: bold;
+}
+
+.darkslider {
+  background-color: black;
+}
+
+.lightslider {
+  background-color: white;
+}
+
+.darkcircle {
+  background-color: black;
+}
+
+.lightcircle {
+  background-color: white;
+}
+
 .checkbox {
   display: none;
   -webkit-appearance: none;
@@ -55,7 +96,6 @@
 .circle {
   border: var(--dark);
   border-radius: 50%;
-  background-color: var(--dark);
   width: 24px;
   height: 24px;
   z-index: 1000;
