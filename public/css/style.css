@@ -60,6 +60,94 @@
   background-color: white;
 }
 
+.bodylight {
+  background-color: #f8fafc;
+  color: #000000;
+}
+
+.bodydark {
+  background-color: #020617;
+  color: #e2e8f0;
+}
+
+.borderlightheader {
+  background-color: rgba(248, 250, 252, 0.95);
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.borderdarkheader {
+  background-color: rgba(2, 6, 23, 0.95);
+  border-bottom: 1px solid #3f3f46;
+}
+
+.nav_homelight {
+  color: #10b981;
+}
+
+.nav_homedark {
+  color: #34d399;
+}
+
+.nav_gameslight {
+  color: #000000;
+}
+
+.nav_gamesdark {
+  color: #a1a1aa;
+}
+
+.nav_guesslight {
+  color: #000000;
+}
+
+.nav_guessdark {
+  color: #a1a1aa;
+}
+
+.nav_comparelight {
+  color: #000000;
+}
+
+.nav_comparedark {
+  color: #a1a1aa;
+}
+
+.nav_collectionslight {
+  color: #000000;
+}
+
+.nav_collectionsdark {
+  color: #a1a1aa;
+}
+
+.current_gamelight {
+  color: #000000;
+}
+
+.current_gamedark {
+  color: #34d399;
+}
+
+.div_popular_gameslight {
+  background-color: #ffffff;
+  border: 2px solid #10b981;
+}
+
+.div_popular_gamesdark {
+  background-color: #0f172a;
+  border: 2px solid #10b981;
+}
+
+.div_recent_gameslight {
+  background-color: #ffffff;
+  border: 2px solid #10b981;
+}
+
+.div_recent_gamesdark {
+  background-color: #0f172a;
+  border: 2px solid #10b981;
+}
+
 .checkbox {
   display: none;
   -webkit-appearance: none;
@@ -225,7 +313,7 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  opacity: 0;
+  opacity: 1;
   transform: translateY(20px) scale(0.95);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow:

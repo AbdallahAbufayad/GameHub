@@ -30,7 +30,18 @@ btn_GameHub.addEventListener("click", async () => {
   }
 });
 
-//Useful function.
+async function checkIfLoggedIn() {
+  const isLoggedIn = localStorage.getItem("loggedIn");
+  const userId = localStorage.getItem("userId");
+
+  if (isLoggedIn === "true") {
+    const currentUser = await fetchUserInfo(userId);
+
+    if (currentUser.profile_picture && currentUser?.profile_picture != "") {
+      user_avatar.src = currentUser.profile_picture;
+    }
+  }
+}
 function showNotification(message) {
   let notif = document.querySelector("#notification");
   let text = notif ? document.querySelector("#error_text") : null;
@@ -66,19 +77,6 @@ function showNotification(message) {
       notif.style.display = "none";
     }, 300);
   }, 5000);
-}
-
-async function checkIfLoggedIn() {
-  const isLoggedIn = localStorage.getItem("loggedIn");
-  const userId = localStorage.getItem("userId");
-
-  if (isLoggedIn === "true") {
-    const currentUser = await fetchUserInfo(userId);
-
-    if (currentUser.profile_picture && currentUser?.profile_picture != "") {
-      user_avatar.src = currentUser.profile_picture;
-    }
-  }
 }
 
 async function fetchUserInfo(givenId) {
