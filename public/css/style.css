@@ -148,6 +148,16 @@
   border: 2px solid #10b981;
 }
 
+.div_all_gameslight {
+  background-color: #ffffff;
+  border: 2px solid #10b981;
+}
+
+.div_all_gamesdark {
+  background-color: #0f172a;
+  border: 2px solid #10b981;
+}
+
 .checkbox {
   display: none;
   -webkit-appearance: none;

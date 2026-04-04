@@ -14,6 +14,7 @@ btn_MusicMatch.addEventListener("click", () => {
 btn_LegoMaster.addEventListener("click", () => {
   showNotification("We konden je niet brengen naar LegoMaster");
 });
+/*
 btn_GameHub.addEventListener("click", async () => {
   const isLoggedIn = localStorage.getItem("loggedIn");
   const userId = localStorage.getItem("userId");
@@ -28,7 +29,7 @@ btn_GameHub.addEventListener("click", async () => {
   } else {
     window.location.href = "login.html";
   }
-});
+});*/
 
 async function checkIfLoggedIn() {
   const isLoggedIn = localStorage.getItem("loggedIn");
@@ -142,7 +143,3 @@ async function checkCurrentGame() {
     console.error("checkCurrentGame error:", err);
   }
 }
-
-checkCurrentGame();
-
-checkIfLoggedIn();

@@ -262,11 +262,15 @@
           class="mb-12 md:mb-16 animate-fade-in stagger-3 relative"
         >
           <!-- Navigation buttons – responsive version -->
-          <button
+          <form action="/home" method="get">
+            <button
             id="btn_left"
-            type="button"
+            type="submit"
+            value="clicked"
+            <%= previousBtnDisableValue%>
+            name="previous_btn"
             aria-label="Previous games"
-            class="pagination-btn absolute top-0 -translate-y-1/2 left-2 sm:left-4 md:left-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 text-emerald-300 bg-gradient-to-br from-slate-900 to-slate-950 hover:from-emerald-950 hover:to-slate-900 hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:from-zinc-900 disabled:to-zinc-950 disabled:hover:scale-100 disabled:shadow-none"
+            class="pagination-btntheme-<%= themaName %> absolute top-0 -translate-y-1/2 left-2 sm:left-4 md:left-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 hover:from-emerald-950 hover:to-slate-900 hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:from-zinc-900 disabled:to-zinc-950 disabled:hover:scale-100 disabled:shadow-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -286,9 +290,11 @@
 
           <button
             id="btn_right"
-            type="button"
+            type="submit"
+            name="next_btn"
+            value="clicked"
             aria-label="Next games"
-            class="pagination-btn absolute top-0 -translate-y-1/2 right-2 sm:right-4 md:right-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 text-emerald-300 bg-gradient-to-br from-slate-900 to-slate-950 hover:from-emerald-950 hover:to-slate-900 hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:from-zinc-900 disabled:to-zinc-950 disabled:hover:scale-100 disabled:shadow-none"
+            class="pagination-btntheme-<%= themaName %> absolute top-0 -translate-y-1/2 right-2 sm:right-4 md:right-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 hover:from-emerald-950 hover:to-slate-900 hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:from-zinc-900 disabled:to-zinc-950 disabled:hover:scale-100 disabled:shadow-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -305,6 +311,7 @@
               />
             </svg>
           </button>
+          </form>
 
           <h2
             class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-center mb-6 md:mb-8 px-10 sm:px-16 md:px-20"
@@ -314,9 +321,11 @@
 
           <div
             id="div_all_games"
-            class="bg-zinc-900 border-2 border-emerald-500 rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
+            class="div_all_games<%= themaName %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
           >
-            <div class="loading-overlay" id="loadingOverlay">
+            <!--
+          
+          <div class="loading-overlay" id="loadingOverlay">
               <div class="loader">
                 <div class="dot"></div>
                 <div class="dot"></div>
@@ -325,11 +334,22 @@
               </div>
               <div class="loading-text">Loading games...</div>
             </div>
+            -->
             <div
               class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4"
               id="games_container"
             >
               <!--allgames-->
+              <%for(let showAllGame of showAllGames){%>
+
+                <div class="group theme-<%= themaName %>">
+                    <div class="card-size">
+                        <img alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">    
+                    </div>
+                    <a href="#" target="_self"><p><%= showAllGame.name%></p></a>
+                </div>
+
+                <%}%>
             </div>
           </div>
         </section>

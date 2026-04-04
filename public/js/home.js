@@ -115,7 +115,3 @@ async function checkCurrentGame() {
     console.error("checkCurrentGame error:", err);
   }
 }
-
-checkCurrentGame();
-
-checkIfLoggedIn();
