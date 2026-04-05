@@ -84,6 +84,66 @@ app.get("/home", async (req, res) => {
   });
 });
 
+app.get("/register", (req, res) => {
+  const theme = req.query.theme === "light";
+  const themaName = theme ? "light" : "dark";
+
+  res.render("register", {
+    title: "Registreren",
+    themaName: themaName,
+  });
+})
+app.get("/login", (req, res) => {
+  const theme = req.query.theme === "light";
+  const themaName = theme ? "light" : "dark";
+
+  res.render("login", {
+    title: "Inloggen",
+    themaName: themaName,
+  });
+  
+})
+app.post("/login", (req, res) => {
+  const emailOrUsername = req.body.email_username;
+  const password = btoa(req.body.password); //will be properly hashed after security class
+  const cityName = req.body.cityName;
+  const countryName = req.body.countryName;
+
+})
+app.post("/register", (req, res) => {
+  const email = req.body.email;
+  const username = req.body.username;
+  const password = btoa(req.body.password); //will be properly hashed after security class
+
+  if(password.length < 12){
+    //show notification
+    return;
+  }
+
+  
+
+})
+app.get("/public-profile", (req, res) => {
+  const theme = req.query.theme === "light";
+  const themaName = theme ? "light" : "dark";
+
+  res.render("public-profile", {
+    title: "Publiek profiel",
+    themaName: themaName,
+  });
+  
+})
+app.get("/profile", (req, res) => {
+  const theme = req.query.theme === "light";
+  const themaName = theme ? "light" : "dark";
+
+  res.render("profile", {
+    title: "Profiel",
+    themaName: themaName,
+  });
+  
+})
+
 app.listen(app.get("port"), async () => {
   const response = await fetch(`${url}`);
 

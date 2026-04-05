@@ -20,9 +20,9 @@ if (user_avatar) {
     e.preventDefault();
     const isLoggedIn = localStorage.getItem("loggedIn");
     if (isLoggedIn === "true") {
-      window.location.href = "./profile.html?page=info";
+      window.location.href = "./profile";
     } else {
-      window.location.href = "./login.html";
+      window.location.href = "./login";
     }
   });
 }
@@ -32,9 +32,9 @@ if (nav_collections) {
     e.preventDefault();
     const isLoggedIn = localStorage.getItem("loggedIn");
     if (isLoggedIn === "true") {
-      window.location.href = "./profile.html?page=collections";
+      window.location.href = "./profile";
     } else {
-      window.location.href = "./login.html";
+      window.location.href = "./login";
     }
   });
 }

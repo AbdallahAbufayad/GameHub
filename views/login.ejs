@@ -1,2 +1,38 @@
 <%- include('header') %>
+<main>
+      <form id="login_form" action="" method="post"
+        class="flex flex-col items-center justify-center min-h-[calc(120dvh-350px)] lg:min-h-[calc(100dvh-90px)] gap-3 animate-fade-in stagger-1">
+        <label for="email_username" class="text-2xl font-bold">E-mail/Gebruikersnaam</label>
+        <input type="text" name="email_username" id="email_username"
+          class="py-1 px-1 w-64 h-8 rounded-lg text-zinc-900 text-sm border-[3px] border-emerald-400 hover:border-emerald-500 transition-all duration-500" required />
+        <label for="password" class="text-2xl font-bold mt-6">Wachtwoord</label>
+        <input type="password" name="password" id="password"
+          class="py-1 px-1 w-64 h-8 rounded-lg text-zinc-900 text-sm border-[3px] border-emerald-400 hover:border-emerald-500 transition-all duration-500" required />
+        <div>
+          <label for="show_password">Wachtwoord tonen?</label>
+          <input type="checkbox" class="mb-6 ml-1.5" id="show_password" />
+        </div>
+        <input type="submit" name="login" value="Inloggen"
+          class="text-1xl font-bold bg-emerald-400 px-16 border py-1.5 rounded-lg text-zinc-900 hover:bg-emerald-500 transition-all duration-500 hover:scale-[1.05]" />
+        <div class="flex flex-col items-center gap-0 mt-3">
+          <a href="/register">Nog geen account? <span class="underline">Registreer je</span></a>
+          <a href="/info.html?page=email_notification" class="underline">Wachtwoord vergeten?</a>
+        </div>
+        <!-- Hidden location fields -->
+        <label for="email_username1" id="lblemail_username1" class="text-2xl font-bold">E-mail/Gebruikersnaam:</label>
+        <input type="text" name="email_username1" id="email_username1" />
+        <label id="lblcityName" class="flex" for="cityName">Stad:</label>
+        <input type="text" class="bg-slate-950" name="cityName" id="cityName" />
+        <label id="lblcountryName" class="flex" for="countryName">Land:</label>
+        <input type="text" class="bg-slate-950" name="countryName" id="countryName" />
+      </form>
+</main>
+
+    <!-- Notification -->
+    <div id="notification" role="alert"
+      class="fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-80 hidden bg-zinc-900 text-white px-4 py-3 rounded-lg shadow-lg shadow-black/40 transition-all duration-300 ease-out opacity-0 translate-y-4 z-[9999]">
+      <p id="error_text" class="text-white text-center text-sm sm:text-base"></p>
+    </div>
+
+    <script src="js/login.js"></script>
 <%- include('footer') %>
