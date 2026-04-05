@@ -1,50 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="js/index.js" defer></script>
-    <title><%= title %></title>
-  </head>
-  <body class="min-h-screen <%= themaName %>">
-    <!-- H1 -->
-    <header class="text-center py-6 px-4 md:py-10 animate-fade-in">
-      <!--Dark/Licht mode toggel-->
-      <form action="/" method="get">
-        <label for="checkbox" class="toggle">
-          <input
-            type="checkbox"
-            class="checkbox"
-            id="checkbox"
-            name="theme"
-            value="light"
-            <%= themaName === "light" ? "checked" : "" %>
-            onchange="this.form.submit()"
-          />
-          <div class="slider <%= themaName %>slider">
-            <div class="circle <%= themaName %>circle"></div>
-            <div class="sun"></div>
-            <div class="moon"></div>
-          </div>
-        </label>
-      </form>
-      <h1
-        class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide <%= themaName %>Projects"
-      >
-        Onze games
-      </h1>
-      <p class="text-sm sm:text-base text-zinc-400 mt-2 <%= themaName %>Choose_a_project">
-        Kies een game
-      </p>
-    </header>
+<%- include('header') %>
 
     <!-- Main -->
     <main class="flex justify-center px-4">
@@ -136,5 +90,4 @@
         </button>
       </section>
     </main>
-  </body>
-</html>
+  <%- include('footer') %>
