@@ -1,13 +1,7 @@
-const passwordCheckbox = document.querySelector("#show_password").addEventListener("change", (e) => showPassword(e));
+const loggedInRedirect = document.querySelector("#logged-in-redirect");
 
-function showPassword(e) {
-  let password =
-    document.querySelector("input[type='password']") ||
-    document.querySelectorAll("input[type='text']")[1];
-
-  if (e.srcElement.checked) {
-    password.type = "text";
-  } else {
-    password.type = "password";
-  }
+if(loggedInRedirect != null){
+    setTimeout(() => {
+        window.location.href = "./home"
+    }, 1000);
 }

@@ -5,10 +5,10 @@
         method="post"
         class="flex flex-col items-center justify-center min-h-[calc(120dvh-350px)] lg:min-h-[calc(100dvh-90px)] gap-3"
       >
-        <label for="e-mail" class="text-2xl font-bold">E-mail </label>
+        <label for="email" class="text-2xl font-bold">E-mail </label>
         <input
           type="email"
-          name="e-mail"
+          name="email"
           id="email"
           class="py-1 px-1 w-64 h-8 rounded-lg text-zinc-900 text-sm border-[3px] border-emerald-400 hover:border-emerald-500 transition-all duration-500"
           required
@@ -49,6 +49,11 @@
 </main>
 
     <!-- Notification -->
+
+    <% if (notification != "") { %>
+        <div id="notification_active" class="hidden"><%=notification%></div>
+    <% } %>
+
     <div
       id="notification"
       role="alert"
@@ -60,5 +65,5 @@
       ></p>
     </div>
 
-    <script src="js/register.js"></script>
+    <script src="js/methods.js"></script>
 <%- include('footer') %>
