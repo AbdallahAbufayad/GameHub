@@ -29,6 +29,7 @@ let previousBtnDisableValue = "";
 
 let notification: string = "";
 let loggedIn = false;
+let counterShowFilters = 1;
 
 app.get("/", (req, res) => {
   const theme = req.query.theme === "light";
@@ -89,6 +90,142 @@ app.get("/home", async (req, res) => {
     allrecentGames: allrecentGames,
     showAllGames: showAllGames,
     previousBtnDisableValue: previousBtnDisableValue,
+  });
+});
+
+app.get("/games", async (req, res) => {
+  const theme: boolean = req.query.themeGames === "light";
+  const themaName: string = theme ? "light" : "dark";
+  const previousBtn: string =
+    typeof req.query.previous_btn === "string" ? req.query.previous_btn : "";
+  const nextBtn: string =
+    typeof req.query.next_btn === "string" ? req.query.next_btn : "";
+  const search: string =
+    typeof req.query.search === "string" ? req.query.search : "";
+
+  let searchGame: string =
+    typeof req.query.searchGame === "string" ? req.query.searchGame : "";
+
+  const sortfield: string =
+    typeof req.query.sortfield === "string" ? req.query.sortfield : "name";
+
+  let filterClassName = "";
+
+  if (previousBtn === "clicked") {
+    counter -= 1;
+    changeDisableValue();
+  } else if (nextBtn === "clicked") {
+    counter += 1;
+    changeDisableValue();
+  }
+
+  let allGames: GamesApi;
+  let showAllGames: Results[];
+
+  if (sortfield === "reviewCount" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&ordering=-released&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results.sort(
+      (a, b) => b.ratings_count - a.ratings_count,
+    );
+  } else if (sortfield === "TotalPersons" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&ordering=-released&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results.sort(
+      (a, b) => b.added_by_status["owned"] - a.added_by_status["owned"],
+    );
+  } else if (sortfield === "Name_alphabetically_A_Z" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&ordering=name&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results;
+  } else if (sortfield === "Name_alphabetically_Z_A" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&ordering=-name&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results;
+  } else if (sortfield === "ratingAsc" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&ordering=rating&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results;
+  } else if (sortfield === "ratingDesc" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&ordering=-rating&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results;
+  } else if (sortfield === "releaseYearAsc" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&ordering=released&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results;
+  } else if (sortfield === "releaseYearDesc" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&ordering=-released&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results;
+  } else if (sortfield === "singlePlayer" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&tags=singleplayer&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results;
+  } else if (sortfield === "multiplayer" && search === "clicked") {
+    searchGame = "";
+    let response = await fetch(
+      `${url}&tags=multiplayer&page=${counter}&page_size=50`,
+    );
+    allGames = await response.json();
+    showAllGames = allGames.results;
+  } else {
+    if (searchGame !== "") {
+      let response = await fetch(`${url}&search=${searchGame}`);
+      allGames = await response.json();
+
+      showAllGames = allGames.results;
+    } else {
+      let response = await fetch(
+        `${url}&ordering=-released&page=${counter}&page_size=50`,
+      );
+      allGames = await response.json();
+      showAllGames = allGames.results;
+    }
+  }
+
+  function changeDisableValue() {
+    if (counter <= 1) previousBtnDisableValue = "disabled";
+    else previousBtnDisableValue = "enabled";
+  }
+
+  changeDisableValue();
+
+  res.render("games", {
+    title: "Games",
+    themaName: themaName,
+    filterClassName: filterClassName,
+    showAllGames: showAllGames,
+    previousBtnDisableValue: previousBtnDisableValue,
+    sortfield: sortfield,
+    searchGame: searchGame,
   });
 });
 

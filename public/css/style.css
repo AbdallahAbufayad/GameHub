@@ -155,7 +155,55 @@
 
 .div_all_gamesdark {
   background-color: #0f172a;
-  border: 2px solid #10b981;
+  border: 5px solid #10b981;
+}
+
+.search_inputlight {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #10b981;
+}
+
+.search_inputdark {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #10b981;
+}
+
+.btn_filter_containerlight {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #10b981;
+}
+
+.btn_filter_containerdark {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #10b981;
+}
+
+.filter_containerlight {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #10b981;
+}
+
+.filter_containerdark {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #10b981;
+}
+
+.Searchlight {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #10b981;
+}
+
+.Searchdark {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #10b981;
 }
 
 .checkbox {

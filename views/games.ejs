@@ -1,3 +1,374 @@
-<%- include('partials/header') %>
-<!--main etc here-->
-<%- include('partials/footer') %>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/games.js" defer></script>
+
+</head>
+
+<body class="body<%= themaName %> min-h-screen">
+  <!--Header-->
+  <header class="border-b border-zinc-800 py-4 px-4 animate-fade-in stagger-1">
+    <div class="flex flex-col items-center gap-6 lg:grid lg:grid-cols-[10%_0%_80%_10%] lg:items-center lg:gap-0">
+      <!--Our logo-->
+      <a href="/home">
+        <div id="logo" class="text-emerald-400 text-xl md:text-2xl font-bold tracking-wide px-3 py-1.5 rounded-lg transition-all duration-300 hover:text-emerald-300 hover:bg-emerald-950/50 hover:scale-110 hover:shadow-lg hover:shadow-emerald-500/50 hover:-rotate-2">
+          [+..••]
+        </div>
+      </a>
+
+      <!--Dark/Light mode toggel-->
+      <form action="/games" method="get">
+        <label for="checkbox" class="toggle">
+          <input type="checkbox" class="checkbox" id="checkbox" name="themeGames" value="light" <%= themaName === "light" ? "checked" : "" %> onchange="this.form.submit()" />
+          <div class="slider <%= themaName %>slider">
+            <div class="circle <%= themaName %>circle"></div>
+            <div class="sun"></div>
+            <div class="moon"></div>
+          </div>
+        </label>
+      </form>
+
+      <!--Navbar (guess the game - Compare games - Collections)-->
+      <nav id="nav" class="flex flex-col items-center gap-2 lg:flex-row lg:justify-center lg:gap-8">
+        <a href="/home" id="nav_home" class="text-zinc-400 hover:text-emerald-400 transition-all duration-300 hover:scale-105 text-sm sm:text-base md:text-lg font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+        </a>
+        <a href="/games" id="nav_games" class="text-emerald-400 transition-all duration-300 scale-110 text-base sm:text-lg md:text-xl font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z" />
+          </svg>
+        </a>
+        <a href="./guess-the-game.html" id="nav_guess" class="text-zinc-400 hover:text-emerald-400 transition-all duration-300 hover:scale-105 text-sm sm:text-base md:text-lg font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+          </svg>
+        </a>
+        <a href="./compare-games.html" id="nav_compare" class="text-emerald-400 transition-all duration-300 scale-110 text-base sm:text-lg md:text-xl font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 0 1-2.031.352 5.988 5.988 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971Zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 0 1-2.031.352 5.989 5.989 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971Z" />
+          </svg>
+        </a>
+        <a href="./profile.html#collections" id="nav_collections" class="text-zinc-400 hover:text-emerald-400 transition-all duration-300 hover:scale-105 text-sm sm:text-base md:text-lg font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+          </svg>
+        </a>
+      </nav>
+
+      <div class="grid gap-5 justify-items-center text-center lg:flex lg:items-center">
+        <div id="user_info" class="text-sm">
+          <a href="./profile.html?page=collections#currently_playing">
+            <div id="currently_game" class="text-zinc-500">
+              Speelt momenteel:
+            </div>
+          </a>
+          <a href="./game-info.html?id=">
+            <div id="current_game" class="text-emerald-400 font-semibold">
+              Geen spel
+            </div>
+          </a>
+        </div>
+        <a href="./profile.html?page=info">
+          <div class="w-8 h-8 md:w-10 md:h-10 bg-emerald-500 rounded-full flex items-center justify-center hover:bg-emerald-400 transition-all duration-300 hover:scale-110 shadow-lg shadow-emerald-500/20">
+            <img id="user_avatar" src="../images/user.png" alt="" class="w-full h-full rounded-full bg-zinc-800 p-2" />
+          </div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <form>
+      <div class="flex flex-col sm:flex-row gap-2 mb-8 md:mb-12 max-w-2xl mx-auto animate-fade-in stagger-1">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input id="searchForUsers" type="checkbox" class="w-5 h-5 sm:w-6 sm:h-6 accent-emerald-500" />
+          <span class="text-zinc-300 font-semibold text-sm sm:text-base">
+            Zoeken voor gebruikers
+          </span>
+        </label>
+        <!---->
+        <div class="relative w-full">
+          <input id="search_input" name="searchGame" value="<%= searchGame%>"  type="text" placeholder="Zoek voor games..." class="w-full search_input<%= themaName %> placeholder_search_<%= themaName %> rounded-lg sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-white focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all duration-300 pr-10 sm:pr-12" />
+
+          <button id="clear_btn" type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white text-sm sm:text-base transition-colors duration-200">
+            ✕
+          </button>
+        </div>
+
+        <!--Here comes the filter button-->
+
+        <div class="flex gap-2">
+
+          <button type="button" id="btn_filter_container" class="btn_filter_container<%= themaName %> px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-emerald-500 hover:border-emerald-500 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/20 font-semibold text-sm sm:text-base">
+            <!--filter icon-->
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2l-7 7v5l-4 2v-7L3 6V4z" />
+            </svg>
+          </button>
+
+        </div>
+
+        <button class="Search<%= themaName %> rounded-xl p-2" name="search" value="clicked" type="submit">Search</button>
+
+
+        <!-- filter list-->
+      </div>
+
+      <div class="filter_container_hide border rounded-xl filter_container<%= themaName %> backdrop-blur-sm shadow-2xl z-50 flex-col p-4 gap-2 w-80 absolute left-1/2 -translate-x-1/2 transition-all duration-300 ease-in-out" id="filter_container">
+        <h3 class="text-sm font-bold text-emerald-400 mb-1 text-center border-b border-emerald-500/30 pb-2">
+          Filter opties
+        </h3>
+
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Rating_count">
+          <span class="text-white">Beoordelingen aantal</span>
+          <input type="checkbox" name="sortfield" value="ratingCount" <%= sortfield === "ratingCount" ? "checked" : "" %> id="Rating_count" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Number_of_People">
+          <span class="text-white">Totale aantal personen</span>
+          <input type="checkbox" name="sortfield" value="TotalPersons" <%= sortfield === "TotalPersons" ? "checked" : "" %> id="Number_of_People" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Alfabetisch_A_Z">
+          <span class="text-white">Naam alfabetisch (A-Z)</span>
+          <input type="checkbox" name="sortfield" value="Name_alphabetically_A_Z" <%= sortfield === "Name_alphabetically_A_Z" ? "checked" : "" %> id="Alfabetisch_A_Z" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Alfabetisch_Z_A">
+          <span class="text-white">Naam alfabetisch (Z-A)</span>
+          <input type="checkbox" name="sortfield" value="Name_alphabetically_Z_A" <%= sortfield === "Name_alphabetically_Z_A" ? "checked" : "" %> id="Alfabetisch_Z_A" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Rating_asc">
+          <span class="text-white">Beoordeling (oplopend)</span>
+          <input type="checkbox" name="sortfield" value="ratingAsc" <%= sortfield === "ratingAsc" ? "checked" : "" %> id="Rating_asc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Rating_desc">
+          <span class="text-white">Beoordeling (aflopend)</span>
+          <input type="checkbox" name="sortfield" value="ratingDesc" <%= sortfield === "ratingDesc" ? "checked" : "" %> id="Rating_desc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Release_Year_asc">
+          <span class="text-white">Uitgebracht jaar (oplopend)</span>
+          <input type="checkbox" name="sortfield" value="releaseYearAsc" <%= sortfield === "releaseYearAsc" ? "checked" : "" %> id="Release_Year_asc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Release_Year_desc">
+          <span class="text-white">Uitgebracht jaar (aflopend)</span>
+          <input type="checkbox" name="sortfield" value="releaseYearDesc" <%= sortfield === "releaseYearDesc" ? "checked" : "" %> id="Release_Year_desc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="singleplayer">
+          <span class="text-white">Een speler</span>
+          <input type="checkbox" name="sortfield" value="singlePlayer" <%= sortfield === "singlePlayer" ? "checked" : "" %> id="singleplayer" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+
+        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="multiplayer">
+          <span class="text-white">Meerdere spelers</span>
+          <input type="checkbox" name="sortfield" value="multiplayer" <%= sortfield === "multiplayer" ? "checked" : "" %> id="multiplayer" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+        </label>
+    </form>
+    </div>
+
+    <section id="section_all_games" class="mb-12 md:mb-16 animate-fade-in stagger-3 relative">
+      <!-- Navigation buttons -->
+      <form action="/games" method="get">
+        <button id="btn_left" type="submit" value="clicked" <%= previousBtnDisableValue%> name="previous_btn" aria-label="Previous games" class="pagination-btntheme-<%= themaName %> absolute top-0 -translate-y-1/2 left-2 sm:left-4 md:left-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 hover:from-emerald-950 hover:to-slate-900 hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:from-zinc-900 disabled:to-zinc-950 disabled:hover:scale-100 disabled:shadow-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+          </svg>
+        </button>
+
+        <button id="btn_right" type="submit" name="next_btn" value="clicked" aria-label="Next games" class="pagination-btntheme-<%= themaName %> absolute top-0 -translate-y-1/2 right-2 sm:right-4 md:right-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 hover:from-emerald-950 hover:to-slate-900 hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:from-zinc-900 disabled:to-zinc-950 disabled:hover:scale-100 disabled:shadow-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+          </svg>
+        </button>
+      </form>
+
+      <h2 id="txtOfPage" class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-center mb-6 md:mb-8 px-10 sm:px-16 md:px-20">
+        Alle spellen
+      </h2>
+
+      <div id="div_all_games" class="div_all_games<%= themaName %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300 h-fit">
+        <!--load indicator-->
+        <!--
+            <div class="loading-overlay" id="loadingOverlay">
+              <div class="loader">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <div class="loading-text">Loading games...</div>
+            </div>
+            
+            
+            -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4" id="games_container">
+          <!--all games-->
+          <%for(let showAllGame of showAllGames){%>
+
+          <div class="group theme-<%= themaName %>">
+            <div class="card-size">
+              <img alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">
+            </div>
+            <a href="#" target="_self">
+              <p><%= showAllGame.name%></p>
+            </a>
+          </div>
+
+          <%}%>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Collection Modal -->
+      <div
+        id="addToCollectionMenu"
+        style="
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: rgba(15, 23, 42, 0.95);
+          padding: 2rem;
+          border-radius: 1rem;
+          border: 2px solid #10b981;
+          z-index: 1000;
+          min-width: 300px;
+          max-width: 500px;
+          width: 90vw;
+          max-height: 90vh;
+          overflow-y: auto;
+          backdrop-filter: blur(10px);
+        "
+      >
+        <button
+          id="delete_collection_btn"
+          style="
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #f87171;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+          "
+        >
+          &times;
+        </button>
+
+        <h3
+          style="
+            color: #10b981;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            font-weight: bold;
+          "
+        >
+          Add to Collection
+        </h3>
+
+        <div id="allCollectionsNames" style="margin-bottom: 1rem"></div>
+
+        <button
+          id="create_collection_btn"
+          style="
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+          "
+        >
+          + Nieuwe collectie maken
+        </button>
+
+        <div
+          id="collection_filed"
+          style="display: none; margin-top: 1rem; animation-fill-mode: forwards"
+        >
+          <input
+            type="text"
+            id="collection_name"
+            placeholder="Collectie naam..."
+            style="
+              width: 100%;
+              padding: 0.75rem;
+              background-color: #1e293b;
+              color: white;
+              border: 1px solid #10b981;
+              border-radius: 0.5rem;
+              margin-bottom: 0.5rem;
+            "
+          />
+          <button
+            id="add_collection_btn"
+            type="button"
+            style="
+              width: 100%;
+              padding: 0.75rem;
+              background-color: #059669;
+              color: white;
+              border: none;
+              border-radius: 0.5rem;
+              cursor: pointer;
+              font-weight: 600;
+              transition: all 0.3s;
+            "
+          >
+            Aanmaken en spel toevoegen
+          </button>
+        </div>
+      </div>
+      <!--Notification-->
+      <div
+        id="notification"
+        role="alert"
+        class="fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-80 hidden bg-zinc-900 text-white px-4 py-3 rounded-lg shadow-lg shadow-black/40 transition-all duration-300 ease-out opacity-0 translate-y-4 z-[9999]"
+      >
+        <p
+          id="error_text"
+          class="text-white text-center text-sm sm:text-base"
+        ></p>
+      </div>
+      <!-- Modal backdrop -->
+      <div
+        id="modal_backdrop"
+        style="
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          z-index: 999;
+        "
+      ></div>
+    </body>
+  
+</html>
