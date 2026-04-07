@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { GamesApi, Results, Users } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
+import { getUser } from "./methods";
 
 dotenv.config();
 
@@ -408,25 +409,44 @@ app.get("/public-profile", (req, res) => {
   const theme: boolean = req.query.theme === "light";
   const themaName: string = theme ? "light" : "dark";
 
+  const user = getUser();
+
   res.render("public-profile", {
     title: "Publiek profiel",
     themaName: themaName,
+    username: user.username,
+    aboutMe: user.about_me,
+    email: user.email,
+    lvl: user.level,
+    imageSrc: user.profile_picture,
+    collections: user.collection_more,
   });
 });
 app.get("/profile", (req, res) => {
   const theme: boolean = req.query.theme === "light";
   const themaName: string = theme ? "light" : "dark";
 
+  const user = getUser();
+
   res.render("profile", {
     title: "Profiel",
     themaName: themaName,
+    username: user.username,
+    aboutMe: user.about_me,
+    email: user.email,
+    lvl: user.level,
+    imageSrc: user.profile_picture,
+    collections: user.collection_more,
   });
 });
 
 app.listen(app.get("port"), async () => {
   //mongo client
-  const uriMongo =
-    "mongodb+srv://OGAS_DB:OgasGamingHub@cluster0.nxhcjkt.mongodb.net/?appName=Cluster0";
+  const uriMongo = process.env.MONGODB;
+
+  if (!uriMongo) {
+    throw new Error("MONGODB string not defined in .env!");
+  }
   client = await MongoClient.connect(uriMongo);
   userCollection = client.db("users").collection("userinfo");
 
