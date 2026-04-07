@@ -421,6 +421,7 @@ app.get("/public-profile", (req, res) => {
     lvl: user.level,
     imageSrc: user.profile_picture,
     collections: user.collection_more,
+    publicProfile: user.public_profile
   });
 });
 app.get("/profile", (req, res) => {
