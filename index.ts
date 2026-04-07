@@ -337,6 +337,7 @@ app.post("/register", async (req, res) => {
     level: 0,
     about_me: "",
     profile_picture: "",
+    public_profile: false,
     collection_more: [
       {
         collectionName: "Wenslijst",
@@ -437,6 +438,7 @@ app.get("/profile", (req, res) => {
     lvl: user.level,
     imageSrc: user.profile_picture,
     collections: user.collection_more,
+    publicProfile: user.public_profile
   });
 });
 

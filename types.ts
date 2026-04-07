@@ -9,6 +9,7 @@ export interface Users {
   about_me: string;
   profile_picture: string;
   collection_more: Collection_more[];
+  public_profile: boolean;
 }
 
 interface Collection_more {

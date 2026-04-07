@@ -49,19 +49,32 @@
             Profiel instellingen
           </h3>
 
-          <a
-            href="/public-profile"
-            id="public-profile-link"
-            class="underline text-emerald-400"
-            >Ga naar publieke profiel</a
-          >
-          <br />
-          <button
-            id="share-profile"
-            class="cursor-pointer bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-1 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg shadow-emerald-500/20"
-          >
-            Deel publieke profiel
-          </button>
+          <div class="flex gap-3">          
+            <p>Profiel publiek maken?</p>
+
+            <% if (publicProfile) { %>
+                <input type="checkbox" checked>
+
+            <% } else {%>
+                <input type="checkbox">
+              <%}%>
+          </div>
+
+          <% if (publicProfile) { %>
+              <a
+              href="/public-profile"
+              id="public-profile-link"
+              class="underline text-emerald-400"
+              >Ga naar publieke profiel</a
+            >
+            <br />
+            <button
+              id="share-profile"
+              class="cursor-pointer bg-emerald-500 hover:bg-emerald-600 text-white px-2 py-1 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg shadow-emerald-500/20"
+            >
+              Deel publieke profiel
+            </button>
+          <% } %>
 
           <div class="space-y-2">
             <label for="about" class="block text-sm font-semibold text-zinc-300"

@@ -21,7 +21,8 @@ export function getUser() : Users{
         level: 1,
         about_me: "Geen info gevonden",
         profile_picture: "/images/user.png",
-        collection_more: []
+        collection_more: [],
+        public_profile: false
     }
 
     return user;
