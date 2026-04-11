@@ -127,3 +127,74 @@ interface Genres {
   name: string;
   slug: string;
 }
+
+export interface Game {
+  id: number;
+  slug: string;
+  name: string;
+  name_original: string;
+  description: string;
+  metacritic: null;
+  metacritic_platforms: [];
+  released: string;
+  tba: boolean;
+  updated: string;
+  background_image: null;
+  background_image_additional: null;
+  website: string;
+  rating: Double;
+  rating_top: number;
+  ratings: [];
+  reactions: null;
+  added: number;
+  added_by_status: Added_by_status;
+  playtime: number;
+  screenshots_count: number;
+  movies_count: number;
+  creators_count: number;
+  achievements_count: number;
+  parent_achievements_count: number;
+  reddit_url: string;
+  reddit_name: string;
+  reddit_description: string;
+  reddit_logo: string;
+  reddit_count: number;
+  twitch_count: number;
+  youtube_count: number;
+  reviews_text_count: number;
+  ratings_count: number;
+  suggestions_count: number;
+  alternative_names: [];
+  metacritic_url: string;
+  parents_count: number;
+  additions_count: number;
+  game_series_count: number;
+  user_game: null;
+  reviews_count: number;
+  community_rating: number;
+  saturated_color: string;
+  dominant_color: string;
+  parent_platforms: [];
+  platforms: [];
+  stores: [];
+  developers: [];
+  genres: Genres1[];
+  tags: [];
+  publishers: [];
+  esrb_rating: null;
+  clip: null;
+  description_raw: string;
+}
+
+interface Added_by_status {
+  yet: number;
+  toplay: number;
+}
+
+interface Genres1 {
+  id: number;
+  name: string;
+  slug: string;
+  games_count: number;
+  image_background: string;
+}

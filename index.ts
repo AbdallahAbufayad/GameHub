@@ -1,7 +1,7 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
-import { GamesApi, Results, Users } from "./types";
+import { GamesApi, Results, Users, Game } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
 import { getUser } from "./methods";
 
@@ -21,7 +21,7 @@ app.set("port", process.env.PORT || 3000);
 let client: MongoClient;
 let userCollection: Collection<Users>;
 
-const url: string = `https://api.rawg.io/api/games?key=30778c23f4f34908a65b042d94443ba7&dates=1969-01-01,${new Date().getFullYear()}-0${new Date().getMonth() + 1}-0${new Date().getDate()}`;
+const url: string = `https://api.rawg.io/api/games?key=30778c23f4f34908a65b042d94443ba7&dates=1969-01-01,2026-04-11`;
 
 let gamesOfApi: GamesApi;
 let recentGames: GamesApi;
@@ -230,6 +230,21 @@ app.get("/games", async (req, res) => {
   });
 });
 
+app.get("/game-info/:id", async (req, res) => {
+  const theme = req.query.themeHome === "light";
+  const themaName = theme ? "light" : "dark";
+  const id: string = req.params.id;
+  const url: string = `https://api.rawg.io/api/games/${id}?key=30778c23f4f34908a65b042d94443ba7`;
+
+  const response = await fetch(url);
+  const game: Game = await response.json();
+  res.render("game-info", {
+    themaName: themaName,
+    title: game.name,
+    game: game,
+  });
+});
+
 app.get("/register", (req, res) => {
   const theme: boolean = req.query.theme === "light";
   const themaName: string = theme ? "light" : "dark";
@@ -421,7 +436,7 @@ app.get("/public-profile", (req, res) => {
     lvl: user.level,
     imageSrc: user.profile_picture,
     collections: user.collection_more,
-    publicProfile: user.public_profile
+    publicProfile: user.public_profile,
   });
 });
 app.get("/profile", (req, res) => {
@@ -439,7 +454,7 @@ app.get("/profile", (req, res) => {
     lvl: user.level,
     imageSrc: user.profile_picture,
     collections: user.collection_more,
-    publicProfile: user.public_profile
+    publicProfile: user.public_profile,
   });
 });
 

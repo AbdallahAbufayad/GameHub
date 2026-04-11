@@ -29,7 +29,7 @@
                     <div class="card-size">
                         <img alt="<%= pupulareGamesMostgame.name%>" src="<%= pupulareGamesMostgame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                    <a href="#" target="_self"><p><%= pupulareGamesMostgame.name%></p></a>
+                    <a href="/game-info/<%= pupulareGamesMostgame.id%>" target="_self"><p><%= pupulareGamesMostgame.name%></p></a>
                 </div>
 
                 <%}%>
@@ -62,7 +62,7 @@
                     <div class="card-size">
                         <img alt="<%= allrecentGame.name%>" src="<%= allrecentGame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                    <a href="#" target="_self"><p><%= allrecentGame.name%></p></a>
+                    <a href="/game-info/<%= allrecentGame.id%>" target="_self"><p><%= allrecentGame.name%></p></a>
                 </div>
 
                 <%}%>
@@ -160,7 +160,7 @@
                     <div class="card-size">
                         <img alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                    <a href="#" target="_self"><p><%= showAllGame.name%></p></a>
+                    <a href="/game-info/<%= showAllGame.id%>" target="_self"><p><%= showAllGame.name%></p></a>
                 </div>
 
                 <%}%>
