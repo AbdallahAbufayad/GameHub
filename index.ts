@@ -111,6 +111,8 @@ app.get("/games", async (req, res) => {
     typeof req.query.sortfield === "string" ? req.query.sortfield : "name";
 
   let filterClassName = "";
+  const clearField: string =
+    typeof req.query.clearField === "string" ? req.query.clearField : "";
 
   if (previousBtn === "clicked") {
     counter -= 1;
@@ -119,6 +121,8 @@ app.get("/games", async (req, res) => {
     counter += 1;
     changeDisableValue();
   }
+
+  if (clearField === "clicked") searchGame = "";
 
   let allGames: GamesApi;
   let showAllGames: Results[];

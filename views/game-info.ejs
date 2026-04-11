@@ -112,7 +112,7 @@
     <div class="w-full max-w-6xl mx-auto flex flex-col gap-8">
       <!-- Game Title -->
       <div class="flex justify-center">
-        <div id="game_name" class="bg-gradient-to-r from-emerald-600/90 to-emerald-700/90 backdrop-blur-sm text-white font-bold text-2xl sm:text-3xl md:text-4xl px-8 py-5 rounded-2xl shadow-2xl shadow-emerald-900/50 text-center"></div>
+        <div id="game_name" class="bg-gradient-to-r from-emerald-600/90 to-emerald-700/90 backdrop-blur-sm text-white font-bold text-2xl sm:text-3xl md:text-4xl px-8 py-5 rounded-2xl shadow-2xl shadow-emerald-900/50 text-center"><%=game.name %></div>
       </div>
 
       <!-- Game Info Stats -->
@@ -121,9 +121,9 @@
 
         <div id="game_release" class="bg-emerald-600/20 backdrop-blur-sm text-white font-semibold text-base sm:text-lg px-6 py-3 rounded-xl shadow-lg text-center transition-all duration-300 hover:bg-emerald-600/30">Uitgebracht <%= game.released %></div>
 
-        <div id="game_genre" class="bg-emerald-600/20 backdrop-blur-sm text-white font-semibold text-base sm:text-lg px-6 py-3 rounded-xl shadow-lg text-center transition-all duration-300 hover:bg-emerald-600/30">
+        <div id="game_genre" class="flex bg-emerald-600/20 backdrop-blur-sm text-white font-semibold text-base sm:text-lg px-6 py-3 rounded-xl shadow-lg text-center transition-all duration-300 hover:bg-emerald-600/30">
           <%for(let genre of game.genres ){%>
-          <p><%= genre.name%></p>
+          <p><%= genre.name%></p>&nbsp;
           <%}%>
         
         </div>
