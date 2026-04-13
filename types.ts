@@ -8,8 +8,8 @@ export interface Users {
   level: number;
   about_me: string;
   profile_picture: string;
-  collection_more: Collection_more[];
   public_profile: boolean;
+  collection_more: Collection_more[];
 }
 
 interface Collection_more {
