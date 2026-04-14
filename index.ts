@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 import path from "path";
 import { GamesApi, Results, Users, Game } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
-import { getUser } from "./methods";
+import { createGamesRouter } from "./routes/games.router";
+import { profileRouter } from "./routes/profile.router";
 
 dotenv.config();
 
@@ -94,145 +95,20 @@ app.get("/home", async (req, res) => {
   });
 });
 
-app.get("/games", async (req, res) => {
-  const theme: boolean = req.query.themeGames === "light";
-  const themaName: string = theme ? "light" : "dark";
-  const previousBtn: string =
-    typeof req.query.previous_btn === "string" ? req.query.previous_btn : "";
-  const nextBtn: string =
-    typeof req.query.next_btn === "string" ? req.query.next_btn : "";
-  const search: string =
-    typeof req.query.search === "string" ? req.query.search : "";
-
-  let searchGame: string =
-    typeof req.query.searchGame === "string" ? req.query.searchGame : "";
-
-  const sortfield: string =
-    typeof req.query.sortfield === "string" ? req.query.sortfield : "name";
-
-  let filterClassName = "";
-  const clearField: string =
-    typeof req.query.clearField === "string" ? req.query.clearField : "";
-
-  if (previousBtn === "clicked") {
-    counter -= 1;
-    changeDisableValue();
-  } else if (nextBtn === "clicked") {
-    counter += 1;
-    changeDisableValue();
-  }
-
-  if (clearField === "clicked") searchGame = "";
-
-  let allGames: GamesApi;
-  let showAllGames: Results[];
-
-  if (sortfield === "reviewCount" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&ordering=-released&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results.sort(
-      (a, b) => b.ratings_count - a.ratings_count,
-    );
-  } else if (sortfield === "TotalPersons" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&ordering=-released&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results.sort(
-      (a, b) => b.added_by_status["owned"] - a.added_by_status["owned"],
-    );
-  } else if (sortfield === "Name_alphabetically_A_Z" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&ordering=name&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results;
-  } else if (sortfield === "Name_alphabetically_Z_A" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&ordering=-name&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results;
-  } else if (sortfield === "ratingAsc" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&ordering=rating&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results;
-  } else if (sortfield === "ratingDesc" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&ordering=-rating&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results;
-  } else if (sortfield === "releaseYearAsc" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&ordering=released&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results;
-  } else if (sortfield === "releaseYearDesc" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&ordering=-released&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results;
-  } else if (sortfield === "singlePlayer" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&tags=singleplayer&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results;
-  } else if (sortfield === "multiplayer" && search === "clicked") {
-    searchGame = "";
-    let response = await fetch(
-      `${url}&tags=multiplayer&page=${counter}&page_size=50`,
-    );
-    allGames = await response.json();
-    showAllGames = allGames.results;
-  } else {
-    if (searchGame !== "") {
-      let response = await fetch(`${url}&search=${searchGame}`);
-      allGames = await response.json();
-
-      showAllGames = allGames.results;
-    } else {
-      let response = await fetch(
-        `${url}&ordering=-released&page=${counter}&page_size=50`,
-      );
-      allGames = await response.json();
-      showAllGames = allGames.results;
-    }
-  }
-
-  function changeDisableValue() {
-    if (counter <= 1) previousBtnDisableValue = "disabled";
-    else previousBtnDisableValue = "enabled";
-  }
-
-  changeDisableValue();
-
-  res.render("games", {
-    title: "Games",
-    themaName: themaName,
-    filterClassName: filterClassName,
-    showAllGames: showAllGames,
-    previousBtnDisableValue: previousBtnDisableValue,
-    sortfield: sortfield,
-    searchGame: searchGame,
-  });
-});
+app.use(
+  "/games",
+  createGamesRouter({
+    gamesApiUrl: url,
+    getCounter: () => counter,
+    setCounter: (value) => {
+      counter = value;
+    },
+    getPreviousBtnDisableValue: () => previousBtnDisableValue,
+    setPreviousBtnDisableValue: (value) => {
+      previousBtnDisableValue = value;
+    },
+  }),
+);
 
 app.get("/game-info/:id", async (req, res) => {
   const theme = req.query.themeHome === "light";
@@ -425,40 +301,35 @@ app.post("/register", async (req, res) => {
     await client.close();
   }
 });
-app.get("/public-profile", (req, res) => {
-  const theme: boolean = req.query.theme === "light";
+app.use(profileRouter);
+
+app.get("/info", (req, res) => {
+  const theme: boolean = req.query.themeHome === "light";
   const themaName: string = theme ? "light" : "dark";
 
-  const user = getUser();
-
-  res.render("public-profile", {
-    title: "Publiek profiel",
+  res.render("info", {
+    title: "Info",
     themaName: themaName,
-    username: user.username,
-    aboutMe: user.about_me,
-    email: user.email,
-    lvl: user.level,
-    imageSrc: user.profile_picture,
-    collections: user.collection_more,
-    publicProfile: user.public_profile,
   });
 });
-app.get("/profile", (req, res) => {
-  const theme: boolean = req.query.theme === "light";
+
+app.get("/guess-the-game", (req, res) => {
+  const theme: boolean = req.query.themeHome === "light";
   const themaName: string = theme ? "light" : "dark";
 
-  const user = getUser();
-
-  res.render("profile", {
-    title: "Profiel",
+  res.render("guess-the-game", {
+    title: "Raad Het Spel",
     themaName: themaName,
-    username: user.username,
-    aboutMe: user.about_me,
-    email: user.email,
-    lvl: user.level,
-    imageSrc: user.profile_picture,
-    collections: user.collection_more,
-    publicProfile: user.public_profile,
+  });
+});
+
+app.get("/compare-games", (req, res) => {
+  const theme: boolean = req.query.themeHome === "light";
+  const themaName: string = theme ? "light" : "dark";
+
+  res.render("compare-games", {
+    title: "Games Vergelijken",
+    themaName: themaName,
   });
 });
 
