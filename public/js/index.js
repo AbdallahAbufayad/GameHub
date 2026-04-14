@@ -20,14 +20,14 @@ btn_GameHub.addEventListener("click", async () => {
   const userId = localStorage.getItem("userId");
 
   if (isLoggedIn === "true") {
-    window.location.href = "/home.html";
+    window.location.href = "/home";
     const currentUser = await fetchUserInfo(userId);
 
     if (currentUser.profile_picture && currentUser?.profile_picture != "") {
       user_avatar.src = currentUser.profile_picture;
     }
   } else {
-    window.location.href = "login.html";
+    window.location.href = "/login";
   }
 });*/
 
@@ -135,7 +135,7 @@ async function checkCurrentGame() {
       userCurrentlyPlaying.allGames.length > 0
     ) {
       currentGame.innerHTML = userCurrentlyPlaying.allGames[0].gameName;
-      currentGame.parentElement.href = `./game-info.html?id=${userCurrentlyPlaying.allGames[0].gameId}`;
+      currentGame.parentElement.href = `/game-info/${userCurrentlyPlaying.allGames[0].gameId}`;
     } else {
       disableLink();
     }

@@ -19,6 +19,7 @@ profileRouter.get("/public-profile", (req, res) => {
     imageSrc: user.profile_picture,
     collections: user.collection_more,
     publicProfile: user.public_profile,
+    currentPage: "profile",
   });
 });
 
@@ -38,5 +39,6 @@ profileRouter.get("/profile", (req, res) => {
     imageSrc: user.profile_picture,
     collections: user.collection_more,
     publicProfile: user.public_profile,
+    currentPage: "profile",
   });
 });

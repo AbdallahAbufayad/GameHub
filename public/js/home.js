@@ -107,7 +107,7 @@ async function checkCurrentGame() {
       userCurrentlyPlaying.allGames.length > 0
     ) {
       currentGame.innerHTML = userCurrentlyPlaying.allGames[0].gameName;
-      currentGame.parentElement.href = `./game-info.html?id=${userCurrentlyPlaying.allGames[0].gameId}`;
+      currentGame.parentElement.href = `/game-info/${userCurrentlyPlaying.allGames[0].gameId}`;
     } else {
       disableLink();
     }

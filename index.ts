@@ -40,6 +40,7 @@ app.get("/", (req, res) => {
   res.render("index", {
     title: "Onze games",
     themaName: themaName,
+    currentPage: "home",
   });
 });
 
@@ -92,6 +93,7 @@ app.get("/home", async (req, res) => {
     allrecentGames: allrecentGames,
     showAllGames: showAllGames,
     previousBtnDisableValue: previousBtnDisableValue,
+    currentPage: "home",
   });
 });
 
@@ -122,6 +124,7 @@ app.get("/game-info/:id", async (req, res) => {
     themaName: themaName,
     title: game.name,
     game: game,
+    currentPage: "games",
   });
 });
 
@@ -310,6 +313,7 @@ app.get("/info", (req, res) => {
   res.render("info", {
     title: "Info",
     themaName: themaName,
+    currentPage: "info",
   });
 });
 
@@ -320,6 +324,7 @@ app.get("/guess-the-game", (req, res) => {
   res.render("guess-the-game", {
     title: "Raad Het Spel",
     themaName: themaName,
+    currentPage: "guess-the-game",
   });
 });
 
@@ -330,6 +335,7 @@ app.get("/compare-games", (req, res) => {
   res.render("compare-games", {
     title: "Games Vergelijken",
     themaName: themaName,
+    currentPage: "compare-games",
   });
 });
 

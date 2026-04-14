@@ -149,6 +149,7 @@ export function createGamesRouter(deps: GamesRouterDependencies): Router {
       previousBtnDisableValue: deps.getPreviousBtnDisableValue(),
       sortfield: sortfield,
       searchGame: searchGame,
+      currentPage: "games",
     });
   });
 

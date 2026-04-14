@@ -8,62 +8,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="js/home.js" defer></script>
-  
-  <link rel="stylesheet" href="/css/style.css" />
 </head>
 
-<body>
-
-  <body class="body<%= themaName %> min-h-screen">
-    <!--Header-->
-    <header class="border<%= themaName %>header py-4 px-4 animate-fade-in stagger-1">
+<body class="min-h-screen <%= themaName === 'light' ? 'bg-slate-50 text-slate-900' : 'bg-slate-950 text-slate-200' %>">
+    <header class="py-4 px-4 border-b <%= themaName === 'light' ? 'bg-slate-50/95 border-slate-300' : 'bg-slate-950/95 border-zinc-700' %>">
       <div class="flex flex-col items-center gap-6 lg:grid lg:grid-cols-[10%_0%_80%_10%] lg:items-center lg:gap-0">
-        <!--Our logo-->
-        <a href="/home">
+        <a href="/home" class="animate-fade-in stagger-1">
           <div id="logo" class="text-emerald-400 text-xl md:text-2xl font-bold tracking-wide px-3 py-1.5 rounded-lg transition-all duration-300 hover:text-emerald-300 hover:bg-emerald-950/50 hover:scale-110 hover:shadow-lg hover:shadow-emerald-500/50 hover:-rotate-2">
             [+..••]
           </div>
         </a>
 
-        <!--Dark/Light mode toggel-->
-        <form action="/home" method="get">
-          <label for="checkbox" class="toggle">
-            <input type="checkbox" class="checkbox" id="checkbox" name="themeHome" value="light" <%= themaName === "light" ? "checked" : "" %> onchange="this.form.submit()" />
-            <div class="slider <%= themaName %>slider">
-              <div class="circle <%= themaName %>circle"></div>
-              <div class="sun"></div>
-              <div class="moon"></div>
-            </div>
+        <form action="/home" method="get" class="animate-fade-in stagger-2">
+          <label for="checkbox" class="relative inline-flex h-10 w-20 cursor-pointer items-center">
+            <input type="checkbox" class="peer sr-only" id="checkbox" name="themeHome" value="light" <%= themaName === "light" ? "checked" : "" %> onchange="this.form.submit()" />
+            <span class="slider h-10 w-20 rounded-full border-2 transition-colors duration-300 <%= themaName === 'light' ? 'bg-white border-slate-300' : 'bg-slate-900 border-slate-100' %>"></span>
+            <span class="pointer-events-none absolute left-1.5 h-7 w-7 rounded-full bg-emerald-400 transition-transform duration-300 peer-checked:translate-x-10"></span>
           </label>
         </form>
 
-        <!--Navbar (guess the game - Compare games - Collections)-->
-        <nav id="nav" class="flex flex-col items-center gap-2 lg:flex-row lg:justify-center lg:gap-8">
-          <a href="/home" id="nav_home" class="nav_home<%= themaName %> transition-all duration-300 scale-110 text-base sm:text-lg md:text-xl font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-            </svg>
-          </a>
-          <a href="../games" id="nav_games" class="nav_games<%= themaName %> hover:text-emerald-400 transition-all duration-300 hover:scale-105 text-sm sm:text-base md:text-lg font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.96.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z" />
-            </svg>
-          </a>
-          <a href="/guess-the-game" id="nav_guess" class="nav_guess<%= themaName %> hover:text-emerald-400 transition-all duration-300 hover:scale-105 text-sm sm:text-base md:text-lg font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-            </svg>
-          </a>
-          <a href="/compare-games" id="nav_compare" class="nav_compare<%= themaName %> transition-all duration-300 scale-110 text-base sm:text-lg md:text-xl font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0 0 12 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 0 1-2.031.352 5.988 5.988 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971Zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0 2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 0 1-2.031.352 5.989 5.989 0 0 1-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971Z" />
-            </svg>
-          </a>
-          <a href="/profile" id="nav_collections" class="nav_collections<%= themaName %> hover:text-emerald-400 transition-all duration-300 hover:scale-105 text-sm sm:text-base md:text-lg font-bold whitespace-nowrap"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
-            </svg>
-          </a>
-        </nav>
+        <%- include('navbar') %>
 
-        <div class="grid gap-5 justify-items-center text-center lg:flex lg:items-center">
+        <div class="animate-fade-in stagger-8 grid gap-5 justify-items-center text-center lg:flex lg:items-center">
           <div id="user_info" class="text-sm">
             <a href="/profile">
               <div id="currently_game" class="text-zinc-500">
@@ -71,7 +40,7 @@
               </div>
             </a>
             <a>
-              <div id="current_game" class="current_game<%= themaName %> font-semibold">
+              <div id="current_game" class="<%= themaName === 'light' ? 'text-slate-900' : 'text-emerald-400' %> font-semibold">
                 Geen spel
               </div>
             </a>

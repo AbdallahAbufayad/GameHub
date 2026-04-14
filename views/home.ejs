@@ -1,13 +1,13 @@
 <%- include('partials/header') %>
 
       <!--Main-->
-      <main class="container mx-auto px-4 py-8">
+      <main class="animate-fade-in stagger-4 container mx-auto px-4 py-8">
         <!--Sectios-->
 
         <!--Popular section-->
         <section
           id="section_popular"
-          class="mb-12 md:mb-16 animate-fade-in stagger-2 -z-10"
+          class="mb-12 md:mb-16 -z-10"
         >
           <h2
             class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-center mb-6 md:mb-8"
@@ -16,7 +16,7 @@
           </h2>
           <div
             id="div_popular_games"
-            class="div_popular_games<%= themaName %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
+            class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-500' : 'bg-slate-900 border-2 border-emerald-500' %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
           >
             <div
               id="popular_games"
@@ -25,11 +25,11 @@
 
             <%for(let pupulareGamesMostgame of pupulareGamesMostgames){%>
 
-                <div class="group theme-<%= themaName %>">
-                    <div class="card-size">
-                        <img alt="<%= pupulareGamesMostgame.name%>" src="<%= pupulareGamesMostgame.background_image %>" loading="lazy" decoding="async">    
+                <div class="relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+                  <div class="absolute inset-0">
+                    <img class="w-full h-full object-cover" alt="<%= pupulareGamesMostgame.name%>" src="<%= pupulareGamesMostgame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                    <a href="/game-info/<%= pupulareGamesMostgame.id%>" target="_self"><p><%= pupulareGamesMostgame.name%></p></a>
+                  <a class="absolute inset-0 z-10" href="/game-info/<%= pupulareGamesMostgame.id%>" target="_self" aria-label="Ga naar <%= pupulareGamesMostgame.name%>"><p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= pupulareGamesMostgame.name%></p></a>
                 </div>
 
                 <%}%>
@@ -41,7 +41,7 @@
         <!--Recent section-->
         <section
           id="section_recent"
-          class="mb-12 md:mb-16 animate-fade-in stagger-2"
+          class="mb-12 md:mb-16"
         >
           <h2
             class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-center mb-6 md:mb-8"
@@ -50,7 +50,7 @@
           </h2>
           <div
             id="div_recent_games"
-            class="div_recent_games<%= themaName %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
+            class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-500' : 'bg-slate-900 border-2 border-emerald-500' %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
           >
             <div
               id="recent_games"
@@ -58,11 +58,11 @@
             >
               <%for(let allrecentGame of allrecentGames){%>
 
-                <div class="group theme-<%= themaName %>">
-                    <div class="card-size">
-                        <img alt="<%= allrecentGame.name%>" src="<%= allrecentGame.background_image %>" loading="lazy" decoding="async">    
+                <div class="relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+                  <div class="absolute inset-0">
+                    <img class="w-full h-full object-cover" alt="<%= allrecentGame.name%>" src="<%= allrecentGame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                    <a href="/game-info/<%= allrecentGame.id%>" target="_self"><p><%= allrecentGame.name%></p></a>
+                  <a class="absolute inset-0 z-10" href="/game-info/<%= allrecentGame.id%>" target="_self" aria-label="Ga naar <%= allrecentGame.name%>"><p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= allrecentGame.name%></p></a>
                 </div>
 
                 <%}%>
@@ -73,7 +73,7 @@
         <!--More section...-->
         <section
           id="section_more"
-          class="mb-12 md:mb-16 animate-fade-in stagger-3 relative"
+          class="mb-12 md:mb-16 relative"
         >
           <!-- Navigation buttons – responsive version -->
           <form action="/home" method="get">
@@ -84,7 +84,7 @@
             <%= previousBtnDisableValue%>
             name="previous_btn"
             aria-label="Previous games"
-            class="pagination-btntheme-<%= themaName %> absolute top-0 -translate-y-1/2 left-2 sm:left-4 md:left-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 hover:from-emerald-950 hover:to-slate-900 hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:from-zinc-900 disabled:to-zinc-950 disabled:hover:scale-100 disabled:shadow-none"
+            class="absolute top-0 -translate-y-1/2 left-2 sm:left-4 md:left-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 <%= themaName === 'light' ? 'bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-800 border-emerald-700' : 'bg-gradient-to-br from-slate-900 to-slate-950 text-emerald-300' %> hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:hover:scale-100 disabled:shadow-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +108,7 @@
             name="next_btn"
             value="clicked"
             aria-label="Next games"
-            class="pagination-btntheme-<%= themaName %> absolute top-0 -translate-y-1/2 right-2 sm:right-4 md:right-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 hover:from-emerald-950 hover:to-slate-900 hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:from-zinc-900 disabled:to-zinc-950 disabled:hover:scale-100 disabled:shadow-none"
+            class="absolute top-0 -translate-y-1/2 right-2 sm:right-4 md:right-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 <%= themaName === 'light' ? 'bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-800 border-emerald-700' : 'bg-gradient-to-br from-slate-900 to-slate-950 text-emerald-300' %> hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:hover:scale-100 disabled:shadow-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +135,7 @@
 
           <div
             id="div_all_games"
-            class="div_all_games<%= themaName %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
+            class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-500' : 'bg-slate-900 border-2 border-emerald-500' %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
           >
             <!--
           
@@ -156,11 +156,11 @@
               <!--allgames-->
               <%for(let showAllGame of showAllGames){%>
 
-                <div class="group theme-<%= themaName %>">
-                    <div class="card-size">
-                        <img alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">    
+                <div class="relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+                  <div class="absolute inset-0">
+                    <img class="w-full h-full object-cover" alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                    <a href="/game-info/<%= showAllGame.id%>" target="_self"><p><%= showAllGame.name%></p></a>
+                  <a class="absolute inset-0 z-10" href="/game-info/<%= showAllGame.id%>" target="_self" aria-label="Ga naar <%= showAllGame.name%>"><p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= showAllGame.name%></p></a>
                 </div>
 
                 <%}%>
@@ -168,17 +168,17 @@
           </div>
         </section>
 
-        <div class="addToCollectionMenu hidden" id="addToCollectionMenu">
-          <button id="create_collection_btn" class="create_collection_btn">
+        <div class="hidden fixed inset-x-0 top-24 mx-auto max-w-md w-[92vw] rounded-2xl border border-emerald-500 bg-slate-950 p-5 shadow-2xl z-50" id="addToCollectionMenu">
+          <button id="create_collection_btn" class="absolute top-3 right-3 w-9 h-9 rounded-full border border-white/40 text-white">
             +
           </button>
-          <button id="delete_collection_btn" class="create_collection_btn">
+          <button id="delete_collection_btn" class="absolute top-3 right-14 w-9 h-9 rounded-full border border-white/40 text-white">
             x
           </button>
-          <div class="collection_filed hidden" id="collection_filed">
+          <div class="hidden mt-12 flex-col gap-3" id="collection_filed">
             <label for="collection_name">Add The Collection Name</label>
-            <input type="text" name="collection_name" id="collection_name" />
-            <button type="button" id="add_collection_btn">Add</button>
+            <input class="rounded-lg border border-emerald-500 bg-slate-800 p-2 text-white" type="text" name="collection_name" id="collection_name" />
+            <button class="rounded-lg bg-emerald-600 px-3 py-2 font-semibold" type="button" id="add_collection_btn">Add</button>
           </div>
         </div>
       </main>

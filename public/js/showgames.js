@@ -120,23 +120,19 @@ function createGameCard(game, showAddButton = true) {
   const a = document.createElement("a");
 
   div1.appendChild(img);
-  div1.classList.add("card-size");
+  div1.className = "absolute inset-0";
+  img.className = "w-full h-full object-cover";
 
   p.innerHTML = `${game.name}`;
   a.appendChild(p);
-  a.href = `game-info.html?id=${game.id}`;
+  a.href = `/game-info/${game.id}`;
   a.target = "_self";
 
-  div.classList.add("group");
-
-  // Apply current theme class
-  const currentTheme =
-    localStorage.getItem("darkmode") === "disabled" ? "light" : "dark";
-  if (currentTheme === "light") {
-    div.classList.add("theme-light");
-  } else {
-    div.classList.add("theme-dark");
-  }
+  div.className =
+    "relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800";
+  a.className = "absolute inset-0 z-10";
+  p.className =
+    "absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow";
 
   div.appendChild(div1);
   div.appendChild(a);
@@ -145,7 +141,8 @@ function createGameCard(game, showAddButton = true) {
   if (showAddButton) {
     const button_select_game = document.createElement("button");
     button_select_game.innerHTML = "+";
-    button_select_game.classList.add("button_select_game");
+    button_select_game.className =
+      "absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-slate-900/80 border border-white/30 text-white text-xl font-bold leading-8 text-center backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-slate-800";
     button_select_game.type = "button";
 
     localStorage.setItem(`gameImage_for_id:${game.id}`, game.background_image);
@@ -156,7 +153,7 @@ function createGameCard(game, showAddButton = true) {
       const isLoggedIn = localStorage.getItem("loggedIn");
 
       if (isLoggedIn !== "true") {
-        window.location.href = "./login.html";
+        window.location.href = "/login";
         return;
       }
 
@@ -247,7 +244,8 @@ async function showCollection(userId) {
     if (data.collection_more && data.collection_more.length !== 0) {
       for (let collectionname of data.collection_more) {
         const collection_btn = document.createElement("button");
-        collection_btn.classList.add("add_to_collection_btn");
+        collection_btn.className =
+          "w-full rounded-lg border border-emerald-500 bg-slate-800 px-3 py-2 text-left font-semibold text-white transition-all duration-300 hover:translate-x-1 hover:bg-emerald-500";
         collection_btn.innerHTML = collectionname.collectionName;
 
         const currentId = localStorage.getItem("currentId");
@@ -607,25 +605,19 @@ async function performSearch() {
             const a = document.createElement("a");
 
             div1.appendChild(img);
-            div1.classList.add("card-size");
+            div1.className = "absolute inset-0";
+            img.className = "w-full h-full object-cover";
 
             p.innerHTML = `${user.username}`;
             a.appendChild(p);
-            a.href = `./public-profile.html?id=${user.id}`;
+            a.href = `/public-profile?id=${user.id}`;
             a.target = "blank";
 
-            div.classList.add("group");
-
-            // Apply current theme class
-            const currentTheme =
-              localStorage.getItem("darkmode") === "disabled"
-                ? "light"
-                : "dark";
-            if (currentTheme === "light") {
-              div.classList.add("theme-light");
-            } else {
-              div.classList.add("theme-dark");
-            }
+            div.className =
+              "relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800";
+            a.className = "absolute inset-0 z-10";
+            p.className =
+              "absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow";
 
             div.appendChild(div1);
             div.appendChild(a);
@@ -827,7 +819,7 @@ async function checkCurrentGame() {
       userCurrentlyPlaying.allGames.length > 0
     ) {
       currentGame.innerHTML = userCurrentlyPlaying.allGames[0].gameName;
-      currentGame.parentElement.href = `./game-info.html?id=${userCurrentlyPlaying.allGames[0].gameId}`;
+      currentGame.parentElement.href = `/game-info/${userCurrentlyPlaying.allGames[0].gameId}`;
     } else {
       disableLink();
     }
