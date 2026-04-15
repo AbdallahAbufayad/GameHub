@@ -5,6 +5,11 @@
   --motion-slow: 420ms;
 }
 
+#notification {
+  position: absolute;
+  bottom: -35rem;
+}
+
 @keyframes motionEnter {
   from {
     opacity: 0;
@@ -70,7 +75,9 @@ body {
 }
 
 :where(a, button, input, textarea, select, summary) {
-  transition-property: transform, box-shadow, border-color, background-color, color, opacity, filter;
+  transition-property:
+    transform, box-shadow, border-color, background-color, color, opacity,
+    filter;
   transition-duration: var(--motion-fast);
   transition-timing-function: var(--motion-ease);
 }
