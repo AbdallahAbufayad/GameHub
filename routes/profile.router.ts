@@ -4,8 +4,7 @@ import { getUser } from "../methods";
 export const profileRouter = Router();
 
 profileRouter.get("/public-profile", (req, res) => {
-  const theme: boolean = req.query.theme === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   const user = getUser();
 
@@ -24,8 +23,7 @@ profileRouter.get("/public-profile", (req, res) => {
 });
 
 profileRouter.get("/profile", (req, res) => {
-  const theme: boolean = req.query.theme === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   const user = getUser();
 

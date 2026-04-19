@@ -4,6 +4,7 @@ import path from "path";
 import { GamesApi, Results, Users, Game } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
 import { profileRouter } from "./routes/profile.router";
+import { ThemeMiddleware } from "./middleware/theme-middleware";
 
 dotenv.config();
 
@@ -32,9 +33,10 @@ let notification: string = "";
 let loggedIn = false;
 let counterShowFilters = 1;
 
+app.use(ThemeMiddleware.apply);
+
 app.get("/", (req, res) => {
-  const theme = req.query.theme === "light";
-  const themaName = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   res.render("index", {
     title: "Onze games",
@@ -44,8 +46,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/home", async (req, res) => {
-  const theme = req.query.themeHome === "light";
-  const themaName = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
   const previousBtn = req.query.previous_btn;
   const nextBtn = req.query.next_btn;
 
@@ -88,6 +89,7 @@ app.get("/home", async (req, res) => {
   res.render("home", {
     title: "GameHub",
     themaName: themaName,
+    currentPage: "home",
     pupulareGamesMostgames: pupulareGamesMostgames,
     allrecentGames: allrecentGames,
     showAllGames: showAllGames,
@@ -96,8 +98,7 @@ app.get("/home", async (req, res) => {
 });
 
 app.get("/games", async (req, res) => {
-  const theme = req.query.theme === "light";
-  const themaName = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
   const previousBtn: string =
     typeof req.query.previous_btn === "string" ? req.query.previous_btn : "";
   const nextBtn: string =
@@ -227,6 +228,7 @@ app.get("/games", async (req, res) => {
   res.render("games", {
     title: "Games",
     themaName: themaName,
+    currentPage: "games",
     filterClassName: filterClassName,
     showAllGames: showAllGames,
     previousBtnDisableValue: previousBtnDisableValue,
@@ -236,8 +238,7 @@ app.get("/games", async (req, res) => {
 });
 
 app.get("/game-info/:id", async (req, res) => {
-  const theme = req.query.theme === "light";
-  const themaName = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
   const id: string = req.params.id;
   const url: string = `https://api.rawg.io/api/games/${id}?key=30778c23f4f34908a65b042d94443ba7`;
 
@@ -246,13 +247,13 @@ app.get("/game-info/:id", async (req, res) => {
   res.render("game-info", {
     themaName: themaName,
     title: game.name,
+    currentPage: "games",
     game: game,
   });
 });
 
 app.get("/register", (req, res) => {
-  const theme: boolean = req.query.theme === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   res.render("register", {
     title: "Registreren",
@@ -261,8 +262,7 @@ app.get("/register", (req, res) => {
   });
 });
 app.get("/login", (req, res) => {
-  const theme: boolean = req.query.theme === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   res.render("login", {
     title: "Inloggen",
@@ -272,8 +272,7 @@ app.get("/login", (req, res) => {
   });
 });
 app.post("/login", async (req, res) => {
-  const theme: boolean = req.query.theme === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   const emailOrUsername: string = req.body.email_username.toLowerCase();
   const password: string = btoa(req.body.password); //will be properly hashed after security class
@@ -333,8 +332,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const theme: boolean = req.query.theme === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   const email: string = req.body.email.toLowerCase();
   const username: string = req.body.username.toLowerCase();
@@ -429,8 +427,7 @@ app.post("/register", async (req, res) => {
 app.use(profileRouter);
 
 app.get("/info", (req, res) => {
-  const theme: boolean = req.query.themeHome === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   res.render("info", {
     title: "Info",
@@ -440,8 +437,7 @@ app.get("/info", (req, res) => {
 });
 
 app.get("/guess-the-game", (req, res) => {
-  const theme: boolean = req.query.themeHome === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   res.render("guess-the-game", {
     title: "Raad Het Spel",
@@ -451,8 +447,7 @@ app.get("/guess-the-game", (req, res) => {
 });
 
 app.get("/compare-games", (req, res) => {
-  const theme: boolean = req.query.themeHome === "light";
-  const themaName: string = theme ? "light" : "dark";
+  const themaName: string = res.locals.themaName;
 
   res.render("compare-games", {
     title: "Games Vergelijken",
