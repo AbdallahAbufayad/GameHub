@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 import path from "path";
 import { GamesApi, Results, Users, Game } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
-import { profileRouter } from "./routes/profile.router";
-import { compareRouter } from "./routes/compare.router";
-import { guessRouter } from "./routes/guess.router";
+import { profileRouter } from "./routers/profile-router";
+import { compareRouter } from "./routers/compare.router";
+import { guessRouter } from "./routers/guess.router";
 import { ThemeMiddleware } from "./middleware/theme-middleware";
 
 dotenv.config();
