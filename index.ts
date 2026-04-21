@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { GamesApi, Results, Users, Game } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
-import { profileRouter } from "./routes/profile.router";
+import { profileRouter } from "./routers/profile.router";
 import { ThemeMiddleware } from "./middleware/theme-middleware";
 
 dotenv.config();

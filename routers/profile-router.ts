@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getUser } from "../methods";
+import { getUser } from "../database";
 
 export const profileRouter = Router();
 
