@@ -4,6 +4,8 @@ import path from "path";
 import { GamesApi, Results, Users, Game } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
 import { profileRouter } from "./routes/profile.router";
+import { compareRouter } from "./routes/compare.router";
+import { guessRouter } from "./routes/guess.router";
 import { ThemeMiddleware } from "./middleware/theme-middleware";
 
 dotenv.config();
@@ -425,6 +427,8 @@ app.post("/register", async (req, res) => {
   }
 });
 app.use(profileRouter);
+app.use(compareRouter);
+app.use(guessRouter);
 
 app.get("/info", (req, res) => {
   const themaName: string = res.locals.themaName;
@@ -433,26 +437,6 @@ app.get("/info", (req, res) => {
     title: "Info",
     themaName: themaName,
     currentPage: "info",
-  });
-});
-
-app.get("/guess-the-game", (req, res) => {
-  const themaName: string = res.locals.themaName;
-
-  res.render("guess-the-game", {
-    title: "Raad Het Spel",
-    themaName: themaName,
-    currentPage: "guess-the-game",
-  });
-});
-
-app.get("/compare-games", (req, res) => {
-  const themaName: string = res.locals.themaName;
-
-  res.render("compare-games", {
-    title: "Games Vergelijken",
-    themaName: themaName,
-    currentPage: "compare-games",
   });
 });
 
