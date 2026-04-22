@@ -17,22 +17,6 @@
   <body class="min-h-screen <%= themaName === 'light' ? 'bg-slate-50 text-slate-900' : 'bg-slate-950 text-slate-100' %>">
     <!-- H1 -->
     <header class="text-center py-6 px-4 md:py-10">
-      <!--Dark/Licht mode toggel-->
-      <form action="/" method="get" class="animate-fade-in stagger-1">
-        <label for="checkbox" class="relative inline-flex h-10 w-20 cursor-pointer items-center">
-          <input
-            type="checkbox"
-            class="peer sr-only"
-            id="checkbox"
-            name="theme"
-            value="light"
-            <%= themaName === "light" ? "checked" : "" %>
-            onchange="this.form.submit()"
-          />
-          <span class="slider h-10 w-20 rounded-full border-2 transition-colors duration-300 <%= themaName === 'light' ? 'bg-white border-slate-300' : 'bg-slate-900 border-slate-100' %>"></span>
-          <span class="pointer-events-none absolute left-1.5 h-7 w-7 rounded-full bg-emerald-400 transition-transform duration-300 peer-checked:translate-x-10"></span>
-        </label>
-      </form>
       <h1
         class="animate-fade-in stagger-2 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide <%= themaName === 'light' ? 'text-slate-900' : 'text-slate-100' %>"
       >
@@ -86,11 +70,12 @@
           </p>
         </button>
 
-        <button
+        <a
           id="btn_GameHub"
+          href="/home"
           class="group animate-fade-in stagger-6 w-full sm:w-48 h-32 bg-zinc-800 rounded-xl flex flex-col items-center justify-center transition-all duration-300 ease-out hover:bg-zinc-700 hover:scale-105 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/20"
         >
-          <p class="text-lg sm:text-xl font-semibold"><a href="/home">GameHub</a></p>
+          <p class="text-lg sm:text-xl font-semibold">GameHub</p>
           <p class="text-base sm:text-lg mt-1 group-hover:scale-110 transition">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +92,7 @@
               />
             </svg>
           </p>
-        </button>
+        </a>
 
         <button
           id="btn_LegoMaster"
