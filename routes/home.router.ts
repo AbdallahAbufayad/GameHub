@@ -6,7 +6,7 @@ import {
   getRecentGameswithPageSize,
   counter,
   getRecentGames,
-} from "../database";
+} from "../database12";
 import { Users, GamesApi, Results, Game } from "../types";
 
 export function home() {

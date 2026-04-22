@@ -13,7 +13,7 @@ import {
   getOrderdGamesBySingleplayer,
   getOrderdGamesByMultiplayer,
   searchGame,
-} from "../database";
+} from "../database12";
 import { Users, GamesApi, Results, Game } from "../types";
 
 export function games() {
