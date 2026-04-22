@@ -3,10 +3,10 @@ import dotenv from "dotenv";
 import path from "path";
 import { GamesApi, Results, Users, Game } from "./types";
 import { Collection, MongoClient, ObjectId } from "mongodb";
-import { index } from "./routes/index.router";
-import { home } from "./routes/home.router";
-import { games } from "./routes/games.router";
-import { gameInfo } from "./routes/game-info.router";
+import { index } from "./routers/index.router";
+import { home } from "./routers/home.router";
+import { games } from "./routers/games.router";
+import { gameInfo } from "./routers/game-info.router";
 
 import { compareRouter } from "./routers/compare.router";
 import { guessRouter } from "./routers/guess.router";

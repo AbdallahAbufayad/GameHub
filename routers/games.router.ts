@@ -13,7 +13,7 @@ import {
   getOrderdGamesBySingleplayer,
   getOrderdGamesByMultiplayer,
   searchGame,
-} from "../database12";
+} from "../database";
 import { Users, GamesApi, Results, Game } from "../types";
 
 export function games() {
@@ -76,12 +76,6 @@ export function games() {
       searchGame1 = "";
       showAllGames = orderedGameswithPageSize.results.sort(
         (a, b) => b.ratings_count - a.ratings_count,
-      );
-    } else if (sortfield === "TotalPersons" && search === "clicked") {
-      searchGame1 = "";
-
-      showAllGames = orderedGameswithPageSize.results.sort(
-        (a, b) => b.added_by_status["owned"] - a.added_by_status["owned"],
       );
     } else if (
       sortfield === "Name_alphabetically_A_Z" &&

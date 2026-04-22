@@ -1,9 +1,14 @@
 import { Collection, MongoClient } from "mongodb";
-import { Users } from "./types";
+import { Users, GamesApi, Results, Game } from "./types";
 import { configDotenv } from "dotenv";
 configDotenv();
 
 const uriMongo = process.env.MONGODB;
+
+const url: string = `https://api.rawg.io/api/games?key=30778c23f4f34908a65b042d94443ba7&dates=1969-01-01,2025-11-25`;
+export let counter = 1;
+let gamesOfApi: GamesApi;
+
 if (!uriMongo) {
   throw new Error("MONGODB string not defined in .env!");
 }
@@ -48,7 +53,7 @@ export async function checkIfUserExists(
   );
 }
 
-export async function getUser(emailOrUsername : string) {
+export async function getUser(emailOrUsername: string) {
   //implementing mongo and actual logic later after login works fully (which needs security class stuff)
 
   const allUsers: Users[] = await userCollection.find().toArray();
@@ -60,4 +65,87 @@ export async function getUser(emailOrUsername : string) {
   );
 
   return currentUser;
+}
+
+export async function getGames() {
+  gamesOfApi = await fetch(`${url}`).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export function increaseCounter() {
+  counter += 1;
+}
+
+export function decreaseCounter() {
+  counter -= 1;
+}
+
+export async function getRecentGameswithPageSize() {
+  gamesOfApi = await fetch(
+    `${url}&ordering=-released&page=${counter}&page_size=20`,
+  ).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export async function getOrderdGamesByReleaseYearAsc() {
+  gamesOfApi = await fetch(
+    `${url}&ordering=released&page=${counter}&page_size=20`,
+  ).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export async function getOrderdGamesByNameDes() {
+  gamesOfApi = await fetch(
+    `${url}&ordering=-name&page=${counter}&page_size=20`,
+  ).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export async function getOrderdGamesByNameAsc() {
+  gamesOfApi = await fetch(
+    `${url}&ordering=name&page=${counter}&page_size=20`,
+  ).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export async function getOrderdGamesByRatingDes() {
+  gamesOfApi = await fetch(
+    `${url}&ordering=-rating&page=${counter}&page_size=20`,
+  ).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export async function getOrderdGamesByRatingAsc() {
+  gamesOfApi = await fetch(
+    `${url}&ordering=rating&page=${counter}&page_size=20`,
+  ).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export async function getOrderdGamesBySingleplayer() {
+  gamesOfApi = await fetch(
+    `${url}&ordering=singleplayer&page=${counter}&page_size=20`,
+  ).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export async function getOrderdGamesByMultiplayer() {
+  gamesOfApi = await fetch(
+    `${url}&ordering=multiplayer&page=${counter}&page_size=20`,
+  ).then((res) => res.json());
+  return gamesOfApi;
+}
+
+export async function searchGame(searchedGame: string) {
+  gamesOfApi = await fetch(`${url}&search=${searchedGame}`).then((res) =>
+    res.json(),
+  );
+  return gamesOfApi;
+}
+
+export async function getRecentGames() {
+  gamesOfApi = await fetch(`${url}&ordering=-released`).then((res) =>
+    res.json(),
+  );
+  return gamesOfApi;
 }
