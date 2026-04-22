@@ -5,7 +5,7 @@ configDotenv();
 
 const uriMongo = process.env.MONGODB;
 
-const url: string = `https://api.rawg.io/api/games?key=30778c23f4f34908a65b042d94443ba7&dates=1969-01-01,2025-11-25`;
+const url: string = `https://api.rawg.io/api/games?key=30778c23f4f34908a65b042d94443ba7&dates=1969-01-01,2026-04-11`;
 export let counter = 1;
 let gamesOfApi: GamesApi;
 

@@ -19,8 +19,7 @@ export function home() {
       await getRecentGameswithPageSize();
     const recentGames: GamesApi = await getRecentGames();
 
-    const theme = req.query.themeHome === "light";
-    const themaName = theme ? "light" : "dark";
+    const themaName: string = res.locals.themaName;
     const previousBtn = req.query.previous_btn;
     const nextBtn = req.query.next_btn;
 

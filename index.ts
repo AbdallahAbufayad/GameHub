@@ -1,8 +1,6 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
-import { GamesApi, Results, Users, Game } from "./types";
-import { Collection, MongoClient, ObjectId } from "mongodb";
 import { index } from "./routers/index.router";
 import { home } from "./routers/home.router";
 import { games } from "./routers/games.router";
@@ -34,12 +32,14 @@ let notification: string = "";
 let loggedIn = false;
 let counterShowFilters = 1;
 
+app.use(ThemeMiddleware.apply);
 app.use("/", index());
 app.use("/home", home());
 app.use("/games", games());
 app.use("/game-info", gameInfo());
 
-app.use(ThemeMiddleware.apply);
+app.use(compareRouter);
+app.use(guessRouter);
 
 app.use("/login", loginRoute());
 app.use("/register", registerRoute());
