@@ -13,6 +13,7 @@ import { ThemeMiddleware } from "./middleware/theme-middleware";
 import { registerRoute } from "./routers/register-router";
 import { loginRoute } from "./routers/login-router";
 import { connect } from "./database";
+import { handleError } from "./routers/errorhandeler";
 
 dotenv.config();
 
@@ -55,6 +56,8 @@ app.get("/info", (req, res) => {
     currentPage: "info",
   });
 });
+
+app.use(handleError);
 
 app.listen(app.get("port"), async () => {
   connect();

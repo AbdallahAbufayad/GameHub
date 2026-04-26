@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Game } from "../types";
+import { error } from "node:console";
 
 export function gameInfo() {
   const router: Router = Router();

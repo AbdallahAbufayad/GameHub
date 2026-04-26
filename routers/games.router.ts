@@ -20,8 +20,7 @@ export function games() {
   const router: Router = Router();
   let previousBtnDisableValue = "";
   router.get("/", async (req, res) => {
-    const theme = req.query.theme === "light";
-    const themaName = theme ? "light" : "dark";
+    const themaName: string = res.locals.themaName;
     const previousBtn: string =
       typeof req.query.previous_btn === "string" ? req.query.previous_btn : "";
     const nextBtn: string =
