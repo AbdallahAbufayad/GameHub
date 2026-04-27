@@ -8,6 +8,7 @@ import {
   getRecentGames,
 } from "../database";
 import { Users, GamesApi, Results, Game } from "../types";
+import { getPaginationButtonState, sortByOwnedCount, takeTopResults } from "../methods";
 
 export function home() {
   const router: Router = Router();
@@ -25,35 +26,16 @@ export function home() {
 
     if (previousBtn === "clicked") {
       decreaseCounter();
-
-      changeDisableValue();
     } else if (nextBtn === "clicked") {
       increaseCounter();
-      changeDisableValue();
     }
 
-    let populareGames: Results[] = gamesOfApi.results.sort(
-      (a, b) => b.added_by_status["owned"] - a.added_by_status["owned"],
-    );
-    let pupulareGamesMostgames: Results[] = [];
-    let allrecentGames: Results[] = [];
+    const populareGames: Results[] = sortByOwnedCount(gamesOfApi.results);
+    const pupulareGamesMostgames: Results[] = takeTopResults(populareGames, 5);
+    const allrecentGames: Results[] = takeTopResults(recentGames.results, 5);
 
     let showAllGames: Results[] = orderedGameswithPageSize.results;
-
-    for (let i = 0; i < 5; i++) {
-      pupulareGamesMostgames.push(populareGames[i]);
-    }
-
-    for (let i = 0; i < 5; i++) {
-      allrecentGames.push(recentGames.results[i]);
-    }
-
-    function changeDisableValue() {
-      if (counter <= 1) previousBtnDisableValue = "disabled";
-      else previousBtnDisableValue = "enabled";
-    }
-
-    changeDisableValue();
+    previousBtnDisableValue = getPaginationButtonState(counter);
 
     res.render("home", {
       title: "GameHub",

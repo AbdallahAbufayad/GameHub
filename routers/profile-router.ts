@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { getUser } from "../database";
-import { userInfo } from "node:os";
 import { Users } from "../types";
+import { getDefaultUser } from "../methods";
 
 export function profileRoute() {
   const profileRouter = Router();
@@ -11,16 +10,7 @@ export function profileRoute() {
 
     //const user = await getUser();
 
-    const user: Users = {
-      username: "username",
-      email: "",
-      password: "",
-      level: 1,
-      about_me: "Geen info gevonden",
-      profile_picture: "/images/user.png",
-      collection_more: [],
-      public_profile: false,
-    };
+    const user: Users = getDefaultUser();
 
     res.render("profile", {
       title: "Profiel",
@@ -47,16 +37,7 @@ export function PublicProfileRoute() {
 
     //const user = await getUser();
 
-    const user: Users = {
-      username: "username",
-      email: "",
-      password: "",
-      level: 1,
-      about_me: "Geen info gevonden",
-      profile_picture: "/images/user.png",
-      collection_more: [],
-      public_profile: false,
-    };
+    const user: Users = getDefaultUser();
 
     res.render("public-profile", {
       title: "Publiek profiel",

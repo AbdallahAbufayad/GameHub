@@ -15,6 +15,7 @@ import {
   searchGame,
 } from "../database";
 import { Users, GamesApi, Results, Game } from "../types";
+import { getPaginationButtonState, sortByReviewCount } from "../methods";
 
 export function games() {
   const router: Router = Router();
@@ -58,12 +59,8 @@ export function games() {
 
     if (previousBtn === "clicked") {
       decreaseCounter();
-
-      changeDisableValue();
     } else if (nextBtn === "clicked") {
       increaseCounter();
-
-      changeDisableValue();
     }
 
     if (clearField === "clicked") searchGame1 = "";
@@ -73,9 +70,7 @@ export function games() {
 
     if (sortfield === "reviewCount" && search === "clicked") {
       searchGame1 = "";
-      showAllGames = orderedGameswithPageSize.results.sort(
-        (a, b) => b.ratings_count - a.ratings_count,
-      );
+      showAllGames = sortByReviewCount(orderedGameswithPageSize.results);
     } else if (
       sortfield === "Name_alphabetically_A_Z" &&
       search === "clicked"
@@ -116,11 +111,7 @@ export function games() {
       }
     }
 
-    function changeDisableValue() {
-      if (counter <= 1) previousBtnDisableValue = "disabled";
-      else previousBtnDisableValue = "enabled";
-    }
-    changeDisableValue();
+    previousBtnDisableValue = getPaginationButtonState(counter);
 
     res.render("games", {
       title: "Games",

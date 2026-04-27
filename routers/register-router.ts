@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Users } from "../types";
 import { checkIfUserExists, registerUser } from "../database";
+import { getDefaultRegisteredUser } from "../methods";
 
 let notification: string = "";
 let loggedIn: boolean = false;
@@ -37,37 +38,7 @@ export function registerRoute(): Router {
       return;
     }
 
-    const newUser: Users = {
-      email: email,
-      username: username,
-      password: password,
-      level: 0,
-      about_me: "",
-      profile_picture: "",
-      public_profile: false,
-      collection_more: [
-        {
-          collectionName: "Wenslijst",
-          allGames: [],
-        },
-        {
-          collectionName: "Favorieten",
-          allGames: [],
-        },
-        {
-          collectionName: "Te spelen",
-          allGames: [],
-        },
-        {
-          collectionName: "Momenteel aan het spelen",
-          allGames: [],
-        },
-        {
-          collectionName: "Afgespeeld",
-          allGames: [],
-        },
-      ],
-    };
+    const newUser: Users = getDefaultRegisteredUser(email, username, password);
 
     try {
       let userExists: boolean = await checkIfUserExists(email, username);
