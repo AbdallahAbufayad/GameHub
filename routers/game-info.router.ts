@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { Game } from "../types";
-import { error } from "node:console";
 
 export function gameInfo() {
   const router: Router = Router();
@@ -13,6 +12,24 @@ export function gameInfo() {
 
     const response = await fetch(url);
     const game: Game = await response.json();
+
+    const res1 = await fetch(
+      "https://translation.googleapis.com/language/translate/v2?key=AIzaSyCLA2ozIXRi4bj1JChJ9V-uVMCRa6g6Llc",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          q: game.description_raw,
+          target: "nl",
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    const data = await res1.json();
+    game.description_raw = data.data.translations[0].translatedText;
+
     res.render("game-info", {
       themaName: themaName,
       title: game.name,
