@@ -16,12 +16,21 @@
                 <div
                   class="w-24 h-24 bg-linear-to-br from-emerald-400 to-emerald-600 p-1 rounded-full shadow-lg shadow-emerald-500/30"
                 >
+<% if (imageSrc) { %>
                   <img
                     src="<%=imageSrc%>"
-                    alt="gebruiker profiel foto"
+                    alt="gebruikers profiel foto"
                     id="profile_pic"
                     class="w-full h-full rounded-full bg-zinc-800 p-2"
                   />
+              <% } else {%>
+                    <img
+                      src="/images/user.png"
+                      alt="gebruikers profiel foto"
+                      id="profile_pic"
+                      class="w-full h-full rounded-full bg-zinc-800 p-2"
+                    />
+                <%}%>
                 </div>
                 <div
                   class="absolute -bottom-1 -right-1 bg-emerald-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg"
@@ -99,14 +108,6 @@
           </div>
         </div>
         <div id="GamesOfCollection_profile">
-          <button id="close_btn_GamesOfCollection_profile">×</button>
-          <h3 id="collection_title" class="collection-modal-title"></h3>
-          <input
-            type="text"
-            id="amountOfGamesField"
-            class="w-60 border-2 rounded-lg p-1 mb-4 border-emerald-500 text-center"
-            disabled
-          />
           <div id="allGamesOfCollection_profile"></div>
         </div>
         <div id="collection_modal_backdrop" style="display: none"></div>

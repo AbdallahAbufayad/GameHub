@@ -1,12 +1,15 @@
-import { Collection, MongoClient } from "mongodb";
+import { Collection, MongoClient, ObjectId } from "mongodb";
 import { Users, GamesApi, Results, Game } from "./types";
 import { configDotenv } from "dotenv";
+
 configDotenv();
 
 if (!process.env.MONGODB) {
   console.error("Mongo string not defined!");
   process.exit(1);
 }
+
+export const MONGODB_URI: string = process.env.MONGODB;
 
 let gamesOfApi: GamesApi;
 export let counter = 1;
@@ -59,8 +62,6 @@ export async function checkIfUserExists(
 }
 
 export async function getUser(emailOrUsername: string) {
-  //implementing mongo and actual logic later after login works fully (which needs security class stuff)
-
   const allUsers: Users[] = await userCollection.find().toArray();
 
   const currentUser: Users | undefined = allUsers.find(
@@ -70,6 +71,44 @@ export async function getUser(emailOrUsername: string) {
   );
 
   return currentUser;
+}
+
+export async function updateUser(user: Users) {
+  if (
+    (await userCollection.findOne({
+      email: user.email,
+      _id: { $ne: new ObjectId(user._id) },
+    })) ||
+    (await userCollection.findOne({
+      username: user.username,
+      _id: { $ne: new ObjectId(user._id) },
+    }))
+  ) {
+    console.log("alr");
+    return "Deze email of gebruikersnaam bestaat al!";
+  }
+
+  const updateUser = await userCollection.updateOne(
+    { _id: new ObjectId(user._id) },
+    {
+      $set: {
+        username: user.username,
+        about_me: user.about_me,
+        email: user.email,
+        public_profile: user.public_profile,
+      },
+    },
+  );
+
+  return "Gebruiker successvol veranderd!";
+}
+
+export async function updateUserPicture(user: Users, image: string) {
+  await userCollection.updateOne(
+    { _id: new ObjectId(user._id) },
+    { $set: { profile_picture: image } },
+  );
+  return "Profiel foto successvol veranderd!";
 }
 
 //////////////

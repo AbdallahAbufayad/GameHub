@@ -16,28 +16,10 @@ const slider = document.querySelector(".slider");
 const user_avatar = document.querySelector("#user_avatar");
 
 if (user_avatar) {
-  user_avatar.parentElement.addEventListener("click", (e) => {
-    e.preventDefault();
-    const isLoggedIn = localStorage.getItem("loggedIn");
-    if (isLoggedIn === "true") {
-      window.location.href = "./profile";
-    } else {
-      window.location.href = "./login";
-    }
-  });
+  // Do not override the anchor click behavior here — let the server handle auth redirects.
 }
 
-if (nav_collections) {
-  nav_collections.addEventListener("click", (e) => {
-    e.preventDefault();
-    const isLoggedIn = localStorage.getItem("loggedIn");
-    if (isLoggedIn === "true") {
-      window.location.href = "./profile";
-    } else {
-      window.location.href = "./login";
-    }
-  });
-}
+// nav_collections is an anchor; avoid client-side auth checks and let server-side session control access.
 
 async function checkIfLoggedIn() {
   const isLoggedIn = localStorage.getItem("loggedIn");

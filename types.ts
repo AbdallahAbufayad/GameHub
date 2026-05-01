@@ -4,7 +4,7 @@ export interface Users {
   _id?: ObjectId;
   email: string;
   username: string;
-  password: string;
+  password?: string;
   level: number;
   about_me: string;
   profile_picture: string;

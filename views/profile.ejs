@@ -41,12 +41,21 @@
               <div
                 class="w-24 h-24 bg-linear-to-br from-emerald-400 to-emerald-600 p-1 rounded-full shadow-lg shadow-emerald-500/30"
               >
-                <img
-                  src="<%=imageSrc%>"
-                  alt="gebruikers profiel foto"
-                  id="profile_pic"
-                  class="w-full h-full rounded-full bg-zinc-800 p-2"
-                />
+              <% if (imageSrc) { %>
+                  <img
+                    src="<%=imageSrc%>"
+                    alt="gebruikers profiel foto"
+                    id="profile_pic"
+                    class="w-full h-full rounded-full bg-zinc-800 p-2"
+                  />
+              <% } else {%>
+                    <img
+                      src="/images/user.png"
+                      alt="gebruikers profiel foto"
+                      id="profile_pic"
+                      class="w-full h-full rounded-full bg-zinc-800 p-2"
+                    />
+                <%}%>
               </div>
               <div
                 class="absolute -bottom-1 -right-1 bg-emerald-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg"
@@ -69,8 +78,8 @@
         </div>
 
         <form
+          method="post"
           id="save_changes"
-          action="post"
           class="bg-zinc-900 border-2 border-zinc-800 rounded-2xl p-6 shadow-xl space-y-6"
         >
           <h3 class="text-xl font-bold text-emerald-400 mb-4">
@@ -80,17 +89,12 @@
           <div class="flex gap-3">          
             <p>Profiel publiek maken?</p>
 
-            <% if (publicProfile) { %>
-                <input type="checkbox" checked>
-
-            <% } else {%>
-                <input type="checkbox">
-              <%}%>
+            <input type="checkbox" name="public" <%= publicProfile ? 'checked' : '' %>>
           </div>
 
           <% if (publicProfile) { %>
               <a
-              href="/public-profile"
+              href="/public-profile/<%=username%>"
               id="public-profile-link"
               class="underline text-emerald-400"
               >Ga naar publieke profiel</a
@@ -165,13 +169,13 @@
             >
               Sla veranderingen op
             </button>
-            <button
-              type="button"
+            <a
+            href="/logout"
               id="logout"
               class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-red-500/20"
             >
-              Uitloggen
-            </button>
+            Uitloggen
+            </a>
           </div>
         </form>
       </div>
@@ -212,14 +216,8 @@
       <div id="collection_modal_backdrop" style="display: none"></div>
     </div>
   </div>
+  
 </main>
 
-<!--Notification-->
-<div
-  id="notification"
-  role="alert"
-  class="fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-80 hidden bg-zinc-900 text-white px-4 py-3 rounded-lg shadow-lg shadow-black/40 transition-all duration-300 ease-out opacity-0 translate-y-4 z-[9999]"
->
-  <p id="error_text" class="text-white text-center text-sm sm:text-base"></p>
-</div>
+<script src="/js/profile.js"></script>
 <%- include('partials/footer') %>

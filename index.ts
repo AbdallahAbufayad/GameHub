@@ -1,6 +1,8 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
+import session from "./session";
+
 import { index } from "./routers/index.router";
 import { home } from "./routers/home.router";
 import { games } from "./routers/games.router";
@@ -10,10 +12,12 @@ import { compareRouter } from "./routers/compare.router";
 import { guessRouter } from "./routers/guess.router";
 import { profileRoute, PublicProfileRoute } from "./routers/profile-router";
 import { ThemeMiddleware } from "./middleware/theme-middleware";
+import { secureMiddleware } from "./middleware/secureMiddleware";
 import { registerRoute } from "./routers/register-router";
 import { loginRoute } from "./routers/login-router";
 import { connect } from "./database";
 import { handleError } from "./routers/errorhandeler";
+import { logoutRouter } from "./routers/logout-router";
 
 dotenv.config();
 
@@ -21,6 +25,7 @@ const app: Express = express();
 
 app.set("view engine", "ejs");
 app.use(express.json());
+app.use(session);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
@@ -35,17 +40,18 @@ let counterShowFilters = 1;
 
 app.use(ThemeMiddleware.apply);
 app.use("/", index());
-app.use("/home", home());
-app.use("/games", games());
-app.use("/game-info", gameInfo());
+app.use("/home", secureMiddleware,  home());
+app.use("/games", secureMiddleware, games());
+app.use("/game-info", secureMiddleware, gameInfo());
 
 app.use(compareRouter);
 app.use(guessRouter);
 
 app.use("/login", loginRoute());
+app.use("/logout", logoutRouter());
 app.use("/register", registerRoute());
-app.use("/profile", profileRoute());
-app.use("/public-profile", PublicProfileRoute());
+app.use("/profile", secureMiddleware, profileRoute());
+app.use("/public-profile", secureMiddleware, PublicProfileRoute());
 
 app.get("/info", (req, res) => {
   const themaName: string = res.locals.themaName;

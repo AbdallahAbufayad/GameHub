@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { secureMiddleware } from "../middleware/secureMiddleware";
 
 export const guessRouter = Router();
 
-guessRouter.get("/guess-the-game", (req, res) => {
+guessRouter.get("/guess-the-game", secureMiddleware, (req, res) => {
   const themaName: string = res.locals.themaName;
 
   res.render("guess-the-game", {

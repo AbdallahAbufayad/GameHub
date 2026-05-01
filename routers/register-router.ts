@@ -2,6 +2,7 @@ import { Router } from "express";
 import { Users } from "../types";
 import { checkIfUserExists, registerUser } from "../database";
 import { getDefaultRegisteredUser } from "../methods";
+import bcrypt from "bcrypt";
 
 let notification: string = "";
 let loggedIn: boolean = false;
@@ -22,13 +23,9 @@ export function registerRoute(): Router {
   registerRouter.post("/", async (req, res) => {
     const themaName: string = res.locals.themaName;
 
-    registerUser;
+    const saltRounds : number = 10;
 
-    const email: string = req.body.email.toLowerCase();
-    const username: string = req.body.username.toLowerCase();
-    const password: string = btoa(req.body.password); //will be properly hashed after security class
-
-    if (email === null || username === null || password === null) {
+        if (req.body.email.toLowerCase() === undefined || req.body.username.toLowerCase() === undefined || req.body.password === undefined) {
       notification = "Je moet alle velden invullen.";
       res.render("register", {
         title: "Registreren",
@@ -37,6 +34,10 @@ export function registerRoute(): Router {
       });
       return;
     }
+
+    const email: string = req.body.email.toLowerCase();
+    const username: string = req.body.username.toLowerCase();
+    const password: string = await bcrypt.hash(req.body.password, saltRounds); 
 
     const newUser: Users = getDefaultRegisteredUser(email, username, password);
 

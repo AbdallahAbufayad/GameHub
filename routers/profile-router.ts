@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { Users } from "../types";
 import { getDefaultUser } from "../methods";
+import { getUser, updateUser, updateUserPicture } from "../database";
 
 export function profileRoute() {
   const profileRouter = Router();
@@ -8,9 +9,7 @@ export function profileRoute() {
   profileRouter.get("/", (req, res) => {
     const themaName: string = res.locals.themaName;
 
-    //const user = await getUser();
-
-    const user: Users = getDefaultUser();
+    const user: Users = res.locals.user;
 
     res.render("profile", {
       title: "Profiel",
@@ -26,18 +25,64 @@ export function profileRoute() {
     });
   });
 
+  profileRouter.post("/", async (req, res) => {
+    const user: Users = res.locals.user;
+
+    user.about_me = req.body.about;
+    user.username = req.body.username.toLowerCase();
+    user.email = req.body.email.toLowerCase();
+    user.public_profile = req.body.public === "on";
+
+    if (!user.username || user.username.length > 30) {
+      console.log(
+        "Gebruikersnaam niet ingevud, of je gebruikersnaam lengte is groter dan 30.",
+      );
+      res.redirect("/profile");
+    }
+
+    if (!user.email || !user.email.includes("@")) {
+      console.log("Email is niet ingevud, of je email is niet geldig.");
+      res.redirect("/profile");
+    }
+    await updateUser(user);
+
+    res.redirect("/profile");
+  });
+
+  profileRouter.post("/picture", async (req, res) => {
+    const user: Users = res.locals.user;
+    const image = req.body.image;
+
+    if (!image) {
+      return res.status(400).json({ error: "Geen afbeelding" });
+    }
+
+    res.locals.user.profile_picture = image;
+    await updateUserPicture(user, image);
+
+    res.json({ success: true });
+  });
+
   return profileRouter;
 }
 
 export function PublicProfileRoute() {
   const profileRouter = Router();
 
-  profileRouter.get("/", (req, res) => {
+  profileRouter.get("/:username", async(req, res) => {
     const themaName: string = res.locals.themaName;
 
-    //const user = await getUser();
+    const username : string = req.params.username;
 
-    const user: Users = getDefaultUser();
+    if(!username){
+      console.log("gebruikersnaam niet gevonden!");
+    }
+
+    let user: Users | undefined = await getUser(username);
+
+    if(!user){
+      user = getDefaultUser();
+    }
 
     res.render("public-profile", {
       title: "Publiek profiel",
