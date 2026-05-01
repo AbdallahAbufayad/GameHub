@@ -40,7 +40,7 @@ let counterShowFilters = 1;
 
 app.use(ThemeMiddleware.apply);
 app.use("/", index());
-app.use("/home", secureMiddleware,  home());
+app.use("/home", secureMiddleware, home());
 app.use("/games", secureMiddleware, games());
 app.use("/game-info", secureMiddleware, gameInfo());
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { Game } from "../types";
+import { Game, Users } from "../types";
+import { addReview, getAllUsers } from "../database";
 
 export function gameInfo() {
   const router: Router = Router();
@@ -12,7 +13,18 @@ export function gameInfo() {
 
     const response = await fetch(url);
     const game: Game = await response.json();
+    const allUsers: Users[] = await getAllUsers();
+    let reviewCount = 0;
 
+    for (let user of allUsers) {
+      for (let userrv of user.reviews) {
+        if (userrv.gameId === req.params.id) {
+          reviewCount += 1;
+        }
+      }
+    }
+
+    /*
     const res1 = await fetch(
       "https://translation.googleapis.com/language/translate/v2?key=AIzaSyCLA2ozIXRi4bj1JChJ9V-uVMCRa6g6Llc",
       {
@@ -28,13 +40,31 @@ export function gameInfo() {
     );
 
     const data = await res1.json();
-    game.description_raw = data.data.translations[0].translatedText;
+    game.description_raw = data.data.translations[0].translatedText;*/
 
     res.render("game-info", {
       themaName: themaName,
       title: game.name,
       game: game,
+      allUsers,
+      gameId: req.params.id,
+      reviewCount,
     });
+  });
+
+  router.post("/:id", async (req, res) => {
+    const reviewtxt: string = req.body.reviewtxt;
+    const reviewrating: string = req.body.reviewrating;
+
+    if (req.session.userId === undefined) return;
+    await addReview(
+      reviewtxt,
+      parseInt(reviewrating),
+      req.params.id,
+      req.session.userId,
+    );
+
+    res.redirect(`/game-info/${req.params.id}`);
   });
 
   return router;

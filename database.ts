@@ -73,6 +73,11 @@ export async function getUser(emailOrUsername: string) {
   return currentUser;
 }
 
+export async function getAllUsers() {
+  const allUsers: Users[] = await userCollection.find().toArray();
+  return allUsers;
+}
+
 export async function updateUser(user: Users) {
   if (
     (await userCollection.findOne({
@@ -194,4 +199,25 @@ export async function getRecentGames() {
     res.json(),
   );
   return gamesOfApi;
+}
+
+export async function addReview(
+  reviewtxt: string,
+  reviewrating: number,
+  gameId: string,
+  userId: string,
+) {
+  await userCollection.updateOne(
+    { _id: new ObjectId(userId) },
+    {
+      $push: {
+        reviews: {
+          userId: userId,
+          gameId: gameId,
+          review: reviewtxt,
+          rating: reviewrating,
+        },
+      },
+    },
+  );
 }

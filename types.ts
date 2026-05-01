@@ -10,6 +10,14 @@ export interface Users {
   profile_picture: string;
   public_profile: boolean;
   collection_more: Collection_more[];
+  reviews: user_reviews[];
+}
+
+interface user_reviews {
+  userId: string;
+  gameId: string;
+  review: string;
+  rating: number;
 }
 
 interface Collection_more {

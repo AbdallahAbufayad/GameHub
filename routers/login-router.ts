@@ -13,7 +13,7 @@ export function loginRoute(): Router {
   loginRouter.get("/", (req, res) => {
     const themaName: string = res.locals.themaName;
 
-    if(res.locals.user){
+    if (res.locals.user) {
       res.redirect("/profile");
     }
 
@@ -34,7 +34,9 @@ export function loginRoute(): Router {
     try {
       let currentUser: Users | undefined = await getUser(emailOrUsername);
 
-      let userId: ObjectId | undefined = currentUser?._id;
+      let userId: string | undefined = currentUser?._id?.toString();
+
+      console.log(userId?.toString());
 
       if (currentUser && currentUser.password) {
         if (
@@ -47,6 +49,8 @@ export function loginRoute(): Router {
           loggedIn = true;
           delete currentUser.password;
           req.session.user = currentUser;
+          if (!userId) return;
+          req.session.userId = userId.toString();
           res.redirect("/profile");
           return;
         } else {
@@ -69,7 +73,8 @@ export function loginRoute(): Router {
         });
         return;
       }
-    } catch (e) {
+    } catch (e: any) {
+      console.log(e);
       console.error("Something went wrong with the database.");
     }
   });
