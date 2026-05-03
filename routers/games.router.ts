@@ -13,6 +13,7 @@ import {
   getOrderdGamesBySingleplayer,
   getOrderdGamesByMultiplayer,
   searchGame,
+  getAllUsers,
 } from "../database";
 import { Users, GamesApi, Results, Game } from "../types";
 import { getPaginationButtonState, sortByReviewCount } from "../methods";
@@ -38,6 +39,18 @@ export function games() {
     let filterClassName = "";
     const clearField: string =
       typeof req.query.clearField === "string" ? req.query.clearField : "";
+
+    const checked: boolean = req.query.searchForUsers === "checked";
+
+    let userProfile: Users[] = [];
+    let userProfile1: Users[] = [];
+
+    if (checked && searchGame1 !== "") {
+      userProfile = await getAllUsers();
+      userProfile1 = userProfile.filter((p) =>
+        p.username.includes(searchGame1.toLocaleLowerCase()),
+      );
+    }
 
     let orderedGameswithPageSize: GamesApi = await getRecentGameswithPageSize();
     let orderdGamesByNameDes: GamesApi = await getOrderdGamesByNameDes();
@@ -121,6 +134,8 @@ export function games() {
       previousBtnDisableValue: previousBtnDisableValue,
       sortfield: sortfield,
       searchGame: searchGame1,
+      checked,
+      userProfile1,
     });
   });
 

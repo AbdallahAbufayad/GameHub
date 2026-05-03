@@ -13,7 +13,7 @@ export interface Users {
   reviews: user_reviews[];
 }
 
-interface user_reviews {
+export interface user_reviews {
   userId: string;
   gameId: string;
   review: string;

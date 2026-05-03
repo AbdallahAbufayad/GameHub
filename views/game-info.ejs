@@ -93,34 +93,73 @@
           </h3>
           <span id="review_count" class="text-emerald-400 font-semibold text-sm sm:text-base px-4 py-2 bg-emerald-500/10 rounded-full"><%= reviewCount%></span>
         </div>
-        <div id="reviews_list" class="grid gap-4">
-          <%for(let user of allUsers){%>
+       <div id="reviews_list" class="grid gap-6">
 
-          <%for(let userrv of user.reviews) {%>
+  <% for(let user of allUsers){ %>
+    <% for(let userrv of user.reviews) { %>
 
-          <%if(userrv.gameId === gameId) {%>
-          <div class="flex gap-3 flex-col">
-            <div class="flex gap-3">
-              <%if(user.profile_picture === ""){%>
-              <img src="/images/user.png" style="width: 50px;height: 50px;" alt="<%=user.username %>">
-              <%} else {%>
-              <img src="<%= user.profile_picture%>" alt="<%=user.username %>">
-              <%}%>
-                      
-                    <p><%=user.username %></p>
+      <% if(userrv.gameId === gameId) { %>
+
+        <div class="bg-gradient-to-br from-blue-950 to-blue-900 border border-emerald-500/20 rounded-2xl p-5 shadow-lg hover:shadow-emerald-500/10 transition">
+
+          <!-- User Info -->
+          <div class="flex items-center gap-4 mb-4">
+
+            <% if(!user.profile_picture){ %>
+              <img src="/images/user.png"
+                   class="w-12 h-12 rounded-full object-cover border-2 border-emerald-400/40"
+                   alt="<%= user.username %>">
+            <% } else { %>
+              <img src="<%= user.profile_picture %>"
+                   class="w-12 h-12 rounded-full object-cover border-2 border-emerald-400/40"
+                   alt="<%= user.username %>">
+            <% } %>
+
+            <div>
+              <p class="font-semibold text-white text-lg">
+                <%= user.username %>
+              </p>
+              <p class="text-sm text-emerald-300">
+                Review geplaatst
+              </p>
             </div>
-            <div class="flex gap-3">
-              <p><%= userrv.review %></p>
-              <p><%= userrv.rating %></p>
-            </div>
+
           </div>
 
-          <%}%>
+          <!-- Review Content -->
+          <div class="bg-blue-900/60 rounded-xl p-4 border border-blue-700 mb-4">
+            <p class="text-gray-200 leading-relaxed">
+              <%= userrv.review %>
+            </p>
+          </div>
 
-                <%}%>
+          <!-- Rating -->
+          <div class="flex items-center justify-between">
 
-          <%}%>
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-gray-400">Score:</span>
+              <span class="text-xl font-bold text-emerald-400">
+                <%= userrv.rating %>
+              </span>
+              <span class="text-gray-500">/100</span>
+            </div>
+
+            <!-- Visual bar -->
+            <div class="w-32 h-2 bg-blue-800 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-emerald-400 to-green-500" style="width:50px ;">
+              </div>
+            </div>
+
+          </div>
+
         </div>
+
+      <% } %>
+
+    <% } %>
+  <% } %>
+
+</div>
         <!--
         
         <div id="no_reviews" class="text-center py-12 hidden">

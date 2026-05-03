@@ -14,32 +14,32 @@
 </head>
 
 <body class="min-h-screen <%= themaName === 'light' ? 'bg-slate-50 text-slate-900' : 'bg-slate-950 text-slate-200' %>">
-    <header class="py-4 px-4 border-b <%= themaName === 'light' ? 'bg-slate-50/95 border-slate-300' : 'bg-slate-950/95 border-zinc-700' %>">
-      <div class="flex flex-col items-center gap-6 lg:grid lg:grid-cols-[10%_80%_10%] lg:items-center lg:gap-0">
-        <a href="/home" class="animate-fade-in stagger-1">
-          <div id="logo" class="text-emerald-400 text-xl md:text-2xl font-bold tracking-wide px-3 py-1.5 rounded-lg transition-all duration-300 hover:text-emerald-300 hover:bg-emerald-950/50 hover:scale-110 hover:shadow-lg hover:shadow-emerald-500/50 hover:-rotate-2">
-            [+..••]
-          </div>
-        </a>
+  <header class="py-4 px-4 border-b <%= themaName === 'light' ? 'bg-slate-50/95 border-slate-300' : 'bg-slate-950/95 border-zinc-700' %>">
+    <div class="flex flex-col items-center gap-6 lg:grid lg:grid-cols-[10%_80%_10%] lg:items-center lg:gap-0">
+      <a href="/home" class="animate-fade-in stagger-1">
+        <div id="logo" class="text-emerald-400 text-xl md:text-2xl font-bold tracking-wide px-3 py-1.5 rounded-lg transition-all duration-300 hover:text-emerald-300 hover:bg-emerald-950/50 hover:scale-110 hover:shadow-lg hover:shadow-emerald-500/50 hover:-rotate-2">
+          [+..••]
+        </div>
+      </a>
 
-        <%- include('partials/navbar') %>
+      <%- include('partials/navbar') %>
 
-        <%- include('partials/header-user') %>
-      </div>
-    </header>
+      <%- include('partials/header-user') %>
+    </div>
+  </header>
 
   <main class="animate-fade-in stagger-4 container mx-auto px-4 py-8">
     <form>
       <div class="flex flex-col sm:flex-row gap-2 mb-8 md:mb-12 max-w-2xl mx-auto">
         <label class="flex items-center gap-2 cursor-pointer">
-          <input id="searchForUsers" type="checkbox" class="w-5 h-5 sm:w-6 sm:h-6 accent-emerald-500" />
+          <input id="searchForUsers" name="searchForUsers" type="checkbox" value="checked" class="w-5 h-5 sm:w-6 sm:h-6 accent-emerald-500" />
           <span class="text-zinc-300 font-semibold text-sm sm:text-base">
             Zoeken voor gebruikers
           </span>
         </label>
         <!---->
         <div class="relative w-full">
-          <input id="search_input" name="searchGame" value="<%= searchGame%>"  type="text" placeholder="Zoek voor games..." class="w-full rounded-lg sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all duration-300 pr-10 sm:pr-12 <%= themaName === 'light' ? 'bg-white text-slate-900 border border-emerald-500 placeholder-slate-400' : 'bg-slate-800 text-slate-100 border border-emerald-500 placeholder-zinc-500' %>" />
+          <input id="search_input" name="searchGame" value="<%= searchGame%>" type="text" placeholder="Zoek voor games..." class="w-full rounded-lg sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all duration-300 pr-10 sm:pr-12 <%= themaName === 'light' ? 'bg-white text-slate-900 border border-emerald-500 placeholder-slate-400' : 'bg-slate-800 text-slate-100 border border-emerald-500 placeholder-zinc-500' %>" />
 
           <button id="clear_btn" type="submit" name="clearField" value="clicked" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white text-sm sm:text-base transition-colors duration-200">
             ✕
@@ -155,6 +155,26 @@
             -->
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4" id="games_container">
           <!--all games-->
+
+          <%if(checked) {%>
+          <%userProfile1.forEach((userProfile, index) => {%>
+          <div class="animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+            <div class="absolute inset-0">
+               <%if(userProfile.profile_picture === ""){%>
+                   <img class="w-full h-full object-cover" alt="<%= userProfile.username%>" src="/images/user.png" loading="lazy" decoding="async">
+                <%}else{%>
+                     <img class="w-full h-full object-cover" alt="<%= userProfile.username%>" src="<%= userProfile.profile_picture %>" loading="lazy" decoding="async">
+                  <%}%>
+
+              
+            </div>
+            <a class="absolute inset-0 z-10" href="/game-info/<%= userProfile.id %>" target="_self" aria-label="Ga naar <%= userProfile.name%>">
+              <p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= userProfile.username%></p>
+            </a>
+          </div>
+          <% }) %>
+
+            <%}else{%>
           <% showAllGames.forEach((showAllGame, index) => { %>
 
           <div class="animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
@@ -167,15 +187,15 @@
           </div>
 
           <% }) %>
-            </div>
-          </div>
-        </section>
-      </main>
 
-      <!-- Collection Modal -->
-      <div
-        id="addToCollectionMenu"
-        style="
+          <%}%>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Collection Modal -->
+  <div id="addToCollectionMenu" style="
           display: none;
           position: fixed;
           top: 50%;
@@ -192,11 +212,8 @@
           max-height: 90vh;
           overflow-y: auto;
           backdrop-filter: blur(10px);
-        "
-      >
-        <button
-          id="delete_collection_btn"
-          style="
+        ">
+    <button id="delete_collection_btn" style="
             position: absolute;
             top: 10px;
             right: 10px;
@@ -211,27 +228,22 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-          "
-        >
-          &times;
-        </button>
+          ">
+      &times;
+    </button>
 
-        <h3
-          style="
+    <h3 style="
             color: #10b981;
             margin-bottom: 1rem;
             font-size: 1.25rem;
             font-weight: bold;
-          "
-        >
-          Add to Collection
-        </h3>
+          ">
+      Add to Collection
+    </h3>
 
-        <div id="allCollectionsNames" style="margin-bottom: 1rem"></div>
+    <div id="allCollectionsNames" style="margin-bottom: 1rem"></div>
 
-        <button
-          id="create_collection_btn"
-          style="
+    <button id="create_collection_btn" style="
             width: 100%;
             padding: 0.75rem;
             background-color: #10b981;
@@ -242,20 +254,12 @@
             font-weight: 600;
             transition: all 0.3s;
             margin-top: 0.5rem;
-          "
-        >
-          + Nieuwe collectie maken
-        </button>
+          ">
+      + Nieuwe collectie maken
+    </button>
 
-        <div
-          id="collection_filed"
-          style="display: none; margin-top: 1rem; animation-fill-mode: forwards"
-        >
-          <input
-            type="text"
-            id="collection_name"
-            placeholder="Collectie naam..."
-            style="
+    <div id="collection_filed" style="display: none; margin-top: 1rem; animation-fill-mode: forwards">
+      <input type="text" id="collection_name" placeholder="Collectie naam..." style="
               width: 100%;
               padding: 0.75rem;
               background-color: #1e293b;
@@ -263,12 +267,8 @@
               border: 1px solid #10b981;
               border-radius: 0.5rem;
               margin-bottom: 0.5rem;
-            "
-          />
-          <button
-            id="add_collection_btn"
-            type="button"
-            style="
+            " />
+      <button id="add_collection_btn" type="button" style="
               width: 100%;
               padding: 0.75rem;
               background-color: #059669;
@@ -278,27 +278,17 @@
               cursor: pointer;
               font-weight: 600;
               transition: all 0.3s;
-            "
-          >
-            Aanmaken en spel toevoegen
-          </button>
-        </div>
-      </div>
-      <!--Notification-->
-      <div
-        id="notification"
-        role="alert"
-        class="fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-80 hidden bg-zinc-900 text-white px-4 py-3 rounded-lg shadow-lg shadow-black/40 transition-all duration-300 ease-out opacity-0 translate-y-4 z-[9999]"
-      >
-        <p
-          id="error_text"
-          class="text-white text-center text-sm sm:text-base"
-        ></p>
-      </div>
-      <!-- Modal backdrop -->
-      <div
-        id="modal_backdrop"
-        style="
+            ">
+        Aanmaken en spel toevoegen
+      </button>
+    </div>
+  </div>
+  <!--Notification-->
+  <div id="notification" role="alert" class="fixed bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-80 hidden bg-zinc-900 text-white px-4 py-3 rounded-lg shadow-lg shadow-black/40 transition-all duration-300 ease-out opacity-0 translate-y-4 z-[9999]">
+    <p id="error_text" class="text-white text-center text-sm sm:text-base"></p>
+  </div>
+  <!-- Modal backdrop -->
+  <div id="modal_backdrop" style="
           display: none;
           position: fixed;
           top: 0;
@@ -307,8 +297,7 @@
           height: 100%;
           background-color: rgba(0, 0, 0, 0.7);
           z-index: 999;
-        "
-      ></div>
-    </body>
-  
+        "></div>
+</body>
+
 </html>
