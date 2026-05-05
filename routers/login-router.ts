@@ -49,8 +49,6 @@ export function loginRoute(): Router {
           loggedIn = true;
           delete currentUser.password;
           req.session.user = currentUser;
-          if (!userId) return;
-          req.session.userId = userId.toString();
           res.redirect("/profile");
           return;
         } else {

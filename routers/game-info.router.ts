@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { Game, Users } from "../types";
 import { addReview, getAllUsers } from "../database";
+import { ObjectId } from "mongodb";
+import strict from "node:assert/strict";
 
 export function gameInfo() {
   const router: Router = Router();
@@ -56,12 +58,12 @@ export function gameInfo() {
     const reviewtxt: string = req.body.reviewtxt;
     const reviewrating: string = req.body.reviewrating;
 
-    if (req.session.userId === undefined) return;
+    if (req.session.user?._id === undefined) return;
     await addReview(
       reviewtxt,
       parseInt(reviewrating),
       req.params.id,
-      req.session.userId,
+      req.session.user?._id.toString(),
     );
 
     res.redirect(`/game-info/${req.params.id}`);
