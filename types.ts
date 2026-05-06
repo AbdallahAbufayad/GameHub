@@ -20,7 +20,7 @@ export interface user_reviews {
   rating: number;
 }
 
-interface Collection_more {
+export interface Collection_more {
   collectionName: string;
   allGames: AllGames[];
 }

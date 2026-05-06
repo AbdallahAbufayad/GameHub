@@ -1,5 +1,5 @@
 import { Collection, MongoClient, ObjectId } from "mongodb";
-import { Users, GamesApi, Results, Game } from "./types";
+import { Users, GamesApi, Collection_more } from "./types";
 import { configDotenv } from "dotenv";
 
 configDotenv();
@@ -41,6 +41,50 @@ export async function connect() {
   } catch (error) {
     console.error(error);
     process.exit(1);
+  }
+}
+
+export async function addToCollection(
+  userId: string,
+  collection: Collection_more,
+) {
+  const user: Users | null = await userCollection.findOne<Users>({
+    _id: new ObjectId(userId),
+  });
+
+  if (user === null) return;
+
+  let found = false;
+
+  for (let coll of user.collection_more) {
+    if (coll.collectionName === collection.collectionName) {
+      found = true;
+
+      await userCollection.updateOne(
+        {
+          _id: new ObjectId(userId),
+          "collection_more.collectionName": collection.collectionName,
+        },
+        {
+          $push: {
+            "collection_more.$.allGames": collection.allGames[0], // or a single game object
+          },
+        },
+      );
+    }
+  }
+
+  if (!found) {
+    await userCollection.updateOne(
+      {
+        _id: new ObjectId(userId),
+      },
+      {
+        $push: {
+          collection_more: collection,
+        },
+      },
+    );
   }
 }
 

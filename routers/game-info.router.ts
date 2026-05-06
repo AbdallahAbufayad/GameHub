@@ -1,11 +1,18 @@
 import { Router } from "express";
 import { Game, Users } from "../types";
-import { addReview, getAllUsers } from "../database";
+import { addReview, getAllUsers, addToCollection } from "../database";
 import { ObjectId } from "mongodb";
 import strict from "node:assert/strict";
 
 export function gameInfo() {
   const router: Router = Router();
+
+  router.get("/userid", async (req, res) => {
+    if (req.session.user?._id === undefined) return;
+
+    res.type("application/json");
+    res.json({ userId: req.session.user?._id.toString() });
+  });
 
   router.get("/:id", async (req, res) => {
     const theme = req.query.theme === "light";
@@ -52,6 +59,13 @@ export function gameInfo() {
       gameId: req.params.id,
       reviewCount,
     });
+  });
+
+  router.post("/addToCollection", async (req, res) => {
+    const { userId, newCollection } = req.body;
+    await addToCollection(userId, newCollection);
+
+    res.send("collection added successfully");
   });
 
   router.post("/:id", async (req, res) => {
