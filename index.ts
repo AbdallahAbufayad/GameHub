@@ -18,6 +18,7 @@ import { loginRoute } from "./routers/login-router";
 import { connect } from "./database";
 import { handleError } from "./routers/errorhandeler";
 import { logoutRouter } from "./routers/logout-router";
+import { resetPasswordRoute } from "./routers/reset-password-router";
 
 dotenv.config();
 
@@ -50,6 +51,7 @@ app.use(guessRouter);
 app.use("/login", loginRoute());
 app.use("/logout", logoutRouter());
 app.use("/register", registerRoute());
+app.use("/reset-password", resetPasswordRoute());
 app.use("/profile", secureMiddleware, profileRoute());
 app.use("/public-profile", secureMiddleware, PublicProfileRoute());
 

@@ -129,6 +129,7 @@ export function games() {
     res.render("games", {
       title: "Games",
       themaName: themaName,
+      currentPage: "games",
       filterClassName: filterClassName,
       showAllGames: showAllGames,
       previousBtnDisableValue: previousBtnDisableValue,

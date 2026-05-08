@@ -40,6 +40,7 @@ export function home() {
     res.render("home", {
       title: "GameHub",
       themaName: themaName,
+      currentPage: "home",
       pupulareGamesMostgames: pupulareGamesMostgames,
       allrecentGames: allrecentGames,
       showAllGames: showAllGames,

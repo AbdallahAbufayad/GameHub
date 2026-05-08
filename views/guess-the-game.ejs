@@ -27,10 +27,9 @@
         <%- include('partials/header-user') %>
       </div>
     </header>
- <script src="../js/auth-guard.js" defer></script>
 
     <!-- Main Content -->
-    <main id="main_content" class="animate-fade-in stagger-4 min-h-[calc(100vh-120px)] px-4 py-12">
+    <main id="main_content" class="animate-fade-in stagger-4 h-[calc(100vh-120px)] overflow-hidden px-4 py-6">
       <div id="game_mode_selection" class="w-full max-w-5xl mx-auto">
         <!-- Title Section -->
         <div class="text-center mb-16">
@@ -67,72 +66,90 @@
       </div>
 
       <!-- Image mode container -->
-      <div id="image_game_container" class="hidden w-full max-w-6xl mx-auto">
-        <button type="button" id="btn_back_to_modes"
-          class="mb-8 flex items-center gap-2 px-5 py-2.5 <%= themaName === 'light' ? 'bg-white border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-50' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-xl transition-all">
+      <div id="image_game_container" class="hidden w-full max-w-5xl mx-auto h-full flex flex-col items-center overflow-hidden">
+        <div class="w-full flex justify-start">
+          <button type="button" id="btn_back_to_modes"
+            class="mb-6 inline-flex w-fit items-center gap-2 px-5 py-2 hover:translate-y-0 <%= themaName === 'light' ? 'bg-white border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-50' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-xl transition-all">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
-          Terug naar modi
-        </button>
-
-        <div class="mb-10 rounded-2xl overflow-hidden border-4 border-emerald-500 shadow-2xl">
-          <img id="img_game_screenshot" alt="Spel screenshot" class="w-full h-auto object-cover aspect-video <%= themaName === 'light' ? 'bg-emerald-100' : 'bg-zinc-900' %>" />
+          Terug naar keuze
+          </button>
         </div>
 
-        <div class="space-y-6">
-          <!-- Guess Section -->
-          <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6">
+        <div class="mb-4 rounded-2xl overflow-hidden border-4 border-emerald-500 shadow-2xl max-w-[40vh] mx-auto w-full aspect-square">
+          <img id="img_game_screenshot" alt="Spel screenshot" class="w-full h-full object-cover <%= themaName === 'light' ? 'bg-emerald-50' : 'bg-zinc-900' %>" />
+        </div>
+
+        <div class="space-y-6 flex flex-col items-center w-full">
+          <div class="grid w-full max-w-5xl gap-4 items-start grid-cols-[minmax(0,220px)_minmax(0,1fr)_minmax(0,220px)]">
+            <!-- Score Section (left) -->
+            <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6 w-full max-w-xs self-start">
+              <div class="flex flex-col gap-5">
+                <div class="text-left">
+                  <p class="<%= themaName === 'light' ? 'text-slate-500' : 'text-zinc-400' %> text-xs uppercase tracking-wider mb-1">Score</p>
+                  <p id="image_score" class="text-4xl font-bold text-emerald-400">0</p>
+                </div>
+                <div class="text-left">
+                  <p class="<%= themaName === 'light' ? 'text-slate-500' : 'text-zinc-400' %> text-xs uppercase tracking-wider mb-1">Reeks</p>
+                  <p id="image_streak" class="text-4xl font-bold text-emerald-400">0</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Guess Section (right) -->
+            <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6 w-full max-w-2xl">
             <h3 class="text-2xl font-bold text-emerald-400 mb-4">Welk spel is dit?</h3>
             <div class="flex gap-3">
               <input id="input_image_guess" type="text" placeholder="Typ je antwoord..."
                 class="flex-1 px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-300 text-slate-900 placeholder-slate-500' : 'bg-zinc-800 border-2 border-zinc-700 text-white placeholder-zinc-500' %> rounded-lg focus:outline-none focus:border-emerald-400" />
+            </div>
+            <div class="mt-3 flex flex-col gap-2 items-center">
               <button type="button" id="btn_submit_image_guess"
-                class="px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                class="inline-flex items-center gap-2 w-fit px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
                 Geef antwoord
               </button>
-            </div>
-            <div id="image_guess_feedback" class="mt-4 text-center font-bold text-lg hidden"></div>
-          </div>
-
-          <!-- Hints Section -->
-          <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6">
-            <h3 class="text-xl font-bold text-emerald-400 mb-3">Hint nodig?</h3>
-            <button type="button" id="btn_show_hint"
-              class="w-full px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-100' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-lg transition-all">
-              Laat hint zien
-            </button>
-            <div id="hint_display" class="mt-4 <%= themaName === 'light' ? 'text-slate-700' : 'text-zinc-300' %> text-center hidden"></div>
-          </div>
-
-          <!-- Score Section -->
-          <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6">
-            <div class="flex justify-around items-center">
-              <div class="text-center">
-                <p class="<%= themaName === 'light' ? 'text-slate-500' : 'text-zinc-400' %> text-sm uppercase mb-1">Score</p>
-                <p id="image_score" class="text-4xl font-bold text-emerald-400">0</p>
-              </div>
-              <div class="text-center">
-                <p class="<%= themaName === 'light' ? 'text-slate-500' : 'text-zinc-400' %> text-sm uppercase mb-1">Reeks</p>
-                <p id="image_streak" class="text-4xl font-bold text-emerald-400">0</p>
-              </div>
               <button type="button" id="btn_next_image_game"
-                class="px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                class="inline-flex items-center gap-2 w-fit px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0-5 5m5-5H6" />
+                </svg>
                 Volgend spel
               </button>
             </div>
+            <div id="image_guess_feedback" class="mt-4 text-center font-bold text-lg hidden"></div>
+            </div>
+            <div aria-hidden="true"></div>
           </div>
+
+          <!-- Hints Section -->
+          <div class="grid w-full max-w-5xl gap-4 grid-cols-[minmax(0,220px)_minmax(0,1fr)_minmax(0,220px)]">
+            <div aria-hidden="true"></div>
+            <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6 w-full">
+              <h3 class="text-xl font-bold text-emerald-400 mb-3">Hint nodig?</h3>
+              <button type="button" id="btn_show_hint"
+                class="w-full px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-100' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-lg transition-all">
+                Laat hint zien
+              </button>
+              <div id="hint_display" class="mt-4 <%= themaName === 'light' ? 'text-slate-700' : 'text-zinc-300' %> text-center hidden"></div>
+            </div>
+            <div aria-hidden="true"></div>
+          </div>
+
         </div>
       </div>
 
       <!-- Text mode container -->
       <div id="text_game_container" class="hidden w-full max-w-5xl mx-auto">
         <button type="button" id="btn_back_to_modes_text"
-          class="mb-8 flex items-center gap-2 px-5 py-2.5 <%= themaName === 'light' ? 'bg-white border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-50' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-xl transition-all">
+          class="mb-8 flex items-center gap-2 px-5 py-2.5 hover:translate-y-0 <%= themaName === 'light' ? 'bg-white border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-50' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-xl transition-all">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
-          Terug naar modi
+          Terug naar keuze
         </button>
 
         <div id="text_description_container"
@@ -141,47 +158,63 @@
         </div>
 
         <div class="space-y-6">
-          <!-- Guess Section -->
-          <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6">
+          <div class="grid w-full max-w-5xl gap-4 items-start grid-cols-[minmax(0,220px)_minmax(0,1fr)_minmax(0,220px)]">
+            <!-- Score Section (left) -->
+            <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6 w-full max-w-xs self-start">
+              <div class="flex flex-col gap-5">
+                <div class="text-left">
+                  <p class="<%= themaName === 'light' ? 'text-slate-500' : 'text-zinc-400' %> text-xs uppercase tracking-wider mb-1">Score</p>
+                  <p id="text_score" class="text-4xl font-bold text-emerald-400">0</p>
+                </div>
+                <div class="text-left">
+                  <p class="<%= themaName === 'light' ? 'text-slate-500' : 'text-zinc-400' %> text-xs uppercase tracking-wider mb-1">Reeks</p>
+                  <p id="text_streak" class="text-4xl font-bold text-emerald-400">0</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Guess Section (right) -->
+            <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6 w-full max-w-2xl">
             <h3 class="text-2xl font-bold text-emerald-400 mb-4">Welk spel is dit?</h3>
             <div class="flex gap-3">
               <input id="input_text_guess" type="text" placeholder="Typ je antwoord..."
                 class="flex-1 px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-300 text-slate-900 placeholder-slate-500' : 'bg-zinc-800 border-2 border-zinc-700 text-white placeholder-zinc-500' %> rounded-lg focus:outline-none focus:border-emerald-400" />
+            </div>
+            <div class="mt-3 flex flex-col gap-2 items-center">
               <button type="button" id="btn_submit_text_guess"
-                class="px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                class="inline-flex items-center gap-2 w-fit px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
                 Geef antwoord
               </button>
-            </div>
-            <div id="text_guess_feedback" class="mt-4 text-center font-bold text-lg hidden"></div>
-          </div>
-
-          <!-- Clues Section -->
-          <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6">
-            <h3 class="text-xl font-bold text-emerald-400 mb-3">Hint nodig?</h3>
-            <button type="button" id="btn_show_clue"
-              class="w-full px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-100' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-lg transition-all">
-              Laat hint zien
-            </button>
-            <div id="clue_display" class="mt-4 <%= themaName === 'light' ? 'text-slate-700' : 'text-zinc-300' %> text-center hidden"></div>
-          </div>
-
-          <!-- Score Section -->
-          <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6">
-            <div class="flex justify-around items-center">
-              <div class="text-center">
-                <p class="<%= themaName === 'light' ? 'text-slate-500' : 'text-zinc-400' %> text-sm uppercase mb-1">Score</p>
-                <p id="text_score" class="text-4xl font-bold text-emerald-400">0</p>
-              </div>
-              <div class="text-center">
-                <p class="<%= themaName === 'light' ? 'text-slate-500' : 'text-zinc-400' %> text-sm uppercase mb-1">Reeks</p>
-                <p id="text_streak" class="text-4xl font-bold text-emerald-400">0</p>
-              </div>
               <button type="button" id="btn_next_text_game"
-                class="px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all ">
+                class="inline-flex items-center gap-2 w-fit px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all ">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0-5 5m5-5H6" />
+                </svg>
                 Volgend spel
               </button>
             </div>
+            <div id="text_guess_feedback" class="mt-4 text-center font-bold text-lg hidden"></div>
+            </div>
+            <div aria-hidden="true"></div>
           </div>
+
+          <!-- Clues Section -->
+          <div class="grid w-full max-w-5xl gap-4 grid-cols-[minmax(0,220px)_minmax(0,1fr)_minmax(0,220px)]">
+            <div aria-hidden="true"></div>
+            <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6 w-full">
+              <h3 class="text-xl font-bold text-emerald-400 mb-3">Hint nodig?</h3>
+              <button type="button" id="btn_show_clue"
+                class="w-full px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-100' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-lg transition-all">
+                Laat hint zien
+              </button>
+              <div id="clue_display" class="mt-4 <%= themaName === 'light' ? 'text-slate-700' : 'text-zinc-300' %> text-center hidden"></div>
+            </div>
+            <div aria-hidden="true"></div>
+          </div>
+
         </div>
       </div>
     </main>
