@@ -265,3 +265,52 @@ export async function addReview(
     },
   );
 }
+
+export async function createPasswordResetToken(
+  userId: string,
+  token: string,
+  expiresAt: Date,
+) {
+  const db = client.db("users");
+
+  await db.collection("password_resets").insertOne({
+    userId,
+    token,
+    expiresAt,
+  });
+}
+
+export async function getPasswordResetToken(token: string) {
+  const db = client.db("users");
+
+  return await db.collection("password_resets").findOne({
+    token,
+    expiresAt: {
+      $gt: new Date(),
+    },
+  });
+}
+
+export async function deletePasswordResetToken(token: string) {
+  const db = client.db("users");
+
+  await db.collection("password_resets").deleteOne({
+    token,
+  });
+}
+
+export async function updatePassword(
+  userId: string,
+  hashedPassword: string,
+) {
+  await userCollection.updateOne(
+    {
+      _id: new ObjectId(userId),
+    },
+    {
+      $set: {
+        password: hashedPassword,
+      },
+    },
+  );
+}
