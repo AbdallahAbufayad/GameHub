@@ -88,6 +88,42 @@ export async function addToCollection(
   }
 }
 
+export async function getAllCollectionsAndGamesOfCollections(userId: string) {
+  const user: Users | null = await userCollection.findOne<Users>({
+    _id: new ObjectId(userId),
+  });
+
+  if (user === null) return;
+
+  return user;
+}
+
+export async function deleteCollection(userId: string, name: string) {
+  await userCollection.updateOne(
+    { _id: new ObjectId(userId) },
+    {
+      $pull: { collection_more: { collectionName: name } },
+    },
+  );
+
+  console.log("collection was deleted successfully");
+}
+
+export async function deleteGameFromCollection(
+  userId: string,
+  name: string,
+  gameId: string,
+) {
+  await userCollection.updateOne(
+    { _id: new ObjectId(userId), "collection_more.collectionName": name },
+    {
+      $pull: { "collection_more.$.allGames": { gameId: gameId } },
+    },
+  );
+
+  console.log("collection was deleted successfully");
+}
+
 export function loginUser() {}
 
 export async function registerUser(newUser: Users) {
@@ -299,10 +335,7 @@ export async function deletePasswordResetToken(token: string) {
   });
 }
 
-export async function updatePassword(
-  userId: string,
-  hashedPassword: string,
-) {
+export async function updatePassword(userId: string, hashedPassword: string) {
   await userCollection.updateOne(
     {
       _id: new ObjectId(userId),

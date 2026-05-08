@@ -26,8 +26,7 @@ export function resetPasswordRoute(): Router {
     });
   });
 
-
-    //EMAIL WITH RESET HAS SENT!
+  //EMAIL WITH RESET HAS SENT!
 
   resetRouter.post("/", async (req, res) => {
     try {
@@ -40,8 +39,7 @@ export function resetPasswordRoute(): Router {
         return res.render("reset-password", {
           title: "Reset wachtwoord",
           themaName: res.locals.themaName,
-          notification:
-            "Als het account bestaat is er een email verstuurd.",
+          notification: "Als het account bestaat is er een email verstuurd.",
         });
       }
 
@@ -49,14 +47,10 @@ export function resetPasswordRoute(): Router {
 
       const expiresAt = new Date(Date.now() + 1000 * 60 * 60);
 
-      await createPasswordResetToken(
-        user._id!.toString(),
-        token,
-        expiresAt,
-      );
+      await createPasswordResetToken(user._id!.toString(), token, expiresAt);
 
       // SOON we use this domain. const resetLink = `https://khqledsyr.tech/reset-password/${token}`;
-        const resetLink = `http://localhost:3000/reset-password/${token}`;
+      const resetLink = `http://localhost:3000/reset-password/${token}`;
 
       await resend.emails.send({
         from: "noreply@khqledsyr.tech",
@@ -74,12 +68,11 @@ export function resetPasswordRoute(): Router {
           <p>Deze link verloopt binnen 1 uur.</p>
         `,
       });
-
+      console.log("noreply@khqledsyr.tech".charCodeAt(28));
       res.render("reset-password", {
         title: "Reset wachtwoord",
         themaName: res.locals.themaName,
-        notification:
-          "Als het account bestaat is er een email verstuurd.",
+        notification: "Als het account bestaat is er een email verstuurd.",
       });
     } catch (e) {
       console.log(e);
@@ -88,8 +81,7 @@ export function resetPasswordRoute(): Router {
     }
   });
 
-
-    //NEW PASSWORD PAGE
+  //NEW PASSWORD PAGE
 
   resetRouter.get("/:token", async (req, res) => {
     try {
@@ -125,10 +117,7 @@ export function resetPasswordRoute(): Router {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      await updatePassword(
-        resetDoc.userId,
-        hashedPassword,
-      );
+      await updatePassword(resetDoc.userId, hashedPassword);
 
       await deletePasswordResetToken(token);
 

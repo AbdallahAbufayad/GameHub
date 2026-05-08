@@ -1,7 +1,14 @@
 import { Router } from "express";
 import { Users } from "../types";
 import { getDefaultUser } from "../methods";
-import { getUser, updateUser, updateUserPicture } from "../database";
+import {
+  getUser,
+  updateUser,
+  updateUserPicture,
+  getAllCollectionsAndGamesOfCollections,
+  deleteCollection,
+  deleteGameFromCollection,
+} from "../database";
 
 export function profileRoute() {
   const profileRouter = Router();
@@ -23,6 +30,16 @@ export function profileRoute() {
       publicProfile: user.public_profile,
       currentPage: "profile",
     });
+  });
+
+  profileRouter.get("/collection", async (req, res) => {
+    if (req.session.user?._id === undefined) return;
+    let user: Users | undefined = await getAllCollectionsAndGamesOfCollections(
+      req.session.user?._id?.toString(),
+    );
+
+    res.type("application/json");
+    res.json({ user: user });
   });
 
   profileRouter.post("/", async (req, res) => {
@@ -63,24 +80,36 @@ export function profileRoute() {
     res.json({ success: true });
   });
 
+  profileRouter.post("/deletecollection", async (req, res) => {
+    const { userId, name } = req.body;
+    await deleteCollection(userId, name);
+    res.send("collection was deleted successfully");
+  });
+
+  profileRouter.post("/deletegame", async (req, res) => {
+    const { userId, name, gameId } = req.body;
+    await deleteGameFromCollection(userId, name, gameId);
+    res.send("game was deleted successfully");
+  });
+
   return profileRouter;
 }
 
 export function PublicProfileRoute() {
   const profileRouter = Router();
 
-  profileRouter.get("/:username", async(req, res) => {
+  profileRouter.get("/:username", async (req, res) => {
     const themaName: string = res.locals.themaName;
 
-    const username : string = req.params.username;
+    const username: string = req.params.username;
 
-    if(!username){
+    if (!username) {
       console.log("gebruikersnaam niet gevonden!");
     }
 
     let user: Users | undefined = await getUser(username);
 
-    if(!user){
+    if (!user) {
       user = getDefaultUser();
     }
 

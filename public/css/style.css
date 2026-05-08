@@ -5,7 +5,6 @@
   --motion-slow: 420ms;
 }
 
-
 .notification {
   position: fixed;
   left: 50%;
@@ -38,7 +37,6 @@
   top: 50%;
   transform: translate(-50%, -50%);
 }
-
 
 @keyframes motionEnter {
   from {
@@ -238,4 +236,23 @@ main {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+#collectioncontainer::-webkit-scrollbar {
+  width: 10px;
+}
+
+#collectioncontainer::-webkit-scrollbar-track {
+  background: #09090b; /* dark background */
+  border-radius: 999px;
+}
+
+#collectioncontainer::-webkit-scrollbar-thumb {
+  background: #10b981; /* emerald-500 */
+  border-radius: 999px;
+  border: 2px solid #09090b;
+}
+
+#collectioncontainer::-webkit-scrollbar-thumb:hover {
+  background: #34d399; /* emerald-400 */
 }
