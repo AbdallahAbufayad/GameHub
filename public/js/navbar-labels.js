@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   const nav = document.getElementById('nav');
   if (!nav) return;
+  const navToggle = document.getElementById('nav_toggle');
+  const navLinks = document.getElementById('nav_links');
 
   const navLabels = {
     nav_home: 'Home',
@@ -39,4 +41,32 @@ document.addEventListener('DOMContentLoaded', function () {
       setTimeout(() => { label.style.display = 'none'; }, 200);
     });
   });
+
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('nav-open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+
+      if (window.innerWidth < 1024) {
+        const labels = nav.querySelectorAll('.nav-label');
+        labels.forEach((label) => {
+          label.style.display = isOpen ? 'inline-flex' : 'none';
+          label.style.opacity = isOpen ? '1' : '0';
+          label.style.position = isOpen ? 'static' : 'absolute';
+          label.style.left = isOpen ? 'auto' : '50%';
+          label.style.transform = isOpen ? 'none' : 'translateX(-50%)';
+          label.style.marginTop = isOpen ? '0' : '0.25rem';
+          label.style.marginLeft = isOpen ? '0.5rem' : '0';
+        });
+      }
+    });
+
+    navLinks.addEventListener('click', (event) => {
+      const target = event.target;
+      if (target instanceof HTMLElement && target.closest('a')) {
+        nav.classList.remove('nav-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 });

@@ -30,7 +30,7 @@
     <!-- Main Content -->
     <main
       id="main_content"
-      class="animate-fade-in stagger-4 min-h-[calc(100vh-120px)] px-4 py-12"
+      class="animate-fade-in stagger-4 min-h-[calc(100vh-120px)] overflow-y-auto lg:overflow-hidden px-4 py-8"
     >
       <div
         id="notification"
@@ -44,14 +44,14 @@
       </div>
       <div id="game_mode_selection" class="w-full max-w-5xl mx-auto">
         <!-- Title Section -->
-        <div class="text-center mb-16">
+        <div class="text-center mb-10 sm:mb-16">
           <h1
             id="mode_title"
-            class="text-5xl md:text-6xl font-bold text-emerald-400 mb-6"
+            class="text-3xl sm:text-4xl md:text-6xl font-bold text-emerald-400 mb-4 sm:mb-6"
           >
             Games vergelijken
           </h1>
-          <p id="mode_subtitle" class="text-xl <%= themaName === 'light' ? 'text-slate-600' : 'text-zinc-400' %>">
+          <p id="mode_subtitle" class="text-base sm:text-xl <%= themaName === 'light' ? 'text-slate-600' : 'text-zinc-400' %>">
             Kies twee spellen hieronder om te vergelijken
           </p>
         </div>
@@ -62,10 +62,10 @@
           <button
             type="button"
             id="btn_left_game"
-            class="game-mode-card animate-fade-in stagger-1 <%= themaName === 'light' ? 'bg-gradient-to-b from-emerald-50 to-white border-4 border-emerald-300 hover:bg-emerald-100' : 'bg-zinc-900 border-4 border-zinc-800 hover:bg-zinc-800' %> rounded-2xl p-10 min-h-[350px] flex flex-col items-center justify-center gap-6 hover:border-emerald-400 hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl relative overflow-hidden"
+            class="game-mode-card animate-fade-in stagger-1 <%= themaName === 'light' ? 'bg-gradient-to-b from-emerald-50 to-white border-4 border-emerald-300 hover:bg-emerald-100' : 'bg-zinc-900 border-4 border-zinc-800 hover:bg-zinc-800' %> rounded-2xl p-6 sm:p-10 min-h-[260px] sm:min-h-[350px] flex flex-col items-center justify-center gap-4 sm:gap-6 hover:border-emerald-400 hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl relative overflow-hidden"
           >
             <div
-              class="w-28 h-28 <%= themaName === 'light' ? 'bg-emerald-200 text-emerald-900' : 'bg-zinc-700' %> rounded-full flex items-center justify-center z-10"
+              class="w-20 h-20 sm:w-28 sm:h-28 <%= themaName === 'light' ? 'bg-emerald-200 text-emerald-900' : 'bg-zinc-700' %> rounded-full flex items-center justify-center z-10"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="size-12"
+                class="size-10 sm:size-12"
               >
                 <path
                   stroke-linecap="round"
@@ -82,16 +82,16 @@
                 />
               </svg>
             </div>
-            <h2 class="text-3xl font-bold <%= themaName === 'light' ? 'text-emerald-900' : 'text-white' %> z-10">Kies een game</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold <%= themaName === 'light' ? 'text-emerald-900' : 'text-white' %> z-10">Kies een game</h2>
           </button>
 
           <button
             type="button"
             id="btn_right_game"
-            class="game-mode-card animate-fade-in stagger-2 <%= themaName === 'light' ? 'bg-gradient-to-b from-emerald-50 to-white border-4 border-emerald-300 hover:bg-emerald-100' : 'bg-zinc-900 border-4 border-zinc-800 hover:bg-zinc-800' %> rounded-2xl p-10 min-h-[350px] flex flex-col items-center justify-center gap-6 hover:border-emerald-400 hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl relative overflow-hidden"
+            class="game-mode-card animate-fade-in stagger-2 <%= themaName === 'light' ? 'bg-gradient-to-b from-emerald-50 to-white border-4 border-emerald-300 hover:bg-emerald-100' : 'bg-zinc-900 border-4 border-zinc-800 hover:bg-zinc-800' %> rounded-2xl p-6 sm:p-10 min-h-[260px] sm:min-h-[350px] flex flex-col items-center justify-center gap-4 sm:gap-6 hover:border-emerald-400 hover:scale-105 active:scale-95 transition-all duration-300 shadow-xl relative overflow-hidden"
           >
             <div
-              class="w-28 h-28 <%= themaName === 'light' ? 'bg-emerald-200 text-emerald-900' : 'bg-zinc-700' %> rounded-full flex items-center justify-center z-10"
+              class="w-20 h-20 sm:w-28 sm:h-28 <%= themaName === 'light' ? 'bg-emerald-200 text-emerald-900' : 'bg-zinc-700' %> rounded-full flex items-center justify-center z-10"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="size-12"
+                class="size-10 sm:size-12"
               >
                 <path
                   stroke-linecap="round"
@@ -108,7 +108,7 @@
                 />
               </svg>
             </div>
-            <h2 class="text-3xl font-bold <%= themaName === 'light' ? 'text-emerald-900' : 'text-white' %> z-10">Kies een game</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold <%= themaName === 'light' ? 'text-emerald-900' : 'text-white' %> z-10">Kies een game</h2>
           </button>
         </div>
         <div

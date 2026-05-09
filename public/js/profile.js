@@ -4,6 +4,7 @@ const collection_modal_backdrop = document.querySelector(
 );
 const modal_body = document.querySelector("#modal_body");
 const btn_close_modal = document.querySelector("#btn_close_modal");
+const toggle_collections = document.querySelector("#toggle_collections");
 
 async function main() {
   const res = await fetch("http://localhost:3000/profile/collection");
@@ -175,6 +176,13 @@ async function main() {
   btn_close_modal.addEventListener("click", () => {
     collection_modal_backdrop.style.display = "none";
   });
+
+  if (toggle_collections) {
+    toggle_collections.addEventListener("click", () => {
+      const isHidden = collectioncontainer.classList.toggle("hidden");
+      toggle_collections.textContent = isHidden ? "Toon" : "Verberg";
+    });
+  }
 }
 
 main();

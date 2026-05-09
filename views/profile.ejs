@@ -31,7 +31,7 @@
     <div class="max-w-7xl mx-auto px-4 py-6 lg:py-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Left Column - Profile Info & Settings -->
-        <div class="lg:col-span-2 space-y-6">
+        <div class="lg:col-span-2 space-y-6 order-2 lg:order-none">
           <!-- Profile Header Card -->
           <div class="<%= themaName === 'light' ? 'bg-white border-emerald-200' : 'bg-zinc-900 border-emerald-500' %> border-2 rounded-2xl p-6 shadow-xl">
             <div class="flex flex-col items-center">
@@ -113,11 +113,16 @@
         </div>
 
         <!-- Right Column - Collections -->
-        <div class="lg:col-span-1 flex flex-col gap-3">
-          <h2 id="collections_section_title" class="text-2xl md:text-3xl font-bold text-emerald-400 mb-2">
-            Collecties
-          </h2>
-          <div id="collectioncontainer" class="flex flex-col gap-4 p-4  rounded-2xl shadow-xl w-fit h-80 overflow-y-auto">
+        <div class="lg:col-span-1 flex flex-col gap-3 order-1 lg:order-none">
+          <div class="flex items-center justify-between gap-3">
+            <h2 id="collections_section_title" class="text-2xl md:text-3xl font-bold text-emerald-400">
+              Collecties
+            </h2>
+            <button type="button" id="toggle_collections" class="lg:hidden games-btn games-btn-ghost px-3 py-1.5 text-xs">
+              Verberg
+            </button>
+          </div>
+          <div id="collectioncontainer" class="flex flex-col gap-4 p-4 rounded-2xl shadow-xl w-full max-h-80 overflow-y-auto">
           </div>
         </div>
         <!-- Collection Modal Backdrop -->
