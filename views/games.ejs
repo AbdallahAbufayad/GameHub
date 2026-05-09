@@ -7,14 +7,14 @@
   <title><%= title %></title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="js/games.js" defer></script>
 </head>
 
-<body class="min-h-screen <%= themaName === 'light' ? 'bg-slate-50 text-slate-900' : 'bg-slate-950 text-slate-200' %>">
-  <header class="py-4 px-4 border-b <%= themaName === 'light' ? 'bg-slate-50/95 border-slate-300' : 'bg-slate-950/95 border-zinc-700' %>">
+<body class="games-body min-h-screen <%= themaName === 'light' ? 'theme-light' : 'theme-dark' %>">
+  <header class="games-header">
     <div class="flex flex-col items-center gap-6 lg:grid lg:grid-cols-[10%_80%_10%] lg:items-center lg:gap-0">
       <a href="/home" class="animate-fade-in stagger-1">
         <div id="logo" class="text-emerald-400 text-xl md:text-2xl font-bold tracking-wide px-3 py-1.5 rounded-lg transition-all duration-300 hover:text-emerald-300 hover:bg-emerald-950/50 hover:scale-110 hover:shadow-lg hover:shadow-emerald-500/50 hover:-rotate-2">
@@ -28,117 +28,113 @@
     </div>
   </header>
 
-  <main class="animate-fade-in stagger-4 container mx-auto px-4 py-8">
-    <form>
-      <div class="flex flex-col sm:flex-row gap-2 mb-8 md:mb-12 max-w-2xl mx-auto">
-        <label class="flex items-center gap-2 cursor-pointer">
-          <input id="searchForUsers" name="searchForUsers" type="checkbox" value="checked" class="w-5 h-5 sm:w-6 sm:h-6 accent-emerald-500" />
-          <span class="text-zinc-300 font-semibold text-sm sm:text-base">
-            Zoeken voor gebruikers
-          </span>
-        </label>
-        <!---->
-        <div class="relative w-full">
-          <input id="search_input" name="searchGame" value="<%= searchGame%>" type="text" placeholder="Zoek voor games..." class="w-full rounded-lg sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all duration-300 pr-10 sm:pr-12 <%= themaName === 'light' ? 'bg-white text-slate-900 border border-emerald-500 placeholder-slate-400' : 'bg-slate-800 text-slate-100 border border-emerald-500 placeholder-zinc-500' %>" />
-
-          <button id="clear_btn" type="submit" name="clearField" value="clicked" class="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white text-sm sm:text-base transition-colors duration-200">
-            ✕
-          </button>
-        </div>
-
-        <!--Here comes the filter button-->
-
-        <div class="flex gap-2">
-
-          <button type="button" id="btn_filter_container" class="px-4 sm:px-6 py-2 sm:py-3 rounded-lg border transition-all duration-300 hover:bg-emerald-500 hover:border-emerald-500 hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-emerald-500/20 font-semibold text-sm sm:text-base <%= themaName === 'light' ? 'bg-white text-slate-900 border-emerald-500' : 'bg-slate-800 text-slate-100 border-emerald-500' %>">
-            <!--filter icon-->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2l-7 7v5l-4 2v-7L3 6V4z" />
-            </svg>
-          </button>
-
-        </div>
-
-        <button class="rounded-xl p-2 border border-emerald-500 <%= themaName === 'light' ? 'bg-white text-slate-900' : 'bg-slate-800 text-slate-100' %>" name="search" value="clicked" type="submit">Search</button>
-
-
-        <!-- filter list-->
+  <main class="games-page animate-fade-in stagger-4">
+    <section class="games-hero">
+      <div class="games-hero-content">
+        <p class="games-kicker mb-3">Game Hub</p>
+        <h2 id="txtOfPage" class="games-title font-extrabold mb-3">
+          Alle games
+        </h2>
+        <p class="games-subtitle">
+          Ontdek nieuwe favorieten, filter razendsnel en zweef over elke kaart voor een cinematic vibe.
+        </p>
       </div>
 
-      <div class="<%= themaName === 'light' ? ' bg-slate-900 border-slate-300' : ' bg-slate-900 border-slate-100' %>  hidden opacity-0  scale-95 -translate-y-2 border rounded-xl backdrop-blur-sm shadow-2xl z-50 flex-col p-4 gap-2 w-80 absolute top-18 left-1/2 -translate-x-1/2 transition-all duration-300 ease-in-out" id="filter_container">
-        <h3 class="text-sm font-bold text-emerald-400 mb-1 text-center border-b border-emerald-500/30 pb-2">
-          Filter opties
-        </h3>
+      <form class="games-toolbar" method="get">
+        <div class="games-toolbar-row">
+          <label class="games-chip cursor-pointer">
+            <input id="searchForUsers" name="searchForUsers" type="checkbox" value="checked" class="w-5 h-5 accent-emerald-500" />
+            <span class="font-semibold text-sm sm:text-base">Zoeken voor gebruikers</span>
+          </label>
 
+          <div class="games-search">
+            <input id="search_input" name="searchGame" value="<%= searchGame%>" type="text" placeholder="Zoek voor games..." class="games-input text-sm sm:text-base" />
+            <button id="clear_btn" type="submit" name="clearField" value="clicked" class="games-clear absolute right-3 top-1/2 -translate-y-1/2 text-sm sm:text-base">
+              ✕
+            </button>
+          </div>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Rating_count">
-          <span class="text-white">Beoordelingen aantal</span>
-          <input type="checkbox" name="sortfield" value="ratingCount" <%= sortfield === "ratingCount" ? "checked" : "" %> id="Rating_count" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
+          <div class="games-toolbar-actions">
+            <button type="button" id="btn_filter_container" class="games-btn games-btn-ghost px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2l-7 7v5l-4 2v-7L3 6V4z" />
+              </svg>
+            </button>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Alfabetisch_A_Z">
-          <span class="text-white">Naam alfabetisch (A-Z)</span>
-          <input type="checkbox" name="sortfield" value="Name_alphabetically_A_Z" <%= sortfield === "Name_alphabetically_A_Z" ? "checked" : "" %> id="Alfabetisch_A_Z" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
+            <button class="games-btn games-btn-primary px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base" name="search" value="clicked" type="submit">
+              Search
+            </button>
+          </div>
+        </div>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Alfabetisch_Z_A">
-          <span class="text-white">Naam alfabetisch (Z-A)</span>
-          <input type="checkbox" name="sortfield" value="Name_alphabetically_Z_A" <%= sortfield === "Name_alphabetically_Z_A" ? "checked" : "" %> id="Alfabetisch_Z_A" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
+        <div id="filter_container" class="games-filter-panel hidden opacity-0 scale-95 -translate-y-2 transition-all duration-300 ease-in-out z-50">
+          <h3 class="games-filter-title text-center">Filter opties</h3>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Rating_asc">
-          <span class="text-white">Beoordeling (oplopend)</span>
-          <input type="checkbox" name="sortfield" value="ratingAsc" <%= sortfield === "ratingAsc" ? "checked" : "" %> id="Rating_asc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
+          <label class="games-filter-item text-sm" for="Rating_count">
+            <span>Beoordelingen aantal</span>
+            <input type="checkbox" name="sortfield" value="ratingCount" <%= sortfield === "ratingCount" ? "checked" : "" %> id="Rating_count" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Rating_desc">
-          <span class="text-white">Beoordeling (aflopend)</span>
-          <input type="checkbox" name="sortfield" value="ratingDesc" <%= sortfield === "ratingDesc" ? "checked" : "" %> id="Rating_desc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
+          <label class="games-filter-item text-sm" for="Alfabetisch_A_Z">
+            <span>Naam alfabetisch (A-Z)</span>
+            <input type="checkbox" name="sortfield" value="Name_alphabetically_A_Z" <%= sortfield === "Name_alphabetically_A_Z" ? "checked" : "" %> id="Alfabetisch_A_Z" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Release_Year_asc">
-          <span class="text-white">Uitgebracht jaar (oplopend)</span>
-          <input type="checkbox" name="sortfield" value="releaseYearAsc" <%= sortfield === "releaseYearAsc" ? "checked" : "" %> id="Release_Year_asc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
+          <label class="games-filter-item text-sm" for="Alfabetisch_Z_A">
+            <span>Naam alfabetisch (Z-A)</span>
+            <input type="checkbox" name="sortfield" value="Name_alphabetically_Z_A" <%= sortfield === "Name_alphabetically_Z_A" ? "checked" : "" %> id="Alfabetisch_Z_A" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="Release_Year_desc">
-          <span class="text-white">Uitgebracht jaar (aflopend)</span>
-          <input type="checkbox" name="sortfield" value="releaseYearDesc" <%= sortfield === "releaseYearDesc" ? "checked" : "" %> id="Release_Year_desc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
+          <label class="games-filter-item text-sm" for="Rating_asc">
+            <span>Beoordeling (oplopend)</span>
+            <input type="checkbox" name="sortfield" value="ratingAsc" <%= sortfield === "ratingAsc" ? "checked" : "" %> id="Rating_asc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="singleplayer">
-          <span class="text-white">Een speler</span>
-          <input type="checkbox" name="sortfield" value="singlePlayer" <%= sortfield === "singlePlayer" ? "checked" : "" %> id="singleplayer" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
+          <label class="games-filter-item text-sm" for="Rating_desc">
+            <span>Beoordeling (aflopend)</span>
+            <input type="checkbox" name="sortfield" value="ratingDesc" <%= sortfield === "ratingDesc" ? "checked" : "" %> id="Rating_desc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
 
-        <label class="flex items-center justify-between gap-2 cursor-pointer hover:bg-zinc-800/50 px-2 py-1.5 rounded transition text-sm" for="multiplayer">
-          <span class="text-white">Meerdere spelers</span>
-          <input type="checkbox" name="sortfield" value="multiplayer" <%= sortfield === "multiplayer" ? "checked" : "" %> id="multiplayer" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
-        </label>
-    </form>
-    </div>
+          <label class="games-filter-item text-sm" for="Release_Year_asc">
+            <span>Uitgebracht jaar (oplopend)</span>
+            <input type="checkbox" name="sortfield" value="releaseYearAsc" <%= sortfield === "releaseYearAsc" ? "checked" : "" %> id="Release_Year_asc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
 
-    <section id="section_all_games" class="mb-12 md:mb-16 relative">
+          <label class="games-filter-item text-sm" for="Release_Year_desc">
+            <span>Uitgebracht jaar (aflopend)</span>
+            <input type="checkbox" name="sortfield" value="releaseYearDesc" <%= sortfield === "releaseYearDesc" ? "checked" : "" %> id="Release_Year_desc" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
+
+          <label class="games-filter-item text-sm" for="singleplayer">
+            <span>Een speler</span>
+            <input type="checkbox" name="sortfield" value="singlePlayer" <%= sortfield === "singlePlayer" ? "checked" : "" %> id="singleplayer" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
+
+          <label class="games-filter-item text-sm" for="multiplayer">
+            <span>Meerdere spelers</span>
+            <input type="checkbox" name="sortfield" value="multiplayer" <%= sortfield === "multiplayer" ? "checked" : "" %> id="multiplayer" class="w-3.5 h-3.5 accent-emerald-500 cursor-pointer" />
+          </label>
+        </div>
+      </form>
+    </section>
+
+    <section id="section_all_games" class="relative">
       <!-- Navigation buttons -->
       <form action="/games" method="get">
-        <button id="btn_left" type="submit" value="clicked" <%= previousBtnDisableValue%> name="previous_btn" aria-label="Previous games" class="absolute top-0 -translate-y-1/2 left-2 sm:left-4 md:left-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 <%= themaName === 'light' ? 'bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-800 border-emerald-700' : 'bg-gradient-to-br from-slate-900 to-slate-950 text-emerald-300' %> hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:hover:scale-100 disabled:shadow-none">
+        <button id="btn_left" type="submit" value="clicked" <%= previousBtnDisableValue%> name="previous_btn" aria-label="Previous games" class="games-nav-btn games-nav-btn-left">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
           </svg>
         </button>
 
-        <button id="btn_right" type="submit" name="next_btn" value="clicked" aria-label="Next games" class="absolute top-0 -translate-y-1/2 right-2 sm:right-4 md:right-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 <%= themaName === 'light' ? 'bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-800 border-emerald-700' : 'bg-gradient-to-br from-slate-900 to-slate-950 text-emerald-300' %> hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:hover:scale-100 disabled:shadow-none">
+        <button id="btn_right" type="submit" name="next_btn" value="clicked" aria-label="Next games" class="games-nav-btn games-nav-btn-right">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
           </svg>
         </button>
       </form>
 
-      <h2 id="txtOfPage" class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-center mb-6 md:mb-8 px-10 sm:px-16 md:px-20">
-        Alle spellen
-      </h2>
-
-      <div id="div_all_games" class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-500' : 'bg-slate-900 border-2 border-emerald-500' %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300 h-fit">
+      <div id="div_all_games" class="games-panel">
         <!--load indicator-->
         <!--
             <div class="loading-overlay" id="loadingOverlay">
@@ -153,12 +149,12 @@
             
             
             -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4" id="games_container">
+        <div class="games-grid" id="games_container">
           <!--all games-->
 
           <%if(checked) {%>
           <%userProfile1.forEach((userProfile, index) => {%>
-          <div class="animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+          <div class="game-card animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square">
             <div class="absolute inset-0">
                <%if(userProfile.profile_picture === ""){%>
                    <img class="w-full h-full object-cover" alt="<%= userProfile.username%>" src="/images/user.png" loading="lazy" decoding="async">
@@ -169,7 +165,7 @@
               
             </div>
             <a class="absolute inset-0 z-10" href="/profile" target="_self" aria-label="Ga naar <%= userProfile.name%>">
-              <p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= userProfile.username%></p>
+              <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= userProfile.username%></p>
             </a>
           </div>
           <% }) %>
@@ -177,12 +173,12 @@
             <%}else{%>
           <% showAllGames.forEach((showAllGame, index) => { %>
 
-          <div class="animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+          <div class="game-card animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square">
             <div class="absolute inset-0">
               <img class="w-full h-full object-cover" alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">
             </div>
             <a class="absolute inset-0 z-10" href="/game-info/<%= showAllGame.id %>" target="_self" aria-label="Ga naar <%= showAllGame.name%>">
-              <p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= showAllGame.name%></p>
+              <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= showAllGame.name%></p>
             </a>
           </div>
 

@@ -7,14 +7,14 @@
   <title><%= title %></title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   
 </head>
 
-<body class="min-h-screen <%= themaName === 'light' ? 'bg-slate-50 text-slate-900' : 'bg-slate-950 text-slate-200' %>">
-    <header class="py-4 px-4 border-b <%= themaName === 'light' ? 'bg-slate-50/95 border-slate-300' : 'bg-slate-950/95 border-zinc-700' %>">
+<body class="games-body min-h-screen <%= themaName === 'light' ? 'theme-light' : 'theme-dark' %>">
+  <header class="games-header">
       <div class="flex flex-col items-center gap-6 lg:grid lg:grid-cols-[10%_80%_10%] lg:items-center lg:gap-0">
         <a href="/home" class="animate-fade-in stagger-1">
           <div id="logo" class="text-emerald-400 text-xl md:text-2xl font-bold tracking-wide px-3 py-1.5 rounded-lg transition-all duration-300 hover:text-emerald-300 hover:bg-emerald-950/50 hover:scale-110 hover:shadow-lg hover:shadow-emerald-500/50 hover:-rotate-2">
@@ -29,35 +29,35 @@
     </header>
 
       <!--Main-->
-      <main class="animate-fade-in stagger-4 container mx-auto px-4 py-8">
+      <main class="games-page animate-fade-in stagger-4">
         <!--Sectios-->
 
         <!--Popular section-->
         <section
           id="section_popular"
-          class="mb-12 md:mb-16 -z-10"
+          class="-z-10"
         >
           <h2
-            class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-center mb-6 md:mb-8"
+            class="games-title text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6"
           >
-            Populaire spellen
+            Populaire games
           </h2>
           <div
             id="div_popular_games"
-            class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-500' : 'bg-slate-900 border-2 border-emerald-500' %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
+            class="games-panel"
           >
             <div
               id="popular_games"
-              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4"
+              class="games-grid"
             >
 
             <%for(let pupulareGamesMostgame of pupulareGamesMostgames){%>
 
-                <div class="relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+                <div class="game-card relative w-full aspect-square">
                   <div class="absolute inset-0">
                     <img class="w-full h-full object-cover" alt="<%= pupulareGamesMostgame.name%>" src="<%= pupulareGamesMostgame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                  <a class="absolute inset-0 z-10" href="/game-info/<%= pupulareGamesMostgame.id%>" target="_self" aria-label="Ga naar <%= pupulareGamesMostgame.name%>"><p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= pupulareGamesMostgame.name%></p></a>
+                  <a class="absolute inset-0 z-10" href="/game-info/<%= pupulareGamesMostgame.id%>" target="_self" aria-label="Ga naar <%= pupulareGamesMostgame.name%>"><p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= pupulareGamesMostgame.name%></p></a>
                 </div>
 
                 <%}%>
@@ -69,28 +69,28 @@
         <!--Recent section-->
         <section
           id="section_recent"
-          class="mb-12 md:mb-16"
+          class=""
         >
           <h2
-            class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-center mb-6 md:mb-8"
+            class="games-title text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6"
           >
-            Recent uitgekomen spellen
+            Recent uitgekomen games
           </h2>
           <div
             id="div_recent_games"
-            class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-500' : 'bg-slate-900 border-2 border-emerald-500' %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
+            class="games-panel"
           >
             <div
               id="recent_games"
-              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4"
+              class="games-grid"
             >
               <%for(let allrecentGame of allrecentGames){%>
 
-                <div class="relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+                <div class="game-card relative w-full aspect-square">
                   <div class="absolute inset-0">
                     <img class="w-full h-full object-cover" alt="<%= allrecentGame.name%>" src="<%= allrecentGame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                  <a class="absolute inset-0 z-10" href="/game-info/<%= allrecentGame.id%>" target="_self" aria-label="Ga naar <%= allrecentGame.name%>"><p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= allrecentGame.name%></p></a>
+                  <a class="absolute inset-0 z-10" href="/game-info/<%= allrecentGame.id%>" target="_self" aria-label="Ga naar <%= allrecentGame.name%>"><p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= allrecentGame.name%></p></a>
                 </div>
 
                 <%}%>
@@ -101,7 +101,7 @@
         <!--More section...-->
         <section
           id="section_more"
-          class="mb-12 md:mb-16 relative"
+          class="relative"
         >
           <!-- Navigation buttons – responsive version -->
           <form action="/home" method="get">
@@ -112,7 +112,7 @@
             <%= previousBtnDisableValue%>
             name="previous_btn"
             aria-label="Previous games"
-            class="absolute top-0 -translate-y-1/2 left-2 sm:left-4 md:left-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 <%= themaName === 'light' ? 'bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-800 border-emerald-700' : 'bg-gradient-to-br from-slate-900 to-slate-950 text-emerald-300' %> hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:hover:scale-100 disabled:shadow-none"
+            class="games-nav-btn games-nav-btn-left"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -136,7 +136,7 @@
             name="next_btn"
             value="clicked"
             aria-label="Next games"
-            class="absolute top-0 -translate-y-1/2 right-2 sm:right-4 md:right-6 z-10 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-emerald-400 <%= themaName === 'light' ? 'bg-gradient-to-br from-emerald-50 to-emerald-100 text-emerald-800 border-emerald-700' : 'bg-gradient-to-br from-slate-900 to-slate-950 text-emerald-300' %> hover:border-emerald-300 hover:text-emerald-100 hover:scale-110 transition-all duration-300 shadow-lg shadow-emerald-500/20 text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:border-zinc-700 disabled:text-zinc-600 disabled:hover:scale-100 disabled:shadow-none"
+            class="games-nav-btn games-nav-btn-right"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -156,14 +156,14 @@
           </form>
 
           <h2
-            class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-wide text-center mb-6 md:mb-8 px-10 sm:px-16 md:px-20"
+            class="games-title text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6"
           >
             Meerdere games
           </h2>
 
           <div
             id="div_all_games"
-            class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-500' : 'bg-slate-900 border-2 border-emerald-500' %> rounded-xl p-4 md:p-6 hover:border-emerald-300 transition-all duration-300"
+            class="games-panel"
           >
             <!--
           
@@ -178,17 +178,17 @@
             </div>
             -->
             <div
-              class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4"
+              class="games-grid"
               id="games_container"
             >
               <!--allgames-->
               <%for(let showAllGame of showAllGames){%>
 
-                <div class="relative w-full aspect-square rounded-xl overflow-hidden border-2 border-zinc-700 bg-zinc-900 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-zinc-800">
+                <div class="game-card relative w-full aspect-square">
                   <div class="absolute inset-0">
                     <img class="w-full h-full object-cover" alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                  <a class="absolute inset-0 z-10" href="/game-info/<%= showAllGame.id%>" target="_self" aria-label="Ga naar <%= showAllGame.name%>"><p class="absolute inset-x-0 bottom-0 p-4 text-center bg-gradient-to-t from-black/85 via-black/45 to-transparent text-white font-bold text-base drop-shadow"><%= showAllGame.name%></p></a>
+                  <a class="absolute inset-0 z-10" href="/game-info/<%= showAllGame.id%>" target="_self" aria-label="Ga naar <%= showAllGame.name%>"><p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= showAllGame.name%></p></a>
                 </div>
 
                 <%}%>

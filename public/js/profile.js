@@ -50,7 +50,7 @@ async function main() {
 
     btnCollectionName.innerHTML = userinfo.collectionName;
 
-    btnCollectionName.addEventListener("click", () => {
+    const openCollectionModal = () => {
       collection_modal_backdrop.style.display = "flex";
       modal_body.innerHTML = "";
       for (let game of userinfo.allGames) {
@@ -93,7 +93,8 @@ async function main() {
           "shadow-md",
         );
 
-        btnDelteGame.addEventListener("click", async () => {
+        btnDelteGame.addEventListener("click", async (event) => {
+          event.stopPropagation();
           const user = await fetch("http://localhost:3000/game-info/userid");
           const userId = await user.json();
 
@@ -115,6 +116,15 @@ async function main() {
 
         modal_body.appendChild(gameContainer);
       }
+    };
+
+    collectionContainerOfGames.addEventListener("click", () => {
+      openCollectionModal();
+    });
+
+    btnCollectionName.addEventListener("click", (event) => {
+      event.stopPropagation();
+      openCollectionModal();
     });
 
     btnDeleteCollection.classList.add(
@@ -139,7 +149,8 @@ async function main() {
     btnDeleteCollection.dataset.name = "delbtn";
     btnDeleteCollection.innerHTML = "X";
 
-    btnDeleteCollection.addEventListener("click", async () => {
+    btnDeleteCollection.addEventListener("click", async (event) => {
+      event.stopPropagation();
       const user = await fetch("http://localhost:3000/game-info/userid");
       const userId = await user.json();
 

@@ -8,5 +8,6 @@ export const handleError = (
 ) => {
   res.status(400).render("error", {
     message: err.message,
+    themaName: res.locals.themaName,
   });
 };
