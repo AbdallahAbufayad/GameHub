@@ -22,5 +22,8 @@
   <%}%>
 
     </div>
+    <% if (locals.user && locals.user.username) { %>
+      <span class="header-username"><%= user.username %></span>
+    <% } %>
   </a>
 </div>

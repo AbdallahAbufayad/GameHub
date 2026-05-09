@@ -77,7 +77,7 @@
           </button>
         </div>
 
-        <div class="mb-4 rounded-2xl overflow-hidden border-2 border-emerald-500 shadow-2xl max-w-5xl mx-auto w-full aspect-square">
+        <div class="mb-4 rounded-2xl overflow-hidden border-2 border-emerald-500 shadow-2xl w-full max-w-3xl mx-auto aspect-[4/3] max-h-[520px]">
           <img id="img_game_screenshot" alt="Spel screenshot" class="w-full h-full object-cover <%= themaName === 'light' ? 'bg-emerald-50' : 'bg-zinc-900' %>" />
         </div>
 
@@ -104,16 +104,16 @@
               <input id="input_image_guess" type="text" placeholder="Typ je antwoord..."
                 class="flex-1 px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-300 text-slate-900 placeholder-slate-500' : 'bg-zinc-800 border-2 border-zinc-700 text-white placeholder-zinc-500' %> rounded-lg focus:outline-none focus:border-emerald-400" />
             </div>
-            <div class="mt-3 flex flex-col gap-2 items-center">
+            <div class="mt-3 flex flex-wrap justify-center gap-3">
               <button type="button" id="btn_submit_image_guess"
-                class="inline-flex items-center gap-2 w-fit px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                class="inline-flex items-center gap-2 w-fit px-5 py-2.5 text-sm bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
                 Geef antwoord
               </button>
               <button type="button" id="btn_next_image_game"
-                class="inline-flex items-center gap-2 w-fit px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                class="inline-flex items-center gap-2 w-fit px-5 py-2.5 text-sm bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0-5 5m5-5H6" />
                 </svg>
@@ -122,13 +122,7 @@
             </div>
             <div id="image_guess_feedback" class="mt-4 text-center font-bold text-lg hidden"></div>
             </div>
-            <div aria-hidden="true"></div>
-          </div>
-
-          <!-- Hints Section -->
-          <div class="grid w-full max-w-5xl gap-4 grid-cols-[minmax(0,220px)_minmax(0,1fr)_minmax(0,220px)]">
-            <div aria-hidden="true"></div>
-            <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6 w-full">
+            <div class="<%= themaName === 'light' ? 'bg-white border-2 border-emerald-400' : 'bg-zinc-900 border-2 border-emerald-500' %> rounded-xl p-6 w-full max-w-xs self-start">
               <h3 class="text-xl font-bold text-emerald-400 mb-3">Hint nodig?</h3>
               <button type="button" id="btn_show_hint"
                 class="w-full px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-500 text-emerald-900 hover:bg-emerald-100' : 'bg-zinc-800 border-2 border-emerald-500 text-white hover:bg-zinc-700' %> rounded-lg transition-all">
@@ -136,7 +130,6 @@
               </button>
               <div id="hint_display" class="mt-4 <%= themaName === 'light' ? 'text-slate-700' : 'text-zinc-300' %> text-center hidden"></div>
             </div>
-            <div aria-hidden="true"></div>
           </div>
 
         </div>
@@ -180,16 +173,16 @@
               <input id="input_text_guess" type="text" placeholder="Typ je antwoord..."
                 class="flex-1 px-4 py-3 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-300 text-slate-900 placeholder-slate-500' : 'bg-zinc-800 border-2 border-zinc-700 text-white placeholder-zinc-500' %> rounded-lg focus:outline-none focus:border-emerald-400" />
             </div>
-            <div class="mt-3 flex flex-col gap-2 items-center">
+            <div class="mt-3 flex flex-wrap justify-center gap-3">
               <button type="button" id="btn_submit_text_guess"
-                class="inline-flex items-center gap-2 w-fit px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
+                class="inline-flex items-center gap-2 w-fit px-5 py-2.5 text-sm bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
                 Geef antwoord
               </button>
               <button type="button" id="btn_next_text_game"
-                class="inline-flex items-center gap-2 w-fit px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all ">
+                class="inline-flex items-center gap-2 w-fit px-5 py-2.5 text-sm bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-400 transition-all ">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0-5 5m5-5H6" />
                 </svg>

@@ -13,7 +13,7 @@
   <script src="/js/profile.js" defer></script>
 </head>
 
-<body class="games-body min-h-screen <%= themaName === 'light' ? 'theme-light' : 'theme-dark' %>">
+<body class="games-body min-h-screen profile-page <%= themaName === 'light' ? 'theme-light' : 'theme-dark' %>">
   <header class="games-header">
     <div class="flex flex-col items-center gap-6 lg:grid lg:grid-cols-[10%_80%_10%] lg:items-center lg:gap-0">
       <a href="/home" class="animate-fade-in stagger-1">
@@ -27,16 +27,16 @@
       <%- include('partials/header-user') %>
     </div>
   </header>
-  <main class="animate-fade-in stagger-4">
-    <div class="max-w-7xl mx-auto px-4 py-6 lg:py-8">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <main class="animate-fade-in stagger-4 profile-main">
+    <div class="max-w-7xl mx-auto px-4 py-6 lg:py-8 profile-shell">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 profile-grid">
         <!-- Left Column - Profile Info & Settings -->
         <div class="lg:col-span-2 space-y-6 order-2 lg:order-none">
           <!-- Profile Header Card -->
-          <div class="<%= themaName === 'light' ? 'bg-white border-emerald-200' : 'bg-zinc-900 border-emerald-500' %> border-2 rounded-2xl p-6 shadow-xl">
+          <div class="profile-card <%= themaName === 'light' ? 'bg-white border-emerald-200' : 'bg-zinc-900 border-emerald-500' %> border-2 rounded-2xl p-6 shadow-xl">
             <div class="flex flex-col items-center">
               <div class="relative mb-4">
-                <div class="w-24 h-24 bg-linear-to-br from-emerald-400 to-emerald-600 p-1 rounded-full shadow-lg shadow-emerald-500/30">
+                <div class="profile-avatar w-24 h-24 bg-linear-to-br from-emerald-400 to-emerald-600 p-1 rounded-full shadow-lg shadow-emerald-500/30">
                   <% if (imageSrc) { %>
                   <img src="<%=imageSrc%>" alt="gebruikers profiel foto" id="profile_pic" class="w-full h-full rounded-full bg-zinc-800 p-2" />
                   <% } else {%>
@@ -61,7 +61,7 @@
             </div>
           </div>
 
-          <form method="post" id="save_changes" class="<%= themaName === 'light' ? 'bg-white border-slate-200' : 'bg-zinc-900 border-zinc-800' %> border-2 rounded-2xl p-6 shadow-xl space-y-6">
+          <form method="post" id="save_changes" class="profile-card <%= themaName === 'light' ? 'bg-white border-slate-200' : 'bg-zinc-900 border-zinc-800' %> border-2 rounded-2xl p-6 shadow-xl space-y-6">
             <h3 class="text-xl font-bold text-emerald-400 mb-4">
               Profiel instellingen
             </h3>
@@ -101,7 +101,7 @@
               </a>
             </div>
 
-            <div class="flex gap-3 pt-4">
+            <div class="flex gap-3 pt-4 profile-actions">
               <button type="submit" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-emerald-500/20">
                 Sla veranderingen op
               </button>
@@ -122,7 +122,7 @@
               Verberg
             </button>
           </div>
-          <div id="collectioncontainer" class="flex flex-col gap-4 p-4 rounded-2xl shadow-xl w-full max-h-80 overflow-y-auto">
+          <div id="collectioncontainer" class="profile-collections flex flex-col gap-4 p-4 rounded-2xl shadow-xl w-full max-h-80 overflow-y-auto">
           </div>
         </div>
         <!-- Collection Modal Backdrop -->

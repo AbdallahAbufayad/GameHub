@@ -7,10 +7,60 @@ const create_collection_btn = document.querySelector("#create_collection_btn");
 const add_collection_btn = document.querySelector("#add_collection_btn");
 const collection_filed = document.querySelector("#collection_filed");
 const collection_name = document.querySelector("#collection_name");
+const scroll_to_reviews_btn = document.querySelector("#scroll_to_reviews_btn");
+const review_container = document.querySelector("#review_container");
+const addToCollectionTitle = addToCollectionMenu?.querySelector("h3");
+
+const isLightTheme = document.body.classList.contains("theme-light");
+
+const applyCollectionMenuTheme = () => {
+  if (!addToCollectionMenu) return;
+
+  addToCollectionMenu.style.backgroundColor = isLightTheme
+    ? "rgba(255, 255, 255, 0.96)"
+    : "rgba(15, 23, 42, 0.95)";
+  addToCollectionMenu.style.borderColor = isLightTheme ? "#cbd5e1" : "#10b981";
+  addToCollectionMenu.style.boxShadow = isLightTheme
+    ? "0 24px 60px rgba(148, 163, 184, 0.28)"
+    : "0 24px 60px rgba(15, 23, 42, 0.45)";
+
+  if (addToCollectionTitle) {
+    addToCollectionTitle.style.color = isLightTheme ? "#059669" : "#10b981";
+  }
+
+  if (delete_collection_btn) {
+    delete_collection_btn.style.color = isLightTheme ? "#ef4444" : "#f87171";
+  }
+
+  if (create_collection_btn) {
+    create_collection_btn.style.backgroundColor = isLightTheme ? "#059669" : "#10b981";
+    create_collection_btn.style.color = isLightTheme ? "#ffffff" : "#ffffff";
+  }
+
+  if (collection_name) {
+    collection_name.style.backgroundColor = isLightTheme ? "#f8fafc" : "#1e293b";
+    collection_name.style.color = isLightTheme ? "#0f172a" : "#ffffff";
+    collection_name.style.borderColor = isLightTheme ? "#94a3b8" : "#10b981";
+  }
+
+  if (allCollectionsNames) {
+    allCollectionsNames.style.color = isLightTheme ? "#0f172a" : "#e2e8f0";
+  }
+};
+
+applyCollectionMenuTheme();
+
+if (scroll_to_reviews_btn && review_container) {
+  scroll_to_reviews_btn.addEventListener("click", () => {
+    review_container.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
 
 if (add_to_collection_btn) {
   add_to_collection_btn.addEventListener("click", async () => {
     if (!addToCollectionMenu) return;
+
+    applyCollectionMenuTheme();
 
     if (allCollectionsNames) {
       allCollectionsNames.style.display = "flex";

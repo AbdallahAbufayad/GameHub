@@ -123,6 +123,7 @@ export function PublicProfileRoute() {
       imageSrc: user.profile_picture,
       collections: user.collection_more,
       publicProfile: user.public_profile,
+      publicProfilePage: true,
       currentPage: "profile",
     });
   });

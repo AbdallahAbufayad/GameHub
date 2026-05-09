@@ -16,7 +16,7 @@
   </head>
 
   <body
-    class="games-body min-h-screen <%= themaName === 'light' ? 'theme-light' : 'theme-dark' %>"
+    class="games-body min-h-screen <%= themaName === 'light' ? 'theme-light' : 'theme-dark' %> <%= typeof publicProfilePage !== 'undefined' && publicProfilePage ? 'public-profile-page' : '' %>"
   >
     <header class="games-header">
       <div
