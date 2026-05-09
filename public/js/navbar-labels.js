@@ -21,10 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
     label.textContent = navLabels[id];
     label.style.display = 'none';
     label.style.position = 'absolute';
+    label.style.top = '100%';
     label.style.left = '50%';
     label.style.transform = 'translateX(-50%)';
     label.style.fontSize = '0.9rem';
-    label.style.marginTop = '0.25rem';
+    label.style.marginTop = '0.5rem';
     label.style.whiteSpace = 'nowrap';
     label.style.pointerEvents = 'none';
     label.style.transition = 'opacity 0.2s';

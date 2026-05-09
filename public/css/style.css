@@ -26,7 +26,7 @@
 }
 
 .notification-bottom {
-  bottom: -42rem;
+  bottom: -37rem !important;
 }
 
 .notification-top {
@@ -164,6 +164,25 @@ body {
   transform: translateY(0);
 }
 
+.nav-label {
+  background: rgba(8, 12, 24, 0.95);
+  color: #e2e8f0;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: 0 8px 16px -6px rgba(15, 23, 42, 0.5);
+  z-index: 20;
+}
+
+.theme-light .nav-label {
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 16px -6px rgba(148, 163, 184, 0.3);
+}
+
 @media (min-width: 1024px) {
   .nav-toggle {
     display: none;
@@ -181,6 +200,7 @@ body {
     width: auto;
     max-height: none;
     opacity: 1;
+    overflow: visible;
     transform: none;
   }
 }
