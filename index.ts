@@ -7,6 +7,7 @@ import { index } from "./routers/index.router";
 import { home } from "./routers/home.router";
 import { games } from "./routers/games.router";
 import { gameInfo } from "./routers/game-info.router";
+import { communityRoute } from "./routers/community-router";
 
 import { compareRouter } from "./routers/compare.router";
 import { guessRouter } from "./routers/guess.router";
@@ -46,6 +47,7 @@ app.use("/", index());
 app.use("/home", secureMiddleware, home());
 app.use("/games", secureMiddleware, games());
 app.use("/game-info", secureMiddleware, gameInfo());
+app.use("/community", secureMiddleware, communityRoute());
 
 app.use(compareRouter);
 app.use(guessRouter);

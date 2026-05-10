@@ -37,12 +37,9 @@
           <div class="profile-card <%= themaName === 'light' ? 'bg-white border-emerald-200' : 'bg-zinc-900 border-emerald-500' %> border-2 rounded-2xl p-6 shadow-xl">
             <div class="flex flex-col items-center">
               <div class="relative mb-4">
-                <div class="profile-avatar w-24 h-24 bg-linear-to-br from-emerald-400 to-emerald-600 p-1 rounded-full shadow-lg shadow-emerald-500/30">
-                  <% if (imageSrc) { %>
-                  <img src="<%=imageSrc%>" alt="gebruikers profiel foto" id="profile_pic" class="w-full h-full rounded-full bg-zinc-800 p-2" />
-                  <% } else {%>
-                  <img src="/images/user.png" alt="gebruikers profiel foto" id="profile_pic" class="w-full h-full rounded-full bg-zinc-800 p-2" />
-                  <%}%>
+                <div class="profile-avatar w-24 h-24 bg-linear-to-br from-emerald-400 to-emerald-600 p-1 rounded-full shadow-lg shadow-emerald-500/30 overflow-hidden">
+                  <% const profileImage = imageSrc && imageSrc.trim() !== "" ? imageSrc : "/images/user.png"; %>
+                  <img src="<%=profileImage%>" alt="gebruikers profiel foto" id="profile_pic" class="block w-full h-full rounded-full object-cover object-center bg-zinc-800" />
               </div>
               <div
                 class="absolute -bottom-1 -right-1 bg-emerald-500 text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg"

@@ -42,11 +42,6 @@
 
       <form class="games-toolbar" method="get">
         <div class="games-toolbar-row">
-          <label class="games-chip cursor-pointer">
-            <input id="searchForUsers" name="searchForUsers" type="checkbox" value="checked" class="w-5 h-5 accent-emerald-500" />
-            <span class="font-semibold text-sm sm:text-base">Zoeken voor gebruikers</span>
-          </label>
-
           <div class="games-search">
             <input id="search_input" name="searchGame" value="<%= searchGame%>" type="text" placeholder="Zoek voor games..." class="games-input text-sm sm:text-base" />
             <button id="clear_btn" type="submit" name="clearField" value="clicked" class="games-clear absolute right-3 top-1/2 -translate-y-1/2 text-sm sm:text-base">
@@ -140,24 +135,6 @@
         <div class="games-grid" id="games_container">
           <!--all games-->
 
-          <%if(checked) {%>
-          <%userProfile2.forEach((userProfile, index) => {%>
-          <div class="game-card animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square">
-            <div class="absolute inset-0">
-               <%if(userProfile.profile_picture === ""){%>
-                   <img class="w-full h-full object-cover" alt="<%= userProfile.username%>" src="/images/user.png" loading="lazy" decoding="async">
-                <%}else{%>
-                     <img class="w-full h-full object-cover" alt="<%= userProfile.username%>" src="<%= userProfile.profile_picture %>" loading="lazy" decoding="async">
-                  <%}%>
-              
-            </div>
-            <a class="absolute inset-0 z-10" href="/public-profile/<%= userProfile.username%>" target="_self" aria-label="Ga naar <%= userProfile.name%>">
-              <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= userProfile.username%></p>
-            </a>
-          </div>
-          <% }) %>
-
-            <%}else{%>
           <% showAllGames.forEach((showAllGame, index) => { %>
 
           <div class="game-card animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square">
@@ -170,8 +147,6 @@
           </div>
 
           <% }) %>
-
-          <%}%>
         </div>
       </div>
     </section>

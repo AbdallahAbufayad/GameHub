@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     nav_games: 'Games',
     nav_guess: 'Guess',
     nav_compare: 'Compare',
+    nav_community: 'Community',
     nav_collections: 'Profile',
   };
 

@@ -53,14 +53,21 @@
     <span class="nav-title">Compare</span>
   </a>
 
-  <a href="/profile" id="nav_collections" class="<%= navLinkClass('profile', 'stagger-7') %>">
+  <a href="/community" id="nav_community" title="Community" class="<%= navLinkClass('community', 'stagger-7') %>">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<%= navIconClass('community') %>">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975M15.75 9.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Zm4.5 4.5a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+    </svg>
+    <span class="nav-title">Players</span>
+  </a>
+
+  <a href="/profile" id="nav_collections" class="<%= navLinkClass('profile', 'stagger-8') %>">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="<%= navIconClass('profile') %>">
       <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
     </svg>
     <span class="nav-title">Profile</span>
   </a>
 
-  <form action="<%= currentPathValue %>" method="get" class="animate-fade-in stagger-8">
+  <form action="<%= currentPathValue %>" method="get" class="animate-fade-in stagger-9">
     <% Object.entries(currentQueryValue).forEach(([key, value]) => { %>
       <% if (Array.isArray(value)) { %>
         <% value.forEach((singleValue) => { %>

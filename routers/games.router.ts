@@ -4,10 +4,9 @@ import {
   decreaseCounter,
   counter,
   searchGame,
-  getAllUsers,
   getRecentGameswithPageSize,
 } from "../database";
-import { Users, Results } from "../types";
+import { Results } from "../types";
 import { getPaginationButtonState, sortByReviewCount } from "../methods";
 import { rawgCache } from "../cache/rawgCache";
 import { getOrLoadSearch } from "../cache/searchCache";
@@ -57,7 +56,6 @@ export function games() {
         ? req.query.sortfield
         : "ratingDesc";
     const clearField = req.query.clearField;
-    const checked = req.query.searchForUsers === "checked";
 
     let searchGame1 =
       typeof req.query.searchGame === "string" ? req.query.searchGame : "";
@@ -65,16 +63,6 @@ export function games() {
 
     if (previousBtn === "clicked") decreaseCounter();
     else if (nextBtn === "clicked") increaseCounter();
-
-    let userProfile1: Users[] = [];
-    let userProfile2: Users[] = [];
-    if (checked && searchGame1 !== "") {
-      const all = await getAllUsers();
-      userProfile1 = all.filter((p) =>
-        p.username.includes(searchGame1.toLowerCase()),
-      );
-      userProfile2 = userProfile1.filter((p) => p.public_profile);
-    }
 
     let showAllGames: Results[];
 
@@ -111,8 +99,6 @@ export function games() {
       previousBtnDisableValue: getPaginationButtonState(counter),
       sortfield,
       searchGame: searchGame1,
-      checked,
-      userProfile2,
     });
   });
 
