@@ -349,6 +349,51 @@ function showNotification(message) {
   }, 5000);
 }
 
+// Handle profile picture change
+const profilePicInput = document.querySelector("#change_pic");
+if (profilePicInput) {
+  profilePicInput.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      showNotification("Selecteer alstublieft een afbeeldingsbestand");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const imageData = e.target?.result;
+      if (!imageData) return;
+
+      try {
+        const response = await fetch("/profile/picture", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: imageData }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          showNotification("Profielfoto bijgewerkt!");
+          const profilePic = document.querySelector("#profile_pic");
+          if (profilePic) {
+            profilePic.src = imageData;
+          }
+          // Reset input
+          profilePicInput.value = "";
+        } else {
+          showNotification("Fout bij bijwerken profielfoto");
+        }
+      } catch (error) {
+        console.error("Error uploading profile picture:", error);
+        showNotification("Fout bij bijwerken profielfoto");
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 main();
 
 
