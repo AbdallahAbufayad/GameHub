@@ -49,8 +49,7 @@ export function resetPasswordRoute(): Router {
 
       await createPasswordResetToken(user._id!.toString(), token, expiresAt);
 
-      // SOON we use this domain. const resetLink = `https://khqledsyr.tech/reset-password/${token}`;
-      const resetLink = `http://localhost:3000/reset-password/${token}`;
+      const resetLink = `https://wpl.khqledsyr.tech/reset-password/${token}`;
 
       await resend.emails.send({
         from: "noreply@khqledsyr.tech",

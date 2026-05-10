@@ -129,7 +129,7 @@ async function fetchUserInfo(givenId) {
     if (!givenId)
         return {};
     try {
-        const users = (await fetch("http://localhost:3000/users").then((res) => res.json()));
+        const users = (await fetch("/users").then((res) => res.json()));
         return (_a = users.find((user) => user.id === givenId)) !== null && _a !== void 0 ? _a : {};
     }
     catch (_b) {
@@ -141,7 +141,7 @@ async function saveUserProgressAsync() {
     const userId = localStorage.getItem("userId");
     if (isLoggedIn === "true" && userId) {
         try {
-            await fetch(`http://localhost:3000/users/${userId}`, {
+            await fetch(`/users/${userId}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ level: gameState.level, xp: gameState.xp }),

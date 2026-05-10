@@ -116,10 +116,10 @@ const openCollectionModal = (collectionName, games, allowDelete) => {
 
       btnDeleteGame.addEventListener("click", async (event) => {
         event.stopPropagation();
-        const user = await fetch("http://localhost:3000/game-info/userid");
+        const user = await fetch("/game-info/userid");
         const userId = await user.json();
 
-        fetch("http://localhost:3000/profile/deletegame", {
+        fetch("/profile/deletegame", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -168,7 +168,7 @@ async function main() {
       });
     });
   } else {
-    const res = await fetch("http://localhost:3000/profile/collection");
+    const res = await fetch("/profile/collection");
     const data = await res.json();
     const user = data.user;
 
@@ -259,10 +259,10 @@ async function main() {
 
       btnDeleteCollection.addEventListener("click", async (event) => {
         event.stopPropagation();
-        const user = await fetch("http://localhost:3000/game-info/userid");
+        const user = await fetch("/game-info/userid");
         const userId = await user.json();
 
-        fetch("http://localhost:3000/profile/deletecollection", {
+        fetch("/profile/deletecollection", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

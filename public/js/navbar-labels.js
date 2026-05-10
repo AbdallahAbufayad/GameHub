@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   Object.keys(navLabels).forEach((id) => {
     const link = document.getElementById(id);
     if (!link) return;
+    if (link.querySelector('.nav-label')) return;
 
     const label = document.createElement('span');
     label.className = 'nav-label';

@@ -79,7 +79,7 @@ function showNotification(message) {
 }
 
 async function fetchUserInfo(givenId) {
-  const users = await fetch("http://localhost:3000/users")
+  const users = await fetch("/users")
     .then((res) => res.json())
     .then((res) => {
       return res;

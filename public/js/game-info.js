@@ -134,11 +134,11 @@ const renderCollectionsList = (collections) => {
       const pathParts = window.location.pathname.split("/");
       const gameId = pathParts[pathParts.length - 1];
 
-      await fetch("http://localhost:3000/game-info/addToCollection", {
+      await fetch("/game-info/addToCollection", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: (await fetch("http://localhost:3000/game-info/userid").then((r) =>
+          userId: (await fetch("/game-info/userid").then((r) =>
             r.json()
           )).userId,
           newCollection: {
@@ -192,7 +192,7 @@ const loadCollections = async () => {
 
   try {
     const response = await fetch(
-      "http://localhost:3000/game-info/collections/list",
+      "/game-info/collections/list",
     );
     const data = await response.json();
 
@@ -275,7 +275,7 @@ if (btn_submit_create_collection) {
       return;
     }
 
-    const user = await fetch("http://localhost:3000/game-info/userid");
+    const user = await fetch("/game-info/userid");
     const userId = await user.json();
 
     const pathParts = window.location.pathname.split("/");
@@ -285,7 +285,7 @@ if (btn_submit_create_collection) {
       await fetchGameData();
     }
 
-    await fetch("http://localhost:3000/game-info/addToCollection", {
+    await fetch("/game-info/addToCollection", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
