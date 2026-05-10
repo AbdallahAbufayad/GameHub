@@ -141,7 +141,7 @@
           <!--all games-->
 
           <%if(checked) {%>
-          <%userProfile1.forEach((userProfile, index) => {%>
+          <%userProfile2.forEach((userProfile, index) => {%>
           <div class="game-card animate-fade-in <%= 'stagger-' + Math.min(index + 1, 8) %> relative w-full aspect-square">
             <div class="absolute inset-0">
                <%if(userProfile.profile_picture === ""){%>
@@ -151,7 +151,7 @@
                   <%}%>
               
             </div>
-            <a class="absolute inset-0 z-10" href="/profile" target="_self" aria-label="Ga naar <%= userProfile.name%>">
+            <a class="absolute inset-0 z-10" href="/public-profile/<%= userProfile.username%>" target="_self" aria-label="Ga naar <%= userProfile.name%>">
               <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= userProfile.username%></p>
             </a>
           </div>

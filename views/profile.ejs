@@ -74,7 +74,7 @@
             <div class="flex gap-3">
               <p>Profiel publiek maken?</p>
 
-              <input type="checkbox" name="public" <%= publicProfile ? 'checked' : '' %>>
+              <input type="checkbox" name="public" <%= publicProfile ? 'checked' : '' %> onchange="this.form.submit()">
             </div>
 
             <% if (publicProfile) { %>

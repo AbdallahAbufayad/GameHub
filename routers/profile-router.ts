@@ -8,32 +8,40 @@ import {
   getAllCollectionsAndGamesOfCollections,
   deleteCollection,
   deleteGameFromCollection,
+  updateProfileStatus,
+  getUserById,
 } from "../database";
 
 export function profileRoute() {
   const profileRouter = Router();
 
-  profileRouter.get("/", (req, res) => {
-      const themaName: string = res.locals.themaName;
-      const user: Users = res.locals.user;
+  profileRouter.get("/", async (req, res) => {
+    const themaName: string = res.locals.themaName;
+    const user: Users = res.locals.user;
 
-      const notification = req.session.notification ?? "";
-      req.session.notification = "";
+    if (req.session.user?._id === undefined) return;
 
-      res.render("profile", {
-        title: "Profiel",
-        themaName: themaName,
-        username: user.username,
-        aboutMe: user.about_me,
-        email: user.email,
-        lvl: user.level,
-        imageSrc: user.profile_picture,
-        collections: user.collection_more,
-        publicProfile: user.public_profile,
-        currentPage: "profile",
-        notification,
-      });
+    const currentUser: Users | undefined = await getUserById(
+      req.session.user?._id.toString(),
+    );
+
+    const notification = req.session.notification ?? "";
+    req.session.notification = "";
+
+    res.render("profile", {
+      title: "Profiel",
+      themaName: themaName,
+      username: user.username,
+      aboutMe: user.about_me,
+      email: user.email,
+      lvl: user.level,
+      imageSrc: user.profile_picture,
+      collections: user.collection_more,
+      publicProfile: currentUser?.public_profile,
+      currentPage: "profile",
+      notification,
     });
+  });
 
   profileRouter.get("/collection", async (req, res) => {
     if (req.session.user?._id === undefined) return;
@@ -53,6 +61,13 @@ export function profileRoute() {
     user.email = req.body.email.toLowerCase();
     user.public_profile = req.body.public === "on";
 
+    const publicProfile: string = req.body.public;
+    if (req.session.user?._id === undefined) return;
+    if (publicProfile === "on") {
+      await updateProfileStatus(req.session.user?._id.toString(), true);
+    } else {
+      await updateProfileStatus(req.session.user?._id.toString(), false);
+    }
     if (!user.username || user.username.length > 30) {
       console.log(
         "Gebruikersnaam niet ingevud, of je gebruikersnaam lengte is groter dan 30.",

@@ -98,6 +98,16 @@ export async function getAllCollectionsAndGamesOfCollections(userId: string) {
   return user;
 }
 
+export async function getUserById(userId: string) {
+  const user: Users | null = await userCollection.findOne<Users>({
+    _id: new ObjectId(userId),
+  });
+
+  if (user === null) return;
+
+  return user;
+}
+
 export async function deleteCollection(userId: string, name: string) {
   await userCollection.updateOne(
     { _id: new ObjectId(userId) },
@@ -186,6 +196,13 @@ export async function updateUser(user: Users) {
   );
 
   return "Gebruiker successvol veranderd!";
+}
+
+export async function updateProfileStatus(userId: string, status: boolean) {
+  await userCollection.updateOne(
+    { _id: new ObjectId(userId) },
+    { $set: { public_profile: status } },
+  );
 }
 
 export async function updateUserPicture(user: Users, image: string) {
