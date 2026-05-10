@@ -14,6 +14,27 @@ import { getOrLoadSearch } from "../cache/searchCache";
 export function games() {
   const router: Router = Router();
 
+  router.get("/search-suggestions", async (req, res) => {
+    const query = typeof req.query.q === "string" ? req.query.q.trim() : "";
+
+    if (!query) {
+      res.json({ suggestions: [] });
+      return;
+    }
+
+    try {
+      const result = await getOrLoadSearch(query, () => searchGame(query));
+      const suggestions = (result.results ?? [])
+        .slice(0, 8)
+        .map((game) => ({ id: game.id, name: game.name }));
+
+      res.json({ suggestions });
+    } catch (error) {
+      console.error("Game suggestions ophalen mislukt:", error);
+      res.status(500).json({ suggestions: [] });
+    }
+  });
+
   router.get("/games-partial", (req, res) => {
     const page = parseInt(req.query.page as string) || 0;
     const sortfield =
@@ -51,23 +72,30 @@ export function games() {
     const previousBtn = req.query.previous_btn;
     const nextBtn = req.query.next_btn;
     const search = req.query.search;
-    const sortfield =
-      typeof req.query.sortfield === "string"
-        ? req.query.sortfield
-        : "ratingDesc";
     const clearField = req.query.clearField;
 
     let searchGame1 =
-      typeof req.query.searchGame === "string" ? req.query.searchGame : "";
+      typeof req.query.searchGame === "string" ? req.query.searchGame.trim() : "";
     if (clearField === "clicked") searchGame1 = "";
+
+    const searchActive = searchGame1 !== "";
+    const sortfield = searchActive
+      ? ""
+      : typeof req.query.sortfield === "string"
+        ? req.query.sortfield
+        : "ratingDesc";
 
     if (previousBtn === "clicked") decreaseCounter();
     else if (nextBtn === "clicked") increaseCounter();
 
     let showAllGames: Results[];
 
-    if (search === "clicked") {
-      searchGame1 = "";
+    if (searchGame1 !== "") {
+      const result = await getOrLoadSearch(searchGame1, () =>
+        searchGame(searchGame1),
+      );
+      showAllGames = result.results;
+    } else if (search === "clicked") {
       const cacheMap: Record<string, Results[] | undefined> = {
         Name_alphabetically_A_Z: rawgCache.byNameAsc?.results,
         Name_alphabetically_Z_A: rawgCache.byNameDes?.results,
@@ -80,11 +108,6 @@ export function games() {
         reviewCount: sortByReviewCount(rawgCache.base?.results ?? []),
       };
       showAllGames = cacheMap[sortfield] ?? rawgCache.base?.results ?? [];
-    } else if (searchGame1 !== "") {
-      const result = await getOrLoadSearch(searchGame1, () =>
-        searchGame(searchGame1),
-      );
-      showAllGames = result.results;
     } else {
       const paged = await getRecentGameswithPageSize();
       showAllGames = rawgCache.byRatingDes?.results ?? [];
@@ -99,6 +122,7 @@ export function games() {
       previousBtnDisableValue: getPaginationButtonState(counter),
       sortfield,
       searchGame: searchGame1,
+      searchActive,
     });
   });
 

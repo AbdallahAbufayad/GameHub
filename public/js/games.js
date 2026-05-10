@@ -1,7 +1,94 @@
 const btn_filter_container = document.querySelector("#btn_filter_container");
 const filter_container = document.querySelector("#filter_container");
 const filter_close = document.querySelector("#filter_close");
+const search_input = document.querySelector("#search_input");
+const clear_btn = document.querySelector("#clear_btn");
+const games_suggestions = document.querySelector("#games_suggestions");
+const games_toolbar = document.querySelector(".games-toolbar");
 const body = document.body;
+
+let suggestionTimer = null;
+let suggestionRequestId = 0;
+
+function setClearButtonVisibility() {
+  if (!clear_btn || !search_input) return;
+
+  if (search_input.value.trim()) {
+    clear_btn.classList.remove("hidden");
+  } else {
+    clear_btn.classList.add("hidden");
+  }
+}
+
+function renderSuggestions(items) {
+  if (!games_suggestions) return;
+
+  games_suggestions.innerHTML = "";
+
+  items.forEach((item) => {
+    const option = document.createElement("option");
+    option.value = item.name;
+    games_suggestions.appendChild(option);
+  });
+}
+
+async function loadGameSuggestions(query) {
+  const requestId = ++suggestionRequestId;
+
+  if (!query.trim()) {
+    renderSuggestions([]);
+    return;
+  }
+
+  try {
+    const params = new URLSearchParams();
+    params.set("q", query.trim());
+
+    const response = await fetch(`/games/search-suggestions?${params.toString()}`);
+    const data = await response.json();
+
+    if (requestId !== suggestionRequestId) return;
+
+    renderSuggestions(Array.isArray(data.suggestions) ? data.suggestions : []);
+  } catch (error) {
+    if (requestId !== suggestionRequestId) return;
+    renderSuggestions([]);
+  }
+}
+
+if (search_input) {
+  setClearButtonVisibility();
+
+  search_input.addEventListener("input", () => {
+    setClearButtonVisibility();
+
+    if (suggestionTimer) {
+      clearTimeout(suggestionTimer);
+    }
+
+    suggestionTimer = setTimeout(() => {
+      loadGameSuggestions(search_input.value);
+    }, 220);
+  });
+
+  search_input.addEventListener("focus", () => {
+    if (search_input.value.trim()) {
+      loadGameSuggestions(search_input.value);
+    }
+  });
+
+  search_input.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      renderSuggestions([]);
+    }
+  });
+}
+
+if (games_toolbar) {
+  games_toolbar.addEventListener("submit", () => {
+    renderSuggestions([]);
+  });
+}
 
 const closeFilter = () => {
   filter_container.classList.remove(
