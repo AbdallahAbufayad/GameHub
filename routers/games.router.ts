@@ -1,139 +1,91 @@
 import { Router } from "express";
-import {
-  getGames,
-  increaseCounter,
-  decreaseCounter,
-  getRecentGameswithPageSize,
-  counter,
-  getOrderdGamesByNameDes,
-  getOrderdGamesByNameAsc,
-  getOrderdGamesByRatingAsc,
-  getOrderdGamesByRatingDes,
-  getOrderdGamesByReleaseYearAsc,
-  getOrderdGamesBySingleplayer,
-  getOrderdGamesByMultiplayer,
-  searchGame,
-  getAllUsers,
-} from "../database";
-import { Users, GamesApi, Results, Game } from "../types";
+import { increaseCounter, decreaseCounter, counter, searchGame, getAllUsers, getRecentGameswithPageSize } from "../database";
+import { Users, Results } from "../types";
 import { getPaginationButtonState, sortByReviewCount } from "../methods";
+import { rawgCache } from "../cache/rawgCache";
+import { getOrLoadSearch } from "../cache/searchCache";
 
 export function games() {
   const router: Router = Router();
-  let previousBtnDisableValue = "";
+
+  router.get("/games-partial", (req, res) => {
+    const page = parseInt(req.query.page as string) || 0;
+    const sortfield = typeof req.query.sortfield === "string" ? req.query.sortfield : "ratingDesc";
+    const PAGE_SIZE = 20;
+
+    const cacheMap: Record<string, Results[] | undefined> = {
+      Name_alphabetically_A_Z: rawgCache.byNameAsc?.results,
+      Name_alphabetically_Z_A: rawgCache.byNameDes?.results,
+      ratingAsc:               rawgCache.byRatingAsc?.results,
+      ratingDesc:              rawgCache.byRatingDes?.results,
+      releaseYearAsc:          rawgCache.byYear?.results,
+      releaseYearDesc:         rawgCache.recent?.results,
+      singlePlayer:            rawgCache.single?.results,
+      multiplayer:             rawgCache.multi?.results,
+      reviewCount:             sortByReviewCount(rawgCache.base?.results ?? []),
+    };
+
+    const allGames = cacheMap[sortfield] ?? rawgCache.byRatingDes?.results ?? [];
+    const showAllGames = allGames.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+    const isFirstPage = page === 0;
+    const isLastPage = (page + 1) * PAGE_SIZE >= allGames.length;
+
+    res.json({ showAllGames, page, isFirstPage, isLastPage });
+});
+
   router.get("/", async (req, res) => {
     const themaName: string = res.locals.themaName;
-    const previousBtn: string =
-      typeof req.query.previous_btn === "string" ? req.query.previous_btn : "";
-    const nextBtn: string =
-      typeof req.query.next_btn === "string" ? req.query.next_btn : "";
-    const search: string =
-      typeof req.query.search === "string" ? req.query.search : "";
+    const previousBtn = req.query.previous_btn;
+    const nextBtn = req.query.next_btn;
+    const search = req.query.search;
+    const sortfield = typeof req.query.sortfield === "string" ? req.query.sortfield : "ratingDesc";
+    const clearField = req.query.clearField;
+    const checked = req.query.searchForUsers === "checked";
 
-    let searchGame1: string =
-      typeof req.query.searchGame === "string" ? req.query.searchGame : "";
-
-    const sortfield: string =
-      typeof req.query.sortfield === "string" ? req.query.sortfield : "name";
-
-    let filterClassName = "";
-    const clearField: string =
-      typeof req.query.clearField === "string" ? req.query.clearField : "";
-
-    const checked: boolean = req.query.searchForUsers === "checked";
-
-    let userProfile: Users[] = [];
-    let userProfile1: Users[] = [];
-
-    if (checked && searchGame1 !== "") {
-      userProfile = await getAllUsers();
-      userProfile1 = userProfile.filter((p) =>
-        p.username.includes(searchGame1.toLocaleLowerCase()),
-      );
-    }
-
-    let orderedGameswithPageSize: GamesApi = await getRecentGameswithPageSize();
-    let orderdGamesByNameDes: GamesApi = await getOrderdGamesByNameDes();
-
-    let orderdGamesByNameAsc: GamesApi = await getOrderdGamesByNameAsc();
-
-    let orderdGamesByRatingDes: GamesApi = await getOrderdGamesByRatingDes();
-
-    let orderdGamesByRatingAsc: GamesApi = await getOrderdGamesByRatingAsc();
-
-    let orderdGamesByReleaseYearAsc: GamesApi =
-      await getOrderdGamesByReleaseYearAsc();
-
-    let orderdGamesBySingleplayer: GamesApi =
-      await getOrderdGamesBySingleplayer();
-
-    let orderdGamesByMultiplayer: GamesApi =
-      await getOrderdGamesByMultiplayer();
-
-    if (previousBtn === "clicked") {
-      decreaseCounter();
-    } else if (nextBtn === "clicked") {
-      increaseCounter();
-    }
-
+    let searchGame1 = typeof req.query.searchGame === "string" ? req.query.searchGame : "";
     if (clearField === "clicked") searchGame1 = "";
 
-    let allGames: GamesApi;
-    let showAllGames: Results[];
+    if (previousBtn === "clicked") decreaseCounter();
+    else if (nextBtn === "clicked") increaseCounter();
 
-    if (sortfield === "reviewCount" && search === "clicked") {
-      searchGame1 = "";
-      showAllGames = sortByReviewCount(orderedGameswithPageSize.results);
-    } else if (
-      sortfield === "Name_alphabetically_A_Z" &&
-      search === "clicked"
-    ) {
-      searchGame1 = "";
-      showAllGames = orderdGamesByNameAsc.results;
-    } else if (
-      sortfield === "Name_alphabetically_Z_A" &&
-      search === "clicked"
-    ) {
-      searchGame1 = "";
-      showAllGames = orderdGamesByNameDes.results;
-    } else if (sortfield === "ratingAsc" && search === "clicked") {
-      searchGame1 = "";
-      showAllGames = orderdGamesByRatingAsc.results;
-    } else if (sortfield === "ratingDesc" && search === "clicked") {
-      searchGame1 = "";
-      showAllGames = orderdGamesByRatingDes.results;
-    } else if (sortfield === "releaseYearAsc" && search === "clicked") {
-      searchGame1 = "";
-      showAllGames = orderdGamesByReleaseYearAsc.results;
-    } else if (sortfield === "releaseYearDesc" && search === "clicked") {
-      searchGame1 = "";
-      showAllGames = orderedGameswithPageSize.results;
-    } else if (sortfield === "singlePlayer" && search === "clicked") {
-      searchGame1 = "";
-      showAllGames = orderdGamesBySingleplayer.results;
-    } else if (sortfield === "multiplayer" && search === "clicked") {
-      searchGame1 = "";
-      showAllGames = orderdGamesByMultiplayer.results;
-    } else {
-      if (searchGame1 !== "") {
-        allGames = await searchGame(searchGame1);
-
-        showAllGames = allGames.results;
-      } else {
-        showAllGames = orderedGameswithPageSize.results;
-      }
+    let userProfile1: Users[] = [];
+    if (checked && searchGame1 !== "") {
+      const all = await getAllUsers();
+      userProfile1 = all.filter((p) => p.username.includes(searchGame1.toLowerCase()));
     }
 
-    previousBtnDisableValue = getPaginationButtonState(counter);
+    let showAllGames: Results[];
+
+    if (search === "clicked") {
+      searchGame1 = "";
+      const cacheMap: Record<string, Results[] | undefined> = {
+        Name_alphabetically_A_Z: rawgCache.byNameAsc?.results,
+        Name_alphabetically_Z_A: rawgCache.byNameDes?.results,
+        ratingAsc:               rawgCache.byRatingAsc?.results,
+        ratingDesc:              rawgCache.byRatingDes?.results,
+        releaseYearAsc:          rawgCache.byYear?.results,
+        releaseYearDesc:         rawgCache.recent?.results,
+        singlePlayer:            rawgCache.single?.results,
+        multiplayer:             rawgCache.multi?.results,
+        reviewCount:             sortByReviewCount(rawgCache.base?.results ?? []),
+      };
+      showAllGames = cacheMap[sortfield] ?? rawgCache.base?.results ?? [];
+    } else if (searchGame1 !== "") {
+      const result = await getOrLoadSearch(searchGame1, () => searchGame(searchGame1));
+      showAllGames = result.results;
+    } else {
+      const paged = await getRecentGameswithPageSize();
+      showAllGames = rawgCache.byRatingDes?.results ?? [];
+    }
 
     res.render("games", {
       title: "Games",
-      themaName: themaName,
+      themaName,
       currentPage: "games",
-      filterClassName: filterClassName,
-      showAllGames: showAllGames,
-      previousBtnDisableValue: previousBtnDisableValue,
-      sortfield: sortfield,
+      filterClassName: "",
+      showAllGames,
+      previousBtnDisableValue: getPaginationButtonState(counter),
+      sortfield,
       searchGame: searchGame1,
       checked,
       userProfile1,

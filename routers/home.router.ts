@@ -1,50 +1,44 @@
 import { Router } from "express";
-import {
-  getGames,
-  increaseCounter,
-  decreaseCounter,
-  getRecentGameswithPageSize,
-  counter,
-  getRecentGames,
-} from "../database";
-import { Users, GamesApi, Results, Game } from "../types";
+import { decreaseCounter, increaseCounter, counter, getRecentGameswithPageSize } from "../database";
+import { Results } from "../types";
 import { getPaginationButtonState, sortByOwnedCount, takeTopResults } from "../methods";
+import { rawgCache } from "../cache/rawgCache";
+import { startCacheWorker } from "../cache/startCacheWorker";
+
+startCacheWorker();
 
 export function home() {
-  const router: Router = Router();
-  let previousBtnDisableValue = "";
+  const router = Router();
 
-  router.get("/", async (req, res) => {
-    const gamesOfApi: GamesApi = await getGames();
-    const orderedGameswithPageSize: GamesApi =
-      await getRecentGameswithPageSize();
-    const recentGames: GamesApi = await getRecentGames();
+  // Partial endpoint — fetches correct page from RAWG (cached per page)
+  router.get("/games-partial", (req, res) => {
+    const page = parseInt(req.query.page as string) || 0;
+    const PAGE_SIZE = 20;
 
+    const allGames = rawgCache.byRatingDes?.results ?? []; // changed
+    const showAllGames = allGames.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+    const isFirstPage = page === 0;
+    const isLastPage = (page + 1) * PAGE_SIZE >= allGames.length;
+
+    res.json({ showAllGames, page, isFirstPage, isLastPage });
+  });
+
+  router.get("/", (req, res) => {
     const themaName: string = res.locals.themaName;
-    const previousBtn = req.query.previous_btn;
-    const nextBtn = req.query.next_btn;
 
-    if (previousBtn === "clicked") {
-      decreaseCounter();
-    } else if (nextBtn === "clicked") {
-      increaseCounter();
-    }
-
-    const populareGames: Results[] = sortByOwnedCount(gamesOfApi.results);
-    const pupulareGamesMostgames: Results[] = takeTopResults(populareGames, 5);
-    const allrecentGames: Results[] = takeTopResults(recentGames.results, 5);
-
-    let showAllGames: Results[] = orderedGameswithPageSize.results;
-    previousBtnDisableValue = getPaginationButtonState(counter);
+    const popularGames: Results[] = sortByOwnedCount(rawgCache.base?.results ?? []);
+    const mostPopulareGames: Results[] = takeTopResults(popularGames, 10);
+    const allrecentGames: Results[] = takeTopResults(rawgCache.recent?.results ?? [], 10);
+    const showAllGames: Results[] = rawgCache.byRatingDes?.results.slice(0, 20) ?? [];
 
     res.render("home", {
       title: "GameHub",
-      themaName: themaName,
+      themaName,
       currentPage: "home",
-      pupulareGamesMostgames: pupulareGamesMostgames,
-      allrecentGames: allrecentGames,
-      showAllGames: showAllGames,
-      previousBtnDisableValue: previousBtnDisableValue,
+      mostPopulareGames,
+      allrecentGames,
+      showAllGames,
+      previousBtnDisableValue: getPaginationButtonState(counter),
     });
   });
 

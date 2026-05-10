@@ -122,36 +122,21 @@
     </section>
 
     <section id="section_all_games" class="relative">
-      <!-- Navigation buttons -->
-      <form action="/games" method="get">
-        <button id="btn_left" type="submit" value="clicked" <%= previousBtnDisableValue%> name="previous_btn" aria-label="Previous games" class="games-nav-btn games-nav-btn-left">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-          </svg>
-        </button>
+  <!-- Plain buttons, no form -->
+  <button id="btn_left" aria-label="Previous games" class="games-nav-btn games-nav-btn-left">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+    </svg>
+  </button>
 
-        <button id="btn_right" type="submit" name="next_btn" value="clicked" aria-label="Next games" class="games-nav-btn games-nav-btn-right">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-          </svg>
-        </button>
+  <button id="btn_right" aria-label="Next games" class="games-nav-btn games-nav-btn-right">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+    </svg>
+  </button>
       </form>
 
       <div id="div_all_games" class="games-panel">
-        <!--load indicator-->
-        <!--
-            <div class="loading-overlay" id="loadingOverlay">
-              <div class="loader">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-              </div>
-              <div class="loading-text">Loading games...</div>
-            </div>
-            
-            
-            -->
         <div class="games-grid" id="games_container">
           <!--all games-->
 
@@ -164,7 +149,6 @@
                 <%}else{%>
                      <img class="w-full h-full object-cover" alt="<%= userProfile.username%>" src="<%= userProfile.profile_picture %>" loading="lazy" decoding="async">
                   <%}%>
-
               
             </div>
             <a class="absolute inset-0 z-10" href="/profile" target="_self" aria-label="Ga naar <%= userProfile.name%>">

@@ -45,3 +45,43 @@ if (filter_close) {
     closeFilter();
   });
 }
+
+// === Pagination ===
+const btnLeft = document.querySelector("#btn_left");
+const btnRight = document.querySelector("#btn_right");
+const gamesContainer = document.querySelector("#games_container");
+
+
+if (btnLeft) btnLeft.disabled = true;
+let currentPage = 0;
+
+async function loadGamesPage(direction) {
+  if (direction === "prev") currentPage = Math.max(0, currentPage - 1);
+  if (direction === "next") currentPage += 1;
+
+  const params = new URLSearchParams();
+  params.set("page", currentPage);
+
+  const activeSortfield = document.querySelector("input[name='sortfield']:checked");
+  if (activeSortfield) params.set("sortfield", activeSortfield.value);
+
+  const res = await fetch(`/games/games-partial?${params}`);
+  const { showAllGames, isFirstPage, isLastPage } = await res.json();
+
+  gamesContainer.innerHTML = showAllGames.map(game => `
+    <div class="game-card animate-fade-in relative w-full aspect-square">
+      <div class="absolute inset-0">
+        <img class="w-full h-full object-cover" alt="${game.name}" src="${game.background_image}" loading="lazy" decoding="async">
+      </div>
+      <a class="absolute inset-0 z-10" href="/game-info/${game.id}" target="_self" aria-label="Ga naar ${game.name}">
+        <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow">${game.name}</p>
+      </a>
+    </div>
+  `).join("");
+
+  btnLeft.disabled = isFirstPage;
+  btnRight.disabled = isLastPage;
+}
+
+btnLeft?.addEventListener("click", () => loadGamesPage("prev"));
+btnRight?.addEventListener("click", () => loadGamesPage("next"));

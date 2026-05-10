@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
-  
+  <script src="js/home.js" defer></script> 
 </head>
 
 <body class="games-body min-h-screen <%= themaName === 'light' ? 'theme-light' : 'theme-dark' %>">
@@ -51,13 +51,13 @@
               class="games-grid"
             >
 
-            <%for(let pupulareGamesMostgame of pupulareGamesMostgames){%>
+            <%for(let mostPopulareGame of mostPopulareGames){%>
 
                 <div class="game-card relative w-full aspect-square">
                   <div class="absolute inset-0">
-                    <img class="w-full h-full object-cover" alt="<%= pupulareGamesMostgame.name%>" src="<%= pupulareGamesMostgame.background_image %>" loading="lazy" decoding="async">    
+                    <img class="w-full h-full object-cover" alt="<%= mostPopulareGame.name%>" src="<%= mostPopulareGame.background_image %>" loading="lazy" decoding="async">    
                     </div>
-                  <a class="absolute inset-0 z-10" href="/game-info/<%= pupulareGamesMostgame.id%>" target="_self" aria-label="Ga naar <%= pupulareGamesMostgame.name%>"><p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= pupulareGamesMostgame.name%></p></a>
+                  <a class="absolute inset-0 z-10" href="/game-info/<%= mostPopulareGame.id%>" target="_self" aria-label="Ga naar <%= mostPopulareGame.name%>"><p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= mostPopulareGame.name%></p></a>
                 </div>
 
                 <%}%>
@@ -98,103 +98,49 @@
           </div>
         </section>
 
-        <!--More section...-->
-        <section
-          id="section_more"
-          class="relative"
-        >
-          <!-- Navigation buttons – responsive version -->
-          <form action="/home" method="get">
-            <button
-            id="btn_left"
-            type="submit"
-            value="clicked"
-            <%= previousBtnDisableValue%>
-            name="previous_btn"
-            aria-label="Previous games"
-            class="games-nav-btn games-nav-btn-left"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
-              />
-            </svg>
-          </button>
+       <!--More section...-->
+<section id="section_more" class="relative">
 
-          <button
-            id="btn_right"
-            type="submit"
-            name="next_btn"
-            value="clicked"
-            aria-label="Next games"
-            class="games-nav-btn games-nav-btn-right"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </button>
-          </form>
+  <!-- Plain buttons, no form -->
+  <button
+    id="btn_left"
+    aria-label="Previous games"
+    class="games-nav-btn games-nav-btn-left"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+    </svg>
+  </button>
 
-          <h2
-            class="games-title text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6"
-          >
-            Meerdere games
-          </h2>
+  <button
+    id="btn_right"
+    aria-label="Next games"
+    class="games-nav-btn games-nav-btn-right"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+    </svg>
+  </button>
 
-          <div
-            id="div_all_games"
-            class="games-panel"
-          >
-            <!--
-          
-          <div class="loading-overlay" id="loadingOverlay">
-              <div class="loader">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-              </div>
-              <div class="loading-text">Loading games...</div>
-            </div>
-            -->
-            <div
-              class="games-grid"
-              id="games_container"
-            >
-              <!--allgames-->
-              <%for(let showAllGame of showAllGames){%>
+  <h2 class="games-title text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6">
+    Meerdere games
+  </h2>
 
-                <div class="game-card relative w-full aspect-square">
-                  <div class="absolute inset-0">
-                    <img class="w-full h-full object-cover" alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">    
-                    </div>
-                  <a class="absolute inset-0 z-10" href="/game-info/<%= showAllGame.id%>" target="_self" aria-label="Ga naar <%= showAllGame.name%>"><p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= showAllGame.name%></p></a>
-                </div>
-
-                <%}%>
-            </div>
+  <div id="div_all_games" class="games-panel">
+    <div class="games-grid" id="games_container">
+      <%for(let showAllGame of showAllGames){%>
+        <div class="game-card relative w-full aspect-square">
+          <div class="absolute inset-0">
+            <img class="w-full h-full object-cover" alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">
           </div>
-        </section>
+          <a class="absolute inset-0 z-10" href="/game-info/<%= showAllGame.id%>" target="_self" aria-label="Ga naar <%= showAllGame.name%>">
+            <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= showAllGame.name%></p>
+          </a>
+        </div>
+      <%}%>
+    </div>
+  </div>
+</section>
 
         <div class="hidden fixed inset-x-0 top-24 mx-auto max-w-md w-[92vw] rounded-2xl border border-emerald-500 bg-slate-950 p-5 shadow-2xl z-50" id="addToCollectionMenu">
           <button id="create_collection_btn" class="absolute top-3 right-3 w-9 h-9 rounded-full border border-white/40 text-white">

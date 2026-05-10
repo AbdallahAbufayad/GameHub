@@ -19,6 +19,7 @@ import { connect } from "./database";
 import { handleError } from "./routers/errorhandeler";
 import { logoutRouter } from "./routers/logout-router";
 import { resetPasswordRoute } from "./routers/reset-password-router";
+import { startCacheWorker } from "./cache/startCacheWorker";
 
 dotenv.config();
 
@@ -69,5 +70,6 @@ app.use(handleError);
 
 app.listen(app.get("port"), async () => {
   connect();
+  await startCacheWorker();
   console.log("Server started on http://localhost:" + app.get("port"));
 });
