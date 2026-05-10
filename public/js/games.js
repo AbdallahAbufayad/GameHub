@@ -90,7 +90,7 @@ if (clear_btn && search_input) {
     search_input.value = "";
     setClearButtonVisibility();
     renderSuggestions([]);
-    games_toolbar.submit();
+    window.location.href = "/games";
   });
 }
 
