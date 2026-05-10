@@ -21,7 +21,7 @@ function showNotification(message) {
     document.body.appendChild(notif);
   }
 
-  notif.style.backgroundColor = "lightcoral";
+  notif.style.backgroundColor = "red";
   notif.style.color = "#ffffff";
   text.style.color = "#ffffff";
 

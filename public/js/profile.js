@@ -271,7 +271,10 @@ async function main() {
           }),
         });
 
-        location.reload();
+        showNotification(`Collectie "${userinfo.collectionName}" verwijderd`);
+          setTimeout(() => {
+          location.reload();
+        }, 2000);
       });
 
       collectionContainerOfGames.appendChild(btnCollectionName);

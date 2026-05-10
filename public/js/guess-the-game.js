@@ -240,6 +240,24 @@ async function loadNewImageGame() {
         elements.imageStreak.textContent = String(gameState.streak);
     if (elements.btnSubmitImageGuess)
         elements.btnSubmitImageGuess.disabled = false;
+
+    // animate elements sequentially for nicer UX
+    try {
+        animateElementsSequentially([
+            document.getElementById("img_game_screenshot"),
+            document.getElementById("input_image_guess")?.closest('.rounded-xl') || document.getElementById("input_image_guess"),
+            document.getElementById("btn_submit_image_guess"),
+            document.getElementById("btn_next_image_game"),
+            document.getElementById("image_guess_feedback"),
+            document.getElementById("hint_display"),
+            document.getElementById("image_score"),
+            document.getElementById("image_streak"),
+            document.getElementById("btn_show_hint")
+        ], 60, 90, 'motion-rise');
+    }
+    catch (e) {
+        // fail silently if DOM queries don't succeed
+    }
 }
 async function checkImageGuess() {
     if (!elements.inputImageGuess || !gameState.currentGame)
@@ -384,6 +402,49 @@ async function loadNewTextGame() {
         elements.textStreak.textContent = String(gameState.streak);
     if (elements.btnSubmitTextGuess)
         elements.btnSubmitTextGuess.disabled = false;
+
+    // animate elements sequentially for nicer UX
+    try {
+        animateElementsSequentially([
+            document.getElementById("text_description_container"),
+            document.getElementById("input_text_guess")?.closest('.rounded-xl') || document.getElementById("input_text_guess"),
+            document.getElementById("btn_submit_text_guess"),
+            document.getElementById("btn_next_text_game"),
+            document.getElementById("text_guess_feedback"),
+            document.getElementById("clue_display"),
+            document.getElementById("text_score"),
+            document.getElementById("text_streak"),
+            document.getElementById("btn_show_clue")
+        ], 60, 90, 'motion-rise');
+    }
+    catch (e) {
+        // ignore failures
+    }
+}
+
+/**
+ * Apply a short staggered animation to an array of elements.
+ * elementsArr: array of DOM nodes (may include nulls)
+ * baseDelay: starting delay in ms
+ * step: incremental delay in ms between items
+ * animationClass: CSS animation class to add
+ */
+function animateElementsSequentially(elementsArr, baseDelay = 60, step = 80, animationClass = 'motion-rise') {
+    if (!Array.isArray(elementsArr))
+        return;
+    elementsArr.forEach((el, idx) => {
+        if (!el)
+            return;
+        // remove any previous animation class and inline delay
+        el.classList.remove(animationClass);
+        el.style.animationDelay = '';
+        // force reflow so the animation can restart
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        el.offsetWidth;
+        // set delay and add class
+        el.style.animationDelay = `${baseDelay + idx * step}ms`;
+        el.classList.add(animationClass);
+    });
 }
 async function checkTextGuess() {
     if (!elements.inputTextGuess || !gameState.currentGame)
