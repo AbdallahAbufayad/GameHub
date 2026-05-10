@@ -26,7 +26,18 @@
 }
 
 .notification-bottom {
-  bottom: -10rem !important;
+  bottom: -37rem;
+}
+
+.notification-bottom.show {
+  bottom: -1rem;
+}
+
+@media (max-width: 640px) {
+  .notification-bottom {
+    bottom: -9rem;
+    width: 95%;
+  }
 }
 
 .notification-top {

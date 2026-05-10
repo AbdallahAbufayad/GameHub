@@ -85,8 +85,7 @@ if (search_input) {
 }
 
 if (clear_btn && search_input) {
-  clear_btn.addEventListener("click", (event) => {
-    event.preventDefault();
+  clear_btn.addEventListener("click", () => {
     search_input.value = "";
     setClearButtonVisibility();
     renderSuggestions([]);
