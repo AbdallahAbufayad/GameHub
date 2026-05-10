@@ -84,6 +84,16 @@ if (search_input) {
   });
 }
 
+if (clear_btn && search_input) {
+  clear_btn.addEventListener("click", (event) => {
+    event.preventDefault();
+    search_input.value = "";
+    setClearButtonVisibility();
+    renderSuggestions([]);
+    games_toolbar.submit();
+  });
+}
+
 if (games_toolbar) {
   games_toolbar.addEventListener("submit", () => {
     renderSuggestions([]);
