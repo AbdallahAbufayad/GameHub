@@ -347,3 +347,15 @@ export async function updatePassword(userId: string, hashedPassword: string) {
     },
   );
 }
+
+export async function getUserCollections(userId: string) {
+  const user: Users | null = await userCollection.findOne<Users>({
+    _id: new ObjectId(userId),
+  });
+
+  if (!user) {
+    return [];
+  }
+
+  return user.collection_more || [];
+}

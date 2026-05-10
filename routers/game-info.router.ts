@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Game, Users } from "../types";
-import { addReview, getAllUsers, addToCollection } from "../database";
+import { addReview, getAllUsers, addToCollection, getUserCollections } from "../database";
 import { ObjectId } from "mongodb";
 import strict from "node:assert/strict";
 
@@ -12,6 +12,20 @@ export function gameInfo() {
 
     res.type("application/json");
     res.json({ userId: req.session.user?._id.toString() });
+  });
+
+  router.get("/collections/list", async (req, res) => {
+    if (req.session.user?._id === undefined) {
+      res.status(401).json({ error: "Not authenticated" });
+      return;
+    }
+
+    const collections = await getUserCollections(
+      req.session.user._id.toString(),
+    );
+
+    res.type("application/json");
+    res.json({ collections });
   });
 
   router.get("/:id", async (req, res) => {

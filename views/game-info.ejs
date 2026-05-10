@@ -248,90 +248,145 @@
   <div id="addToCollectionMenu" style="
         display: none;
         position: fixed;
-        top: 50%;
+        top: 45%;
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: rgba(15, 23, 42, 0.95);
-        padding: 2rem;
-        border-radius: 1rem;
+        padding: 2rem 2rem 2.5rem 2rem;
+        border-radius: 1.5rem;
         border: 2px solid #10b981;
         z-index: 1000;
-        min-width: 300px;
+        min-width: 320px;
         max-width: 500px;
         width: 90vw;
-        max-height: 90vh;
+        max-height: 80vh;
         overflow-y: auto;
         backdrop-filter: blur(10px);
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.5);
       ">
     <button id="delete_collection_btn" style="
           position: absolute;
-          top: 10px;
-          right: 10px;
+          top: 15px;
+          right: 15px;
           background: transparent;
           border: none;
           color: #f87171;
           font-size: 1.5rem;
           cursor: pointer;
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s;
-        ">
+          border-radius: 0.5rem;
+        "
+        onmouseover="this.style.backgroundColor='rgba(244, 63, 94, 0.1)'"
+        onmouseout="this.style.backgroundColor='transparent'">
       &times;
     </button>
 
     <h3 style="
           color: #10b981;
-          margin-bottom: 1rem;
-          font-size: 1.25rem;
-          font-weight: bold;
+          margin-bottom: 1.5rem;
+          font-size: 1.3rem;
+          font-weight: 700;
+          letter-spacing: 0.5px;
         ">
-      Add to Collection
+      Voeg toe aan Collectie
     </h3>
 
-    <div id="allCollectionsNames" style="margin-bottom: 1rem"></div>
+    <div id="allCollectionsNames" style="margin-bottom: 1.5rem; display: none; width: 100%; box-sizing: border-box; min-width: 0;"></div>
+
+    <div id="loading_collections" style="text-align: center; color: #94a3b8; margin-bottom: 1rem; display: none; width: 100%; box-sizing: border-box;">
+      <p>Collecties laden...</p>
+    </div>
 
     <button id="create_collection_btn" style="
           width: 100%;
-          padding: 0.75rem;
-          background-color: #10b981;
+          padding: 0.875rem;
+          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
           color: white;
           border: none;
-          border-radius: 0.5rem;
+          border-radius: 0.75rem;
           cursor: pointer;
           font-weight: 600;
+          transition: all 0.3s ease;
+          margin-top: 0.75rem;
+          font-size: 0.95rem;
+          letter-spacing: 0.5px;
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        "
+        onmouseover="this.style.boxShadow='0 6px 16px rgba(16, 185, 129, 0.4)'; this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)'; this.style.transform='translateY(0)'">
+      + Nieuwe Collectie
+    </button>
+  </div>
+
+  <!-- Create Collection Modal (Nested) -->
+  <div id="createCollectionModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 2rem; border-radius: 1.5rem; border: 2px solid #059669; z-index: 1001; min-width: 300px; max-width: 420px; width: 85vw; backdrop-filter: blur(12px);" class="<%= themaName === 'light' ? 'bg-slate-50 shadow-lg shadow-slate-200/40' : 'bg-slate-900 shadow-lg shadow-black/60' %>">
+    <button id="btn_close_create_modal" style="
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          background: transparent;
+          border: none;
+          color: #f87171;
+          font-size: 1.5rem;
+          cursor: pointer;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           transition: all 0.3s;
-          margin-top: 0.5rem;
-        ">
-      + Create New Collection
+          border-radius: 0.5rem;
+        "
+        onmouseover="this.style.backgroundColor='rgba(244, 63, 94, 0.1)'"
+        onmouseout="this.style.backgroundColor='transparent'">
+      &times;
     </button>
 
-    <div id="collection_filed" style="display: none; margin-top: 1rem; animation-fill-mode: forwards">
-      <input type="text" id="collection_name" placeholder="Collectie naam..." style="
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #1e293b;
-            color: white;
-            border: 1px solid #10b981;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-          " />
-      <button id="add_collection_btn" style="
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #059669;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-          ">
-        Create & Add Game
-      </button>
-    </div>
+    <h3 style="
+          color: #10b981;
+          margin: 0 0 1.5rem 0;
+          font-size: 1.2rem;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+        ">
+      📝 Nieuwe Collectie
+    </h3>
+
+    <input type="text" id="new_collection_name" placeholder="Collectie naam..." style="
+          width: 100%;
+          padding: 0.875rem;
+          border: 2px solid #10b981;
+          border-radius: 0.75rem;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          box-sizing: border-box;
+          margin-bottom: 1rem;
+        " class="<%= themaName === 'light' ? 'bg-slate-100 text-slate-900' : 'bg-slate-800 text-white' %>"
+        onfocus="this.style.borderColor='#059669'; this.style.boxShadow='0 0 0 3px rgba(16, 185, 129, 0.1)'"
+        onblur="this.style.borderColor='#10b981'; this.style.boxShadow='none'" />
+
+    <button id="btn_submit_create_collection" style="
+          width: 100%;
+          padding: 0.875rem;
+          background: linear-gradient(135deg, #059669 0%, #047857 100%);
+          color: white;
+          border: none;
+          border-radius: 0.75rem;
+          cursor: pointer;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          font-size: 0.95rem;
+          box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        "
+        onmouseover="this.style.boxShadow='0 6px 16px rgba(5, 150, 105, 0.4)'; this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.boxShadow='0 4px 12px rgba(5, 150, 105, 0.3)'; this.style.transform='translateY(0)'">
+      Maak aan & Voeg toe
+    </button>
   </div>
 
   <!-- Modal backdrop -->

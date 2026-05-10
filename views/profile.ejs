@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="/js/profile.js" defer></script>
+  <script src="/js/utils.js" defer></script>
 </head>
 
 <body class="games-body min-h-screen profile-page <%= themaName === 'light' ? 'theme-light' : 'theme-dark' %>">
@@ -60,6 +61,10 @@
               </label>
             </div>
           </div>
+
+          <% if (locals.notification && notification !== "") { %>
+            <div id="notification_active" class="hidden"><%=notification%></div>
+          <% } %>
 
           <form method="post" id="save_changes" class="profile-card <%= themaName === 'light' ? 'bg-white border-slate-200' : 'bg-zinc-900 border-zinc-800' %> border-2 rounded-2xl p-6 shadow-xl space-y-6">
             <h3 class="text-xl font-bold text-emerald-400 mb-4">
@@ -125,37 +130,34 @@
           <div id="collectioncontainer" class="profile-collections flex flex-col gap-4 p-4 rounded-2xl shadow-xl w-full max-h-80 overflow-y-auto">
           </div>
         </div>
-        <!-- Collection Modal Backdrop -->
-        <div id="collection_modal_backdrop" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
-
-
-          <div id="collection_modal" class="<%= themaName === 'light' ? 'bg-white border-slate-300' : 'bg-zinc-900 border-zinc-700' %> 
-              w-full max-w-lg md:max-w-xl rounded-3xl border-2 shadow-2xl overflow-hidden">
-
-
-            <div class="flex items-center justify-between border-b <%= themaName === 'light' ? 'border-slate-200' : 'border-zinc-700' %> px-6 py-4">
-
-              <h3 class="text-xl font-bold text-emerald-400">
-
-                Collectie
-              </h3>
-
-
-              <button id="btn_close_modal" class="btn_delete_collection flex items-center justify-center w-8 h-8 rounded-full bg-zinc-700 text-red-400 text-lg font-bold hover:bg-red-500 hover:text-white transition-all duration-200 shadow-sm">
-                ✕
-              </button>
-            </div>
-
-
-            <div class="p-6 flex" id="modal_body">
-      
-            </div>
-
-          </div>
-        </div>
       </div>
     </div>
 
   </main>
+
+<!-- Collection Modal Backdrop -->
+<div id="collection_modal_backdrop" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
+
+  <div id="collection_modal" class="<%= themaName === 'light' ? 'bg-white border-slate-300' : 'bg-zinc-900 border-zinc-700' %> 
+      w-full max-w-lg md:max-w-xl rounded-3xl border-2 shadow-2xl overflow-hidden">
+
+    <div class="flex items-center justify-between border-b <%= themaName === 'light' ? 'border-slate-200' : 'border-zinc-700' %> px-6 py-4">
+
+      <h3 class="text-xl font-bold text-emerald-400">
+
+        Collectie
+      </h3>
+
+      <button id="btn_close_modal" class="btn_delete_collection flex items-center justify-center w-8 h-8 rounded-full bg-zinc-700 text-red-400 text-lg font-bold hover:bg-red-500 hover:text-white transition-all duration-200 shadow-sm">
+        ✕
+      </button>
+    </div>
+
+    <div class="p-6 flex flex-wrap gap-4" id="modal_body">
+
+    </div>
+
+  </div>
+</div>
 
   <%- include('partials/footer') %>

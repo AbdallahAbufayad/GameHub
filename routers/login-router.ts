@@ -1,10 +1,9 @@
 import { Router } from "express";
 import { Users } from "../types";
-import { ObjectId } from "mongodb";
 import { getUser } from "../database";
 import bcrypt from "bcrypt";
 
-let notification: string = "";
+
 let loggedIn: boolean = false;
 
 export function loginRoute(): Router {
@@ -15,28 +14,28 @@ export function loginRoute(): Router {
 
     if (res.locals.user) {
       res.redirect("/profile");
+      return;
     }
+
+    // read & clear notification from session
+    const notification = req.session.notification || (req.query.notification as string) || "";
+    req.session.notification = "";
 
     res.render("login", {
       title: "Inloggen",
-      themaName: themaName,
-      notification: notification,
-      loggedIn: loggedIn,
+      themaName,
+      notification,
+      loggedIn,
     });
   });
 
   loginRouter.post("/", async (req, res) => {
     const themaName: string = res.locals.themaName;
-
     const emailOrUsername: string = req.body.email_username.toLowerCase();
     const password: string = req.body.password;
 
     try {
       let currentUser: Users | undefined = await getUser(emailOrUsername);
-
-      let userId: string | undefined = currentUser?._id?.toString();
-
-      console.log(userId?.toString());
 
       if (currentUser && currentUser.password) {
         if (
@@ -44,36 +43,32 @@ export function loginRoute(): Router {
             currentUser.email.toLowerCase()) &&
           (await bcrypt.compare(password, currentUser.password))
         ) {
-          notification =
-            "Je bent succesvol ingelogd! Je wordt direct doorgebracht naar de index pagina.";
           loggedIn = true;
           delete currentUser.password;
           req.session.user = currentUser;
+          req.session.notification = "Je bent succesvol ingelogd!";
           res.redirect("/profile");
           return;
         } else {
-          notification = "Het ingevoerde wachtwoord is verkeerd.";
           res.render("login", {
             title: "Inloggen",
-            themaName: themaName,
-            notification: notification,
-            loggedIn: loggedIn,
+            themaName,
+            notification: "Het ingevoerde wachtwoord is verkeerd.",
+            loggedIn,
           });
           return;
         }
       } else {
-        notification = "Gebruiker niet gevonden. Maak eerst een account aan!";
         res.render("login", {
           title: "Inloggen",
-          themaName: themaName,
-          notification: notification,
-          loggedIn: loggedIn,
+          themaName,
+          notification: "Gebruiker niet gevonden. Maak eerst een account aan!",
+          loggedIn,
         });
         return;
       }
     } catch (e: any) {
-      console.log(e);
-      console.error("Something went wrong with the database.");
+      console.error("Something went wrong with the database.", e);
     }
   });
 

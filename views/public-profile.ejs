@@ -105,19 +105,6 @@
         <div id="GamesOfCollection_profile">
           <div id="allGamesOfCollection_profile"></div>
         </div>
-        <div id="collection_modal_backdrop" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div id="collection_modal" class="<%= themaName === 'light' ? 'bg-white border-slate-300' : 'bg-zinc-900 border-zinc-700' %> w-full max-w-lg md:max-w-xl rounded-3xl border-2 shadow-2xl overflow-hidden">
-            <div class="flex items-center justify-between border-b <%= themaName === 'light' ? 'border-slate-200' : 'border-zinc-700' %> px-6 py-4">
-              <h3 class="text-xl font-bold text-emerald-400">
-                Collectie
-              </h3>
-              <button id="btn_close_modal" class="btn_modal_close flex items-center justify-center w-8 h-8 rounded-full bg-zinc-700 text-red-400 text-lg font-bold hover:bg-red-500 hover:text-white transition-all duration-200 shadow-sm">
-                ✕
-              </button>
-            </div>
-            <div class="p-6 flex flex-wrap gap-4" id="modal_body"></div>
-          </div>
-        </div>
       </div>
 
     <% } else { %>
@@ -128,5 +115,19 @@
 
   </div>
 </main>
+
+<div id="collection_modal_backdrop" class="hidden fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
+  <div id="collection_modal" class="<%= themaName === 'light' ? 'bg-white border-slate-300' : 'bg-zinc-900 border-zinc-700' %> w-full max-w-lg md:max-w-xl rounded-3xl border-2 shadow-2xl overflow-hidden">
+    <div class="flex items-center justify-between border-b <%= themaName === 'light' ? 'border-slate-200' : 'border-zinc-700' %> px-6 py-4">
+      <h3 class="text-xl font-bold text-emerald-400">
+        Collectie
+      </h3>
+      <button id="btn_close_modal" class="btn_modal_close flex items-center justify-center w-8 h-8 rounded-full bg-zinc-700 text-red-400 text-lg font-bold hover:bg-red-500 hover:text-white transition-all duration-200 shadow-sm">
+        ✕
+      </button>
+    </div>
+    <div class="p-6 flex flex-wrap gap-4" id="modal_body"></div>
+  </div>
+</div>
 
 <%- include('partials/footer') %>

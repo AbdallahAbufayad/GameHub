@@ -399,6 +399,103 @@ body::-webkit-scrollbar {
   height: 10px;
 }
 
+/* Comparison popup reveal styles */
+#comparison_popup { }
+#comparison_popup .reveal {
+  opacity: 0;
+  transform: translateY(10px) scale(0.995);
+  transition: opacity 320ms var(--motion-ease), transform 320ms var(--motion-ease);
+}
+#comparison_popup .reveal.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+#comparison_popup .cmp-row > div {
+  background: transparent !important;
+}
+
+
+body.theme-dark #comparison_popup > div.relative.z-10 {
+  background: #0b1220 !important;
+  border-color: rgba(16,185,129,0.38) !important;
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6) !important;
+  color: #e6eef6 !important;
+}
+
+body.theme-dark #comparison_popup .cmp-row > div,
+body.theme-dark #comparison_popup .rounded-xl {
+  background: #0f1724 !important;
+  color: #cbd5e1 !important;
+  border-color: rgba(148,163,184,0.06) !important;
+}
+
+body.theme-dark #comparison_popup #cmp_left_image,
+body.theme-dark #comparison_popup #cmp_right_image {
+  background-color: #0b1220 !important;
+}
+
+body.theme-dark #comparison_popup #close_comparison_btn {
+  color: #cbd5e1 !important;
+}
+
+body.theme-light #comparison_popup > div.relative.z-10 {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Ensure rows/cards in light theme have visible background and shadow */
+body.theme-light #comparison_popup .cmp-row > div,
+body.theme-light #comparison_popup .rounded-xl {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: rgba(148,163,184,0.06) !important;
+  box-shadow: 0 12px 36px rgba(2,6,23,0.08), 0 0 18px rgba(16,185,129,0.04) inset !important;
+}
+
+
+/* Add soft glow / shadow to all popup boxes and rows */
+#comparison_popup .rounded-xl,
+#comparison_popup .cmp-row > div {
+  transition: box-shadow 240ms var(--motion-ease), transform 200ms var(--motion-ease);
+  box-shadow: 0 8px 20px rgba(2,6,23,0.06);
+}
+
+/* stronger theme-aware glow */
+body.theme-light #comparison_popup .rounded-xl,
+body.theme-light #comparison_popup .cmp-row > div {
+  box-shadow: 0 10px 30px rgba(16,185,129,0.06), 0 0 18px rgba(16,185,129,0.03) inset;
+}
+
+body.theme-dark #comparison_popup .rounded-xl,
+body.theme-dark #comparison_popup .cmp-row > div {
+  box-shadow: 0 14px 40px rgba(2,6,23,0.55), 0 0 30px rgba(16,185,129,0.08) inset;
+}
+
+#comparison_popup .rounded-xl:hover,
+#comparison_popup .cmp-row > div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 50px rgba(16,185,129,0.12), 0 0 40px rgba(16,185,129,0.06) !important;
+}
+
+/* Ensure both cards and rows have consistent 1px borders */
+#comparison_popup .cmp-card,
+#comparison_popup .cmp-row > div {
+  box-sizing: border-box;
+  border: 1px solid rgba(148,163,184,0.06) !important;
+}
+
+/* Theme-specific subtle border colors */
+body.theme-dark #comparison_popup .cmp-card,
+body.theme-dark #comparison_popup .cmp-row > div {
+  border: 1px solid rgba(16,185,129,0.06) !important;
+}
+
+body.theme-light #comparison_popup .cmp-card,
+body.theme-light #comparison_popup .cmp-row > div {
+  border: 1px solid rgba(148,163,184,0.06) !important;
+}
+
 html.theme-dark::-webkit-scrollbar-track,
 body.theme-dark::-webkit-scrollbar-track {
   background: #09111f;
@@ -1009,6 +1106,17 @@ body.public-profile-page .btn_modal_close {
     flex-direction: column;
     gap: 0.5rem;
     margin: 0 auto;
+  }
+}
+
+@keyframes showInput {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) translateY(0);
   }
 }
 

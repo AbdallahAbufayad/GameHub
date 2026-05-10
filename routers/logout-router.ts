@@ -5,9 +5,9 @@ export function logoutRouter(){
 
     router.get("/", (req, res) => {
         req.session.destroy(() => {
-            res.redirect("/login");
-        })
-    })
+            res.redirect("/login?notification=Je+bent+succesvol+uitgelogd!");
+        });
+    });
 
     return router;
 }

@@ -7,9 +7,14 @@ const btn_close_modal = document.querySelector("#btn_close_modal");
 const toggle_collections = document.querySelector("#toggle_collections");
 const isPublicProfilePage = document.body.classList.contains("public-profile-page");
 
+const isLightTheme = () => {
+  return document.body.classList.contains("theme-light");
+};
+
 const closeCollectionModal = () => {
   if (!collection_modal_backdrop) return;
   collection_modal_backdrop.style.display = "none";
+  document.body.style.overflow = "";
   if (modal_body) {
     modal_body.innerHTML = "";
   }
@@ -28,15 +33,13 @@ const decodeCollectionGames = (value) => {
 const openCollectionModal = (collectionName, games, allowDelete) => {
   if (!collection_modal_backdrop || !modal_body) return;
 
+  document.body.style.overflow = "hidden";
   collection_modal_backdrop.style.display = "flex";
   modal_body.innerHTML = "";
 
   if (isPublicProfilePage) {
     modal_body.classList.remove(
-      "flex-row",
       "flex-wrap",
-      "items-start",
-      "justify-start",
       "gap-4",
     );
     modal_body.classList.add("flex-col", "items-center", "justify-center");
@@ -52,12 +55,15 @@ const openCollectionModal = (collectionName, games, allowDelete) => {
 
   if (isPublicProfilePage) {
     modal_body.classList.remove("flex-col", "items-center", "justify-center");
-    modal_body.classList.add("flex-row", "flex-wrap", "items-start", "justify-start", "gap-4");
+    modal_body.classList.add("flex-wrap", "gap-4");
   }
 
   for (const game of games) {
     const gameContainer = document.createElement("div");
     const gameImage = document.createElement("img");
+
+    const bgClass = isLightTheme() ? "bg-white" : "bg-zinc-800";
+    const borderClass = isLightTheme() ? "border-slate-300/70" : "border-zinc-700";
 
     gameContainer.classList.add(
       "relative",
@@ -65,8 +71,8 @@ const openCollectionModal = (collectionName, games, allowDelete) => {
       "overflow-hidden",
       "rounded-2xl",
       "border",
-      "border-slate-300/70",
-      "bg-white",
+      borderClass,
+      bgClass,
       "shadow-md",
     );
     gameImage.classList.add(
@@ -123,7 +129,12 @@ const openCollectionModal = (collectionName, games, allowDelete) => {
           }),
         });
 
-        location.reload();
+      
+        showNotification(`"${game.gameName}" verwijderd uit "${collectionName}"`);
+
+          setTimeout(() => {
+          location.reload();
+        }, 2000);
       });
 
       gameContainer.appendChild(btnDeleteGame);
@@ -292,8 +303,49 @@ async function main() {
     toggle_collections.addEventListener("click", () => {
       const isHidden = collectioncontainer.classList.toggle("hidden");
       toggle_collections.textContent = isHidden ? "Toon" : "Verberg";
+      showNotification(isHidden ? "Collecties verborgen" : "Collecties zichtbaar");
     });
   }
 }
 
+function showNotification(message) {
+  let notif = document.querySelector("#notification");
+  let text = notif ? document.querySelector("#error_text") : null;
+
+  if (!notif) {
+    notif = document.createElement("div");
+    notif.id = "notification";
+    notif.setAttribute("role", "alert");
+    notif.style.cssText =
+      "position:fixed;top:1.25rem;left:50%;transform:translateX(-50%) translateY(-120px);z-index:9999999;width:90%;max-width:28rem;padding:1rem 1.5rem;border-radius:0.875rem;box-shadow:0 10px 30px rgba(0,0,0,0.3);display:none;opacity:0;transition:opacity 0.3s ease,transform 0.3s ease;text-align:center;border-left:4px solid #10b981;";
+    text = document.createElement("p");
+    text.id = "error_text";
+    text.style.cssText =
+      "font-size:0.95rem;margin:0;text-align:center;font-weight:500;letter-spacing:0.3px;";
+    notif.appendChild(text);
+    document.querySelector(".games-header")?.appendChild(notif) ?? document.body.appendChild(notif);
+  }
+
+  notif.style.backgroundColor = "#10b981";
+  notif.style.color = "#ffffff";
+  text.style.color = "#ffffff";
+
+  text.innerHTML = message;
+  notif.style.display = "block";
+  requestAnimationFrame(() => {
+    notif.style.opacity = "1";
+    notif.style.transform = "translateX(-50%) translateY(0)";
+  });
+
+  setTimeout(() => {
+    notif.style.opacity = "0";
+    notif.style.transform = "translateX(-50%) translateY(-120px)";
+    setTimeout(() => {
+      notif.style.display = "none";
+    }, 300);
+  }, 5000);
+}
+
 main();
+
+

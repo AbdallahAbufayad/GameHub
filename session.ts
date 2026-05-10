@@ -32,3 +32,10 @@ export default session({
         maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
     }
 });
+
+declare module "express-session" {
+  interface SessionData {
+    user?: Users;
+    notification: string;
+  }
+}

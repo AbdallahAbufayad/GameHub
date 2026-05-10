@@ -14,23 +14,26 @@ export function profileRoute() {
   const profileRouter = Router();
 
   profileRouter.get("/", (req, res) => {
-    const themaName: string = res.locals.themaName;
+      const themaName: string = res.locals.themaName;
+      const user: Users = res.locals.user;
 
-    const user: Users = res.locals.user;
+      const notification = req.session.notification ?? "";
+      req.session.notification = "";
 
-    res.render("profile", {
-      title: "Profiel",
-      themaName: themaName,
-      username: user.username,
-      aboutMe: user.about_me,
-      email: user.email,
-      lvl: user.level,
-      imageSrc: user.profile_picture,
-      collections: user.collection_more,
-      publicProfile: user.public_profile,
-      currentPage: "profile",
+      res.render("profile", {
+        title: "Profiel",
+        themaName: themaName,
+        username: user.username,
+        aboutMe: user.about_me,
+        email: user.email,
+        lvl: user.level,
+        imageSrc: user.profile_picture,
+        collections: user.collection_more,
+        publicProfile: user.public_profile,
+        currentPage: "profile",
+        notification,
+      });
     });
-  });
 
   profileRouter.get("/collection", async (req, res) => {
     if (req.session.user?._id === undefined) return;
