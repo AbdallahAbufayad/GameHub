@@ -7,7 +7,11 @@
     </a>
     <a>
       <div id="current_game" class="<%= themaName === 'light' ? 'text-slate-900' : 'text-emerald-400' %> font-semibold">
-        Geen spel
+        <% if (currently_playing === undefined || currently_playing_id === undefined) { %>
+          Geen game
+        <% } else {%>
+         <a href="../game-info/<%=currently_playing_id%>"><%=currently_playing%></a>
+          <%}%>
       </div>
     </a>
   </div>

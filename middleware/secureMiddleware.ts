@@ -13,8 +13,11 @@ export async function secureMiddleware(req: Request, res: Response, next: NextFu
     return req.session.destroy(() => res.redirect("/login"));
   }
 
+  const currentlyPlayingCol = req.session.user.collection_more.find(c => c.collectionName === "Momenteel aan het spelen")?.allGames[0];
+
   req.session.user = currentUserInfo;
   res.locals.user = currentUserInfo;
-  console.log(req.session.user);
+  res.locals.currently_playing = currentlyPlayingCol?.gameName;
+  res.locals.currently_playing_id = currentlyPlayingCol?.gameId;
   next();
 }
