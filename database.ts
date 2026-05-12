@@ -213,6 +213,10 @@ export async function updateUserPicture(user: Users, image: string) {
   return "Profiel foto successvol veranderd!";
 }
 
+export async function getRecentUserInfo(userId: string): Promise<Users | null> {
+  return userCollection.findOne({ _id: new ObjectId(userId) });
+}
+
 //////////////
 
 export async function getGames() {

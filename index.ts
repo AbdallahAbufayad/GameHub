@@ -42,6 +42,7 @@ let notification: string = "";
 let loggedIn = false;
 let counterShowFilters = 1;
 
+
 app.use(ThemeMiddleware.apply);
 app.use("/", index());
 app.use("/home", secureMiddleware, home());
