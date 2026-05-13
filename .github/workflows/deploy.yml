@@ -19,7 +19,8 @@ jobs:
           script: |
             cd /var/www/wpl
 
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
 
             docker-compose down
             docker-compose up --build -d
