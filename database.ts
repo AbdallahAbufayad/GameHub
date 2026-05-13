@@ -14,7 +14,7 @@ export const MONGODB_URI: string = process.env.MONGODB;
 let gamesOfApi: GamesApi;
 export let counter = 1;
 const url: string =
-  "https://api.rawg.io/api/games?key=30778c23f4f34908a65b042d94443ba7&dates=1969-01-01,2026-04-11";
+  "https://api.rawg.io/api/games?key=0dd5b24612bc410abab2e6e861057278&dates=1969-01-01,2026-04-11";
 const client: MongoClient = new MongoClient(process.env.MONGODB);
 let userCollection: Collection<Users> = client
   .db("users")

@@ -6,8 +6,12 @@ const modal_backdrop = document.querySelector("#modal_backdrop");
 const delete_collection_btn = document.querySelector("#delete_collection_btn");
 const create_collection_btn = document.querySelector("#create_collection_btn");
 const createCollectionModal = document.querySelector("#createCollectionModal");
-const btn_close_create_modal = document.querySelector("#btn_close_create_modal");
-const btn_submit_create_collection = document.querySelector("#btn_submit_create_collection");
+const btn_close_create_modal = document.querySelector(
+  "#btn_close_create_modal",
+);
+const btn_submit_create_collection = document.querySelector(
+  "#btn_submit_create_collection",
+);
 const new_collection_name = document.querySelector("#new_collection_name");
 const scroll_to_reviews_btn = document.querySelector("#scroll_to_reviews_btn");
 const review_container = document.querySelector("#review_container");
@@ -30,7 +34,7 @@ const applyCollectionMenuTheme = () => {
 const fetchGameData = async () => {
   const pathParts = window.location.pathname.split("/");
   const gameId = pathParts[pathParts.length - 1];
-  const url = `https://api.rawg.io/api/games/${gameId}?key=30778c23f4f34908a65b042d94443ba7`;
+  const url = `https://api.rawg.io/api/games/${gameId}?key=0dd5b24612bc410abab2e6e861057278`;
   const response = await fetch(url);
   currentGameData = await response.json();
   return currentGameData;
@@ -138,9 +142,8 @@ const renderCollectionsList = (collections) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: (await fetch("/game-info/userid").then((r) =>
-            r.json()
-          )).userId,
+          userId: (await fetch("/game-info/userid").then((r) => r.json()))
+            .userId,
           newCollection: {
             collectionName: collection.collectionName,
             allGames: [
@@ -191,9 +194,7 @@ const loadCollections = async () => {
   }
 
   try {
-    const response = await fetch(
-      "/game-info/collections/list",
-    );
+    const response = await fetch("/game-info/collections/list");
     const data = await response.json();
 
     if (loading_collections) {
@@ -331,7 +332,8 @@ function showNotification(message) {
     text.style.cssText =
       "font-size:0.95rem;margin:0;text-align:center;font-weight:500;letter-spacing:0.3px;";
     notif.appendChild(text);
-    document.querySelector(".games-header")?.appendChild(notif) ?? document.body.appendChild(notif);
+    document.querySelector(".games-header")?.appendChild(notif) ??
+      document.body.appendChild(notif);
   }
 
   notif.style.backgroundColor = "#10b981";
