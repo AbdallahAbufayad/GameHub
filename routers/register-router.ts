@@ -23,9 +23,13 @@ export function registerRoute(): Router {
   registerRouter.post("/", async (req, res) => {
     const themaName: string = res.locals.themaName;
 
-    const saltRounds : number = 10;
+    const saltRounds: number = 10;
 
-        if (req.body.email.toLowerCase() === undefined || req.body.username.toLowerCase() === undefined || req.body.password === undefined) {
+    if (
+      req.body.email.toLowerCase() === undefined ||
+      req.body.username.toLowerCase() === undefined ||
+      req.body.password === undefined
+    ) {
       notification = "Je moet alle velden invullen.";
       res.render("register", {
         title: "Registreren",
@@ -37,7 +41,7 @@ export function registerRoute(): Router {
 
     const email: string = req.body.email.toLowerCase();
     const username: string = req.body.username.toLowerCase();
-    const password: string = await bcrypt.hash(req.body.password, saltRounds); 
+    const password: string = await bcrypt.hash(req.body.password, saltRounds);
 
     const newUser: Users = getDefaultRegisteredUser(email, username, password);
 

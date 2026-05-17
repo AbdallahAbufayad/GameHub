@@ -3,7 +3,6 @@ import { Users } from "../types";
 import { getUser } from "../database";
 import bcrypt from "bcrypt";
 
-
 let loggedIn: boolean = false;
 
 export function loginRoute(): Router {
@@ -18,7 +17,8 @@ export function loginRoute(): Router {
     }
 
     // read & clear notification from session
-    const notification = req.session.notification || (req.query.notification as string) || "";
+    const notification =
+      req.session.notification || (req.query.notification as string) || "";
     req.session.notification = "";
 
     res.render("login", {

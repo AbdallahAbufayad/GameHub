@@ -64,10 +64,18 @@ const renderCollectionsList = (collections) => {
     overflow-y: auto;
     padding-right: 0.5rem;
   `;
-
-  for (const collection of collections) {
-    const collectionItem = document.createElement("div");
-    collectionItem.style.cssText = `
+  const pathParts = window.location.pathname.split("/");
+  const gameId = pathParts[pathParts.length - 1];
+  for (let collection of collections) {
+    if (collection.allGames.length > 0) {
+      for (let game of collection.allGames) {
+        if (game.gameId === gameId) {
+          continue;
+        }
+      }
+    } else {
+      const collectionItem = document.createElement("div");
+      collectionItem.style.cssText = `
       padding: 1rem;
       border: 2px solid ${isLightTheme ? "#e2e8f0" : "#334155"};
       border-radius: 0.875rem;
@@ -80,27 +88,27 @@ const renderCollectionsList = (collections) => {
       gap: 1rem;
     `;
 
-    collectionItem.onmouseover = () => {
-      collectionItem.style.borderColor = "#10b981";
-      collectionItem.style.backgroundColor = isLightTheme
-        ? "rgba(240, 253, 250, 0.8)"
-        : "rgba(16, 185, 129, 0.08)";
-      collectionItem.style.boxShadow = "0 4px 12px rgba(16, 185, 129, 0.2)";
-      collectionItem.style.transform = "translateY(-2px)";
-    };
+      collectionItem.onmouseover = () => {
+        collectionItem.style.borderColor = "#10b981";
+        collectionItem.style.backgroundColor = isLightTheme
+          ? "rgba(240, 253, 250, 0.8)"
+          : "rgba(16, 185, 129, 0.08)";
+        collectionItem.style.boxShadow = "0 4px 12px rgba(16, 185, 129, 0.2)";
+        collectionItem.style.transform = "translateY(-2px)";
+      };
 
-    collectionItem.onmouseout = () => {
-      collectionItem.style.borderColor = isLightTheme ? "#e2e8f0" : "#334155";
-      collectionItem.style.backgroundColor = isLightTheme
-        ? "rgba(248, 250, 252, 0.5)"
-        : "rgba(30, 41, 59, 0.4)";
-      collectionItem.style.boxShadow = "none";
-      collectionItem.style.transform = "translateY(0)";
-    };
+      collectionItem.onmouseout = () => {
+        collectionItem.style.borderColor = isLightTheme ? "#e2e8f0" : "#334155";
+        collectionItem.style.backgroundColor = isLightTheme
+          ? "rgba(248, 250, 252, 0.5)"
+          : "rgba(30, 41, 59, 0.4)";
+        collectionItem.style.boxShadow = "none";
+        collectionItem.style.transform = "translateY(0)";
+      };
 
-    const collectionInfo = document.createElement("div");
-    collectionInfo.style.cssText = "flex: 1; min-width: 0;";
-    collectionInfo.innerHTML = `
+      const collectionInfo = document.createElement("div");
+      collectionInfo.style.cssText = "flex: 1; min-width: 0;";
+      collectionInfo.innerHTML = `
       <p style="margin: 0; font-weight: 600; color: ${isLightTheme ? "#0f172a" : "#f1f5f9"}; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
         ${collection.collectionName}
       </p>
@@ -109,8 +117,8 @@ const renderCollectionsList = (collections) => {
       </p>
     `;
 
-    const checkmark = document.createElement("div");
-    checkmark.style.cssText = `
+      const checkmark = document.createElement("div");
+      checkmark.style.cssText = `
       width: 24px;
       height: 24px;
       border-radius: 50%;
@@ -125,62 +133,64 @@ const renderCollectionsList = (collections) => {
       opacity: 0;
       transition: opacity 0.3s ease;
     `;
-    checkmark.innerHTML = "✓";
+      checkmark.innerHTML = "✓";
 
-    collectionItem.appendChild(collectionInfo);
-    collectionItem.appendChild(checkmark);
+      collectionItem.appendChild(collectionInfo);
+      collectionItem.appendChild(checkmark);
 
-    collectionItem.addEventListener("click", async () => {
-      if (!currentGameData) {
-        await fetchGameData();
-      }
+      collectionItem.addEventListener("click", async () => {
+        if (!currentGameData) {
+          await fetchGameData();
+        }
 
-      const pathParts = window.location.pathname.split("/");
-      const gameId = pathParts[pathParts.length - 1];
+        const pathParts = window.location.pathname.split("/");
+        const gameId = pathParts[pathParts.length - 1];
 
-      await fetch("/game-info/addToCollection", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: (await fetch("/game-info/userid").then((r) => r.json()))
-            .userId,
-          newCollection: {
-            collectionName: collection.collectionName,
-            allGames: [
-              {
-                gameId: gameId,
-                gameName: currentGameData.name,
-                gameImge: currentGameData.background_image,
-              },
-            ],
-          },
-        }),
+        await fetch("/game-info/addToCollection", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: (await fetch("/game-info/userid").then((r) => r.json()))
+              .userId,
+            newCollection: {
+              collectionName: collection.collectionName,
+              allGames: [
+                {
+                  gameId: gameId,
+                  gameName: currentGameData.name,
+                  gameImge: currentGameData.background_image,
+                },
+              ],
+            },
+          }),
+        });
+
+        showNotification(
+          `✨ "${currentGameData.name}" toegevoegd aan "${collection.collectionName}"`,
+        );
+
+        if (addToCollectionMenu) {
+          addToCollectionMenu.style.display = "none";
+        }
+        if (modal_backdrop) {
+          modal_backdrop.style.display = "none";
+        }
+        //if (collection_filed) {
+        //collection_filed.style.display = "none";
+        //}
       });
 
-      showNotification(
-        `✨ "${currentGameData.name}" toegevoegd aan "${collection.collectionName}"`,
-      );
+      collectionItem.addEventListener("mouseenter", () => {
+        checkmark.style.opacity = "1";
+      });
 
-      if (addToCollectionMenu) {
-        addToCollectionMenu.style.display = "none";
-      }
-      if (modal_backdrop) {
-        modal_backdrop.style.display = "none";
-      }
-      if (collection_filed) {
-        collection_filed.style.display = "none";
-      }
-    });
+      collectionItem.addEventListener("mouseleave", () => {
+        checkmark.style.opacity = "0";
+      });
 
-    collectionItem.addEventListener("mouseenter", () => {
-      checkmark.style.opacity = "1";
-    });
-
-    collectionItem.addEventListener("mouseleave", () => {
-      checkmark.style.opacity = "0";
-    });
-
-    collectionsList.appendChild(collectionItem);
+      collectionsList.appendChild(collectionItem);
+      /////
+    }
   }
 
   allCollectionsNames.appendChild(collectionsList);
