@@ -66,14 +66,21 @@ const renderCollectionsList = (collections) => {
   `;
   const pathParts = window.location.pathname.split("/");
   const gameId = pathParts[pathParts.length - 1];
+  let addCollection = false;
   for (let collection of collections) {
     if (collection.allGames.length > 0) {
       for (let game of collection.allGames) {
         if (game.gameId === gameId) {
           continue;
+        } else {
+          addCollection = true;
         }
       }
     } else {
+      addCollection = true;
+    }
+
+    if (addCollection) {
       const collectionItem = document.createElement("div");
       collectionItem.style.cssText = `
       padding: 1rem;
@@ -189,7 +196,6 @@ const renderCollectionsList = (collections) => {
       });
 
       collectionsList.appendChild(collectionItem);
-      /////
     }
   }
 
