@@ -71,7 +71,7 @@ const renderCollectionsList = (collections) => {
     if (collection.allGames.length > 0) {
       for (let game of collection.allGames) {
         if (game.gameId === gameId) {
-          continue;
+          addCollection = false;
         } else {
           addCollection = true;
         }
@@ -80,7 +80,7 @@ const renderCollectionsList = (collections) => {
       addCollection = true;
     }
 
-    if (addCollection) {
+    if (addCollection === true) {
       const collectionItem = document.createElement("div");
       collectionItem.style.cssText = `
       padding: 1rem;
@@ -196,6 +196,8 @@ const renderCollectionsList = (collections) => {
       });
 
       collectionsList.appendChild(collectionItem);
+    } else {
+      continue;
     }
   }
 
