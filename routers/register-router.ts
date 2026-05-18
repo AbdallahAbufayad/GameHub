@@ -48,8 +48,8 @@ export function registerRoute(): Router {
     try {
       let userExists: boolean = await checkIfUserExists(email, username);
 
-      if (req.body.password.length < 12) {
-        notification = "Uw wachtwoord moet minstens 12 karakters bevatten.";
+      if (req.body.password.length < 8) {
+        notification = "Uw wachtwoord moet minstens 8 karakters bevatten.";
         res.render("register", {
           title: "Registreren",
           themaName: themaName,
