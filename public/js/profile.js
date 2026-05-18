@@ -5,7 +5,9 @@ const collection_modal_backdrop = document.querySelector(
 const modal_body = document.querySelector("#modal_body");
 const btn_close_modal = document.querySelector("#btn_close_modal");
 const toggle_collections = document.querySelector("#toggle_collections");
-const isPublicProfilePage = document.body.classList.contains("public-profile-page");
+const isPublicProfilePage = document.body.classList.contains(
+  "public-profile-page",
+);
 
 const isLightTheme = () => {
   return document.body.classList.contains("theme-light");
@@ -38,10 +40,7 @@ const openCollectionModal = (collectionName, games, allowDelete) => {
   modal_body.innerHTML = "";
 
   if (isPublicProfilePage) {
-    modal_body.classList.remove(
-      "flex-wrap",
-      "gap-4",
-    );
+    modal_body.classList.remove("flex-wrap", "gap-4");
     modal_body.classList.add("flex-col", "items-center", "justify-center");
   }
 
@@ -63,7 +62,9 @@ const openCollectionModal = (collectionName, games, allowDelete) => {
     const gameImage = document.createElement("img");
 
     const bgClass = isLightTheme() ? "bg-white" : "bg-zinc-800";
-    const borderClass = isLightTheme() ? "border-slate-300/70" : "border-zinc-700";
+    const borderClass = isLightTheme()
+      ? "border-slate-300/70"
+      : "border-zinc-700";
 
     gameContainer.classList.add(
       "relative",
@@ -75,12 +76,7 @@ const openCollectionModal = (collectionName, games, allowDelete) => {
       bgClass,
       "shadow-md",
     );
-    gameImage.classList.add(
-      "w-24",
-      "h-24",
-      "object-cover",
-      "rounded-2xl",
-    );
+    gameImage.classList.add("w-24", "h-24", "object-cover", "rounded-2xl");
     gameImage.src = game.gameImge;
     gameImage.alt = game.gameName;
 
@@ -129,10 +125,11 @@ const openCollectionModal = (collectionName, games, allowDelete) => {
           }),
         });
 
-      
-        showNotification(`"${game.gameName}" verwijderd uit "${collectionName}"`);
+        showNotification(
+          `"${game.gameName}" verwijderd uit "${collectionName}"`,
+        );
 
-          setTimeout(() => {
+        setTimeout(() => {
           location.reload();
         }, 2000);
       });
@@ -155,7 +152,8 @@ async function main() {
       if (!(collectionButton instanceof HTMLButtonElement)) return;
 
       const games = decodeCollectionGames(collectionButton.dataset.games);
-      const collectionName = collectionButton.textContent?.trim() ?? "Collectie";
+      const collectionName =
+        collectionButton.textContent?.trim() ?? "Collectie";
 
       const openReadOnlyCollection = () => {
         openCollectionModal(collectionName, games, false);
@@ -230,55 +228,60 @@ async function main() {
         openCollectionModalForUser();
       });
 
-      btnDeleteCollection.classList.add(
-        "btn_delete_collection",
-        "flex",
-        "items-center",
-        "justify-center",
-        "w-8",
-        "h-8",
-        "rounded-full",
-        "bg-zinc-700",
-        "text-red-400",
-        "text-lg",
-        "font-bold",
-        "hover:bg-red-500",
-        "hover:text-white",
-        "transition-all",
-        "duration-200",
-        "shadow-sm",
-      );
+      if (userinfo.collectionName !== "Momenteel aan het spelen") {
+        btnDeleteCollection.classList.add(
+          "btn_delete_collection",
+          "flex",
+          "items-center",
+          "justify-center",
+          "w-8",
+          "h-8",
+          "rounded-full",
+          "bg-zinc-700",
+          "text-red-400",
+          "text-lg",
+          "font-bold",
+          "hover:bg-red-500",
+          "hover:text-white",
+          "transition-all",
+          "duration-200",
+          "shadow-sm",
+        );
 
-      btnDeleteCollection.dataset.name = "delbtn";
-      btnDeleteCollection.setAttribute("aria-label", "Verwijder collectie");
-      btnDeleteCollection.innerHTML = `
+        btnDeleteCollection.dataset.name = "delbtn";
+        btnDeleteCollection.setAttribute("aria-label", "Verwijder collectie");
+        btnDeleteCollection.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 7.5h12m-10.5 0 .75 12.75A1.125 1.125 0 0 0 9.375 21h5.25a1.125 1.125 0 0 0 1.125-1.125L16.5 7.5m-8.25 0V6.375A1.125 1.125 0 0 1 9.375 5.25h5.25A1.125 1.125 0 0 1 15.75 6.375V7.5m-8.25 0h8.25m-6 3v6m3-6v6" />
         </svg>
       `;
 
-      btnDeleteCollection.addEventListener("click", async (event) => {
-        event.stopPropagation();
-        const user = await fetch("/game-info/userid");
-        const userId = await user.json();
+        btnDeleteCollection.addEventListener("click", async (event) => {
+          event.stopPropagation();
+          const user = await fetch("/game-info/userid");
+          const userId = await user.json();
 
-        fetch("/profile/deletecollection", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: userId.userId,
-            name: userinfo.collectionName,
-          }),
+          fetch("/profile/deletecollection", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: userId.userId,
+              name: userinfo.collectionName,
+            }),
+          });
+
+          showNotification(`Collectie "${userinfo.collectionName}" verwijderd`);
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
         });
 
-        showNotification(`Collectie "${userinfo.collectionName}" verwijderd`);
-          setTimeout(() => {
-          location.reload();
-        }, 2000);
-      });
+        collectionContainerOfGames.appendChild(btnCollectionName);
 
-      collectionContainerOfGames.appendChild(btnCollectionName);
-      collectionContainerOfGames.appendChild(btnDeleteCollection);
+        collectionContainerOfGames.appendChild(btnDeleteCollection);
+      } else {
+        collectionContainerOfGames.appendChild(btnCollectionName);
+      }
 
       collectioncontainer.appendChild(collectionContainerOfGames);
     }
@@ -306,7 +309,9 @@ async function main() {
     toggle_collections.addEventListener("click", () => {
       const isHidden = collectioncontainer.classList.toggle("hidden");
       toggle_collections.textContent = isHidden ? "Toon" : "Verberg";
-      showNotification(isHidden ? "Collecties verborgen" : "Collecties zichtbaar");
+      showNotification(
+        isHidden ? "Collecties verborgen" : "Collecties zichtbaar",
+      );
     });
   }
 }
@@ -326,7 +331,8 @@ function showNotification(message) {
     text.style.cssText =
       "font-size:0.95rem;margin:0;text-align:center;font-weight:500;letter-spacing:0.3px;";
     notif.appendChild(text);
-    document.querySelector(".games-header")?.appendChild(notif) ?? document.body.appendChild(notif);
+    document.querySelector(".games-header")?.appendChild(notif) ??
+      document.body.appendChild(notif);
   }
 
   notif.style.backgroundColor = "#10b981";
@@ -395,5 +401,3 @@ if (profilePicInput) {
 }
 
 main();
-
-
