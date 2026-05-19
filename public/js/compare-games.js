@@ -1,4 +1,4 @@
-const API_KEY = "30778c23f4f34908a65b042d94443ba7";
+const API_KEY = "7b9081eb03f541489a470e4c82289453";
 const API_BASE_URL = "https://api.rawg.io/api/games";
 
 const select = (selector) => document.querySelector(selector);

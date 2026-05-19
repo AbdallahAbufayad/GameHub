@@ -3,7 +3,7 @@ import { GamesApi, Results } from "../types";
 import { rawgCache } from "./rawgCache";
 
 const url =
-  "https://api.rawg.io/api/games?key=0dd5b24612bc410abab2e6e861057278&dates=1969-01-01,2026-04-11";
+  "https://api.rawg.io/api/games?key=7b9081eb03f541489a470e4c82289453&dates=1969-01-01,2026-04-11";
 
 async function fetchAllPages(
   ordering: string,

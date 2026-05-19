@@ -36,7 +36,7 @@ export function gameInfo() {
   router.get("/:id", async (req, res) => {
     const themaName: string = res.locals.themaName;
     const id: string = req.params.id;
-    const url: string = `https://api.rawg.io/api/games/${id}?key=0dd5b24612bc410abab2e6e861057278`;
+    const url: string = `https://api.rawg.io/api/games/${id}?key=7b9081eb03f541489a470e4c82289453`;
 
     const response = await fetch(url);
     const game: Game = await response.json();
