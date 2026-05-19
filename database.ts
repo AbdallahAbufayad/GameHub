@@ -13,8 +13,8 @@ export const MONGODB_URI: string = process.env.MONGODB;
 
 let gamesOfApi: GamesApi;
 export let counter = 1;
-const url: string =
-  "https://api.rawg.io/api/games?key=7b9081eb03f541489a470e4c82289453&dates=1969-01-01,2026-04-11";
+
+const url: string = `https://api.rawg.io/api/games?key=${process.env.RAWG_API_KEY}&dates=1969-01-01,2026-04-11`;
 const client: MongoClient = new MongoClient(process.env.MONGODB);
 let userCollection: Collection<Users> = client
   .db("users")

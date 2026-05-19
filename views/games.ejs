@@ -45,9 +45,9 @@
           <div class="games-search">
             <input id="search_input" name="searchGame" value="<%= searchGame%>" type="text" placeholder="Zoek voor games..." class="games-input text-sm sm:text-base" autocomplete="off" list="games_suggestions" />
             <datalist id="games_suggestions"></datalist>
-            <button id="clear_btn" type="submit" name="clearField" value="clicked" class="games-clear absolute right-3 top-1/2 -translate-y-1/2 text-sm sm:text-base <%= searchGame ? '' : 'hidden' %>">
+            <button id="clear_btn" type="button" name="clearField" value="clicked" class="games-clear absolute right-3 top-1/2 -translate-y-1/2 text-sm sm:text-base <%= searchGame ? '' : 'hidden' %>">
               ✕
-            </button>
+            </button> 
           </div>
 
           <div class="games-toolbar-actions">

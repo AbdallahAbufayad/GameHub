@@ -36,8 +36,6 @@ app.set("views", path.join(__dirname, "views"));
 
 app.set("port", process.env.PORT || 3000);
 
-const url: string = `https://api.rawg.io/api/games?key=7b9081eb03f541489a470e4c82289453&dates=1969-01-01,2026-04-11`;
-
 let notification: string = "";
 let loggedIn = false;
 let counterShowFilters = 1;

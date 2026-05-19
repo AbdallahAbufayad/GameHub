@@ -2,8 +2,7 @@ import { getGames, getRecentGames } from "../database";
 import { GamesApi, Results } from "../types";
 import { rawgCache } from "./rawgCache";
 
-const url =
-  "https://api.rawg.io/api/games?key=7b9081eb03f541489a470e4c82289453&dates=1969-01-01,2026-04-11";
+const url: string = `https://api.rawg.io/api/games?key=${process.env.RAWG_API_KEY}&dates=1969-01-01,2026-04-11`;
 
 async function fetchAllPages(
   ordering: string,
