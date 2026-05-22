@@ -1,4 +1,4 @@
-const API_KEY = process.env.RAWG_API_KEY;
+const API_KEY = window.RAWG_API_KEY || "";
 const API_BASE_URL = "https://api.rawg.io/api/games";
 
 const select = (selector) => document.querySelector(selector);

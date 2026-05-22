@@ -619,6 +619,38 @@ body.public-profile-page .btn_modal_close {
   display: inline-flex;
 }
 
+#collection_modal_backdrop {
+  overflow-y: auto;
+}
+
+#collection_modal {
+  display: flex;
+  flex-direction: column;
+  max-height: min(80vh, 720px);
+}
+
+#modal_body {
+  overflow-y: auto;
+  max-height: calc(min(80vh, 720px) - 5rem);
+}
+
+@media (max-width: 640px) {
+  #collection_modal_backdrop {
+    align-items: flex-start;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  #collection_modal {
+    max-height: 72vh;
+    width: min(92vw, 28rem);
+  }
+
+  #modal_body {
+    max-height: calc(72vh - 5rem);
+  }
+}
+
 @media (min-width: 1024px) {
   #collectioncontainer {
     display: flex !important;

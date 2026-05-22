@@ -87,6 +87,9 @@
                   >
                     <%= collection.collectionName %>
                   </button>
+                  <p class="text-xs text-zinc-400 font-medium">
+                    <%= collection.allGames.length %> <%= collection.allGames.length === 1 ? "game" : "games" %>
+                  </p>
                 </div>
               <% }) %>
             <% } else { %>

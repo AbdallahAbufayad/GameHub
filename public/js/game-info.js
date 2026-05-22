@@ -115,12 +115,15 @@ const renderCollectionsList = async (collections) => {
 
       const collectionInfo = document.createElement("div");
       collectionInfo.style.cssText = "flex: 1; min-width: 0;";
+      const gamesCount = collection.allGames.length;
+      const gamesLabel = gamesCount === 1 ? "game" : "games";
+
       collectionInfo.innerHTML = `
       <p style="margin: 0; font-weight: 600; color: ${isLightTheme ? "#0f172a" : "#f1f5f9"}; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
         ${collection.collectionName}
       </p>
       <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem; color: ${isLightTheme ? "#64748b" : "#94a3b8"};">
-        ${collection.allGames.length} spellen
+        ${gamesCount} ${gamesLabel}
       </p>
     `;
 
@@ -145,7 +148,17 @@ const renderCollectionsList = async (collections) => {
       collectionItem.appendChild(collectionInfo);
       collectionItem.appendChild(checkmark);
 
+      let isProcessing = false;
+
+      const setCollectionItemLoading = (loading) => {
+        collectionItem.style.opacity = loading ? "0.7" : "1";
+        collectionItem.style.pointerEvents = loading ? "none" : "auto";
+      };
+
       collectionItem.addEventListener("click", async () => {
+        if (isProcessing) return;
+        isProcessing = true;
+        setCollectionItemLoading(true);
         if (!currentGameData) {
           await fetchGameData();
         }
@@ -153,47 +166,32 @@ const renderCollectionsList = async (collections) => {
         const pathParts = window.location.pathname.split("/");
         const gameId = pathParts[pathParts.length - 1];
 
-        if (collection.collectionName === "Momenteel aan het spelen") {
-          const deleteRes = await fetch("/game-info/deleteGames", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId: (await fetch("/game-info/userid").then((r) => r.json()))
-                .userId,
-              collectionName: collection.collectionName,
-              allGames: [],
-            }),
-          });
+        try {
+          const userId = (await fetch("/game-info/userid").then((r) => r.json()))
+            .userId;
 
-          console.log("Delete status:", deleteRes.status);
-
-          setTimeout(async () => {
-            await fetch("/game-info/addToCollection", {
+          if (collection.collectionName === "Momenteel aan het spelen") {
+            const deleteRes = await fetch("/game-info/deleteGames", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                userId: (await fetch("/game-info/userid").then((r) => r.json()))
-                  .userId,
-                newCollection: {
-                  collectionName: collection.collectionName,
-                  allGames: [
-                    {
-                      gameId: gameId,
-                      gameName: currentGameData.name,
-                      gameImge: currentGameData.background_image,
-                    },
-                  ],
-                },
+                userId,
+                collectionName: collection.collectionName,
+                allGames: [],
               }),
             });
-          }, 5000);
-        } else {
-          await fetch("/game-info/addToCollection", {
+
+            if (!deleteRes.ok) {
+              showNotification("⚠️ Kon huidige collectie niet leegmaken");
+              return;
+            }
+          }
+
+          const addRes = await fetch("/game-info/addToCollection", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              userId: (await fetch("/game-info/userid").then((r) => r.json()))
-                .userId,
+              userId,
               newCollection: {
                 collectionName: collection.collectionName,
                 allGames: [
@@ -206,11 +204,23 @@ const renderCollectionsList = async (collections) => {
               },
             }),
           });
-        }
 
-        showNotification(
-          `✨ "${currentGameData.name}" toegevoegd aan "${collection.collectionName}"`,
-        );
+          if (!addRes.ok) {
+            showNotification("⚠️ Spel toevoegen mislukt, probeer opnieuw");
+            return;
+          }
+
+          showNotification(
+            `"${currentGameData.name}" toegevoegd aan "${collection.collectionName}"`,
+          );
+        } catch (error) {
+          console.error("Add to collection failed:", error);
+          showNotification("⚠️ Er ging iets mis, probeer opnieuw");
+          return;
+        } finally {
+          isProcessing = false;
+          setCollectionItemLoading(false);
+        }
 
         if (addToCollectionMenu) {
           addToCollectionMenu.style.display = "none";
