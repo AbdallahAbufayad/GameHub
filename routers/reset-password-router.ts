@@ -85,6 +85,7 @@ export function resetPasswordRoute(): Router {
   resetRouter.get("/:token", async (req, res) => {
     try {
       const token: string = req.params.token;
+      const themaName: string = res.locals.themaName;
 
       const resetDoc = await getPasswordResetToken(token);
 
@@ -94,7 +95,9 @@ export function resetPasswordRoute(): Router {
 
       res.render("new-password", {
         title: "Nieuw wachtwoord",
+        themaName,
         token,
+        notification: "",
       });
     } catch (e) {
       console.log(e);
@@ -107,11 +110,31 @@ export function resetPasswordRoute(): Router {
     try {
       const token: string = req.params.token;
       const password: string = req.body.password;
+      const confirmPassword: string = req.body.confirmPassword;
+      const themaName: string = res.locals.themaName;
 
       const resetDoc = await getPasswordResetToken(token);
 
       if (!resetDoc) {
         return res.send("Token ongeldig of verlopen.");
+      }
+
+      if (!password || password.length < 8) {
+        return res.render("new-password", {
+          title: "Nieuw wachtwoord",
+          themaName,
+          token,
+          notification: "Het wachtwoord moet minstens 8 tekens bevatten.",
+        });
+      }
+
+      if (password !== confirmPassword) {
+        return res.render("new-password", {
+          title: "Nieuw wachtwoord",
+          themaName,
+          token,
+          notification: "De wachtwoorden komen niet overeen.",
+        });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
