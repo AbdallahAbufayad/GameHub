@@ -68,14 +68,10 @@ export function registerRoute(): Router {
         return;
       }
 
-      registerUser(newUser);
-      notification = "Gebruiker succesvol geregistreerd! Je kan nu inloggen.";
-      res.render("register", {
-        title: "Registreren",
-        themaName: themaName,
-        notification: notification,
-      });
-      return;
+      await registerUser(newUser);
+      req.session.notification =
+        "Gebruiker succesvol geregistreerd! Je kan nu inloggen.";
+      return res.redirect("/login");
     } catch (e) {
       console.error("Er ging iets mis.");
     }

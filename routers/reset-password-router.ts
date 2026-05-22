@@ -33,7 +33,7 @@ export function resetPasswordRoute(): Router {
       const email: string = req.body.email.toLowerCase();
 
       const user = await getUser(email);
-
+    
       // never reveal if user exists
       if (!user) {
         return res.render("reset-password", {
