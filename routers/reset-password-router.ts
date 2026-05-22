@@ -143,6 +143,7 @@ export function resetPasswordRoute(): Router {
 
       await deletePasswordResetToken(token);
 
+      req.session.notification = "Wachtwoord succesvol bijgewerkt. Log opnieuw in.";
       res.redirect("/login");
     } catch (e) {
       console.log(e);
