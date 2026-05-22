@@ -34,13 +34,13 @@ const applyCollectionMenuTheme = () => {
 const fetchGameData = async () => {
   const pathParts = window.location.pathname.split("/");
   const gameId = pathParts[pathParts.length - 1];
-  const url = `https://api.rawg.io/api/games/${gameId}?key=${process.env.RAWG_API_KEY}`;
+  const url = `https://api.rawg.io/api/games/${gameId}?key=7b9081eb03f541489a470e4c82289453`;
   const response = await fetch(url);
   currentGameData = await response.json();
   return currentGameData;
 };
 
-const renderCollectionsList = (collections) => {
+const renderCollectionsList = async (collections) => {
   if (!allCollectionsNames) return;
 
   allCollectionsNames.innerHTML = "";
@@ -153,24 +153,60 @@ const renderCollectionsList = (collections) => {
         const pathParts = window.location.pathname.split("/");
         const gameId = pathParts[pathParts.length - 1];
 
-        await fetch("/game-info/addToCollection", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: (await fetch("/game-info/userid").then((r) => r.json()))
-              .userId,
-            newCollection: {
+        if (collection.collectionName === "Momenteel aan het spelen") {
+          const deleteRes = await fetch("/game-info/deleteGames", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: (await fetch("/game-info/userid").then((r) => r.json()))
+                .userId,
               collectionName: collection.collectionName,
-              allGames: [
-                {
-                  gameId: gameId,
-                  gameName: currentGameData.name,
-                  gameImge: currentGameData.background_image,
+              allGames: [],
+            }),
+          });
+
+          console.log("Delete status:", deleteRes.status);
+
+          setTimeout(async () => {
+            await fetch("/game-info/addToCollection", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                userId: (await fetch("/game-info/userid").then((r) => r.json()))
+                  .userId,
+                newCollection: {
+                  collectionName: collection.collectionName,
+                  allGames: [
+                    {
+                      gameId: gameId,
+                      gameName: currentGameData.name,
+                      gameImge: currentGameData.background_image,
+                    },
+                  ],
                 },
-              ],
-            },
-          }),
-        });
+              }),
+            });
+          }, 5000);
+        } else {
+          await fetch("/game-info/addToCollection", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: (await fetch("/game-info/userid").then((r) => r.json()))
+                .userId,
+              newCollection: {
+                collectionName: collection.collectionName,
+                allGames: [
+                  {
+                    gameId: gameId,
+                    gameName: currentGameData.name,
+                    gameImge: currentGameData.background_image,
+                  },
+                ],
+              },
+            }),
+          });
+        }
 
         showNotification(
           `✨ "${currentGameData.name}" toegevoegd aan "${collection.collectionName}"`,

@@ -5,6 +5,7 @@ import {
   getAllUsers,
   addToCollection,
   getUserCollections,
+  deleteAllGames,
 } from "../database";
 import { ObjectId } from "mongodb";
 import strict from "node:assert/strict";
@@ -31,6 +32,23 @@ export function gameInfo() {
 
     res.type("application/json");
     res.json({ collections });
+  });
+
+  router.post("/addToCollection", async (req, res) => {
+    const { userId, newCollection } = req.body;
+    await addToCollection(userId, newCollection);
+
+    res.send("collection added successfully");
+  });
+
+  router.post("/deleteGames", async (req, res) => {
+    const { userId, collectionName } = req.body;
+
+    await deleteAllGames(userId, collectionName);
+
+    res.send({
+      message: "All games deleted successfully",
+    });
   });
 
   router.get("/:id", async (req, res) => {
@@ -77,13 +95,6 @@ export function gameInfo() {
       gameId: req.params.id,
       reviewCount,
     });
-  });
-
-  router.post("/addToCollection", async (req, res) => {
-    const { userId, newCollection } = req.body;
-    await addToCollection(userId, newCollection);
-
-    res.send("collection added successfully");
   });
 
   router.post("/:id", async (req, res) => {

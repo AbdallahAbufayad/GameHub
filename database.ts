@@ -88,6 +88,25 @@ export async function addToCollection(
   }
 }
 
+export async function deleteAllGames(userId: string, collectionName: string) {
+  const user = await userCollection.findOne<Users>({
+    _id: new ObjectId(userId),
+  });
+
+  if (user === null) {
+    console.log("User not found:", userId);
+    return;
+  }
+
+  const result = await userCollection.updateOne(
+    {
+      _id: new ObjectId(userId),
+      "collection_more.collectionName": collectionName,
+    },
+    { $set: { "collection_more.$.allGames": [] } },
+  );
+}
+
 export async function getAllCollectionsAndGamesOfCollections(userId: string) {
   const user: Users | null = await userCollection.findOne<Users>({
     _id: new ObjectId(userId),
