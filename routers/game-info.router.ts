@@ -9,6 +9,7 @@ import {
 } from "../database";
 import { ObjectId } from "mongodb";
 import strict from "node:assert/strict";
+import { getFallbackGameById } from "../cache/fallbackGames";
 
 export function gameInfo() {
   const router: Router = Router();
@@ -55,9 +56,33 @@ export function gameInfo() {
     const themaName: string = res.locals.themaName;
     const id: string = req.params.id;
     const url: string = `https://api.rawg.io/api/games/${id}?key=${process.env.RAWG_API_KEY}`;
+    const numericId = Number(id);
+    let game: Game | null = null;
 
-    const response = await fetch(url);
-    const game: Game = await response.json();
+    if (!Number.isNaN(numericId) && numericId < 0) {
+      game = getFallbackGameById(numericId);
+    } else {
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          game = await response.json();
+        }
+      } catch (error) {
+        console.error("RAWG game fetch failed, using fallback", error);
+      }
+    }
+
+    if (!game && !Number.isNaN(numericId)) {
+      game = getFallbackGameById(numericId);
+    }
+
+    if (!game) {
+      res.status(404).render("error", {
+        title: "Game not found",
+        message: "Game data is currently unavailable.",
+      });
+      return;
+    }
     const allUsers: Users[] = await getAllUsers();
     let reviewCount = 0;
 

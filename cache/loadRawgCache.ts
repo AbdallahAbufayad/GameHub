@@ -1,4 +1,4 @@
-import { getGames, getRecentGames } from "../database";
+import { getFallbackGames, getGames, seedFallbackGamesIfEmpty } from "../database";
 import { GamesApi, Results } from "../types";
 import { rawgCache } from "./rawgCache";
 
@@ -11,7 +11,14 @@ async function fetchAllPages(
   const pages = await Promise.all(
     Array.from({ length: totalPages }, (_, i) =>
       fetch(`${url}&ordering=${ordering}&page=${i + 1}&page_size=40`).then(
-        (r) => r.json(),
+        (response) => {
+          if (!response.ok) {
+            throw new Error(
+              `RAWG request failed with status ${response.status}`,
+            );
+          }
+          return response.json();
+        },
       ),
     ),
   );
@@ -47,13 +54,19 @@ function isMultiPlayer(g: Results) {
   return g.tags?.some((t) => t.slug === "multiplayer") ?? false;
 }
 
-export async function refreshRawgCache() {
-  const [base, recent] = await Promise.all([getGames(), getRecentGames()]);
+function createGamesApi(results: Results[]): GamesApi {
+  return {
+    count: results.length,
+    next: "",
+    previous: null,
+    results,
+    user_platforms: false,
+  };
+}
 
-  const results = await fetchAllPages("-rating");
-
+function populateCache(base: GamesApi, results: Results[]) {
   rawgCache.base = withResults(base, results);
-  rawgCache.recent = withResults(recent, [...results].sort(byReleaseDesc));
+  rawgCache.recent = withResults(base, [...results].sort(byReleaseDesc));
   rawgCache.byNameAsc = withResults(base, [...results].sort(byNameAsc));
   rawgCache.byNameDes = withResults(base, [...results].sort(byNameDesc));
   rawgCache.byRatingAsc = withResults(base, [...results].sort(byRatingAsc));
@@ -62,4 +75,29 @@ export async function refreshRawgCache() {
   rawgCache.single = withResults(base, results.filter(isSinglePlayer));
   rawgCache.multi = withResults(base, results.filter(isMultiPlayer));
   rawgCache.timestamp = Date.now();
+}
+
+export async function refreshRawgCache() {
+  try {
+    if (!process.env.RAWG_API_KEY) {
+      throw new Error("RAWG_API_KEY is missing");
+    }
+
+    const base = await getGames();
+    const results = await fetchAllPages("-rating");
+
+    if (results.length === 0) {
+      throw new Error("RAWG returned no results");
+    }
+
+    await seedFallbackGamesIfEmpty();
+    populateCache(base, results);
+  } catch (error) {
+    console.error("Failed to refresh RAWG cache; using fallback", error);
+
+    await seedFallbackGamesIfEmpty();
+    const fallbackResults = await getFallbackGames();
+    const fallbackBase = createGamesApi(fallbackResults);
+    populateCache(fallbackBase, fallbackResults);
+  }
 }
