@@ -81,9 +81,9 @@
           <button id="close_modal_btn" class="<%= themaName === 'light' ? 'text-slate-500 hover:text-red-500' : 'text-zinc-400 hover:text-red-400' %> transition-colors text-3xl leading-none">&times;</button>
         </div>
 
-        <div class="flex gap-2 mb-5">
+        <div class="flex flex-col sm:flex-row gap-2 mb-5">
           <input id="modal_search_input" type="text" placeholder="Zoek voor een game..." class="flex-1 <%= themaName === 'light' ? 'bg-emerald-50 border-2 border-emerald-400 text-slate-900 placeholder-slate-500' : 'bg-zinc-900 border-2 border-emerald-500 text-white placeholder-zinc-500' %> rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all duration-300" />
-          <button id="modal_search_btn" class="<%= themaName === 'light' ? 'bg-emerald-100 border-2 border-emerald-500 text-emerald-900' : 'bg-zinc-800 border-2 border-emerald-500 text-zinc-300' %> px-6 py-3 rounded-lg hover:bg-emerald-500 hover:text-white transition-all duration-300 hover:scale-105 font-semibold">Zoeken</button>
+          <button id="modal_search_btn" class="w-full sm:w-auto <%= themaName === 'light' ? 'bg-emerald-100 border-2 border-emerald-500 text-emerald-900' : 'bg-zinc-800 border-2 border-emerald-500 text-zinc-300' %> px-6 py-3 rounded-lg hover:bg-emerald-500 hover:text-white transition-all duration-300 hover:scale-105 font-semibold">Zoeken</button>
         </div>
 
         <div class="overflow-y-auto flex-1 pr-1">

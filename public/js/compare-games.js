@@ -22,6 +22,7 @@ function showNotification(message) {
   }
 
   notif.style.backgroundColor = "red";
+  notif.style.borderLeft = "4px solid #ef4444";
   notif.style.color = "#ffffff";
   text.style.color = "#ffffff";
 
