@@ -41,7 +41,6 @@ function showNotification(message) {
   }, 5000);
 }
 
-
 function createOptimizedImage(imageUrl, gameName, cardElement) {
   const img = document.createElement("img");
   img.src = imageUrl || "";
@@ -81,7 +80,6 @@ function applyGlow(button, ratingBox) {
     );
   }
 }
-
 
 function resetGlow(leftBtn, rightBtn, leftBox, rightBox) {
   [leftBtn, rightBtn].forEach((btn) => {
@@ -134,15 +132,25 @@ function selectGame(game, sideButton, modal) {
 
   // Prevent selecting the same game twice by comparing stored dataset.game ids
   try {
-    const leftData = leftGame.dataset.game ? JSON.parse(leftGame.dataset.game) : null;
-    const rightData = rightGame.dataset.game ? JSON.parse(rightGame.dataset.game) : null;
-    if ((leftData && leftData.id === game.id) || (rightData && rightData.id === game.id)) {
+    const leftData = leftGame.dataset.game
+      ? JSON.parse(leftGame.dataset.game)
+      : null;
+    const rightData = rightGame.dataset.game
+      ? JSON.parse(rightGame.dataset.game)
+      : null;
+    if (
+      (leftData && leftData.id === game.id) ||
+      (rightData && rightData.id === game.id)
+    ) {
       showNotification("Dit spel staat al in een van de vergelijkingsvakken");
       return;
     }
   } catch (e) {
     // fallback to comparing backgroundImage string
-    if (leftGame.style.backgroundImage === newUrl || rightGame.style.backgroundImage === newUrl) {
+    if (
+      leftGame.style.backgroundImage === newUrl ||
+      rightGame.style.backgroundImage === newUrl
+    ) {
       showNotification("Dit spel staat al in een van de vergelijkingsvakken");
       return;
     }
@@ -159,7 +167,13 @@ function selectGame(game, sideButton, modal) {
   sideButton.innerHTML = "";
 
   const gameName = document.createElement("h2");
-  gameName.classList.add("text-3xl", "font-bold", "text-white", "z-10", "text-center");
+  gameName.classList.add(
+    "text-3xl",
+    "font-bold",
+    "text-white",
+    "z-10",
+    "text-center",
+  );
   gameName.textContent = game.name;
 
   sideButton.dataset.rating = String(game.rating ?? "");
@@ -192,23 +206,41 @@ function showComparisonPopup(leftGame, rightGame) {
   if (!popup) return;
 
   // populate cards
-  select("#cmp_left_image").style.backgroundImage = leftGame.background_image ? `url(${leftGame.background_image})` : "none";
-  select("#cmp_right_image").style.backgroundImage = rightGame.background_image ? `url(${rightGame.background_image})` : "none";
+  select("#cmp_left_image").style.backgroundImage = leftGame.background_image
+    ? `url(${leftGame.background_image})`
+    : "none";
+  select("#cmp_right_image").style.backgroundImage = rightGame.background_image
+    ? `url(${rightGame.background_image})`
+    : "none";
   select("#cmp_left_name").textContent = leftGame.name || "-";
   select("#cmp_right_name").textContent = rightGame.name || "-";
 
   // populate rows
-  select("#cmp_left_rating").textContent = String(leftGame.rating ?? "None found");
-  select("#cmp_right_rating").textContent = String(rightGame.rating ?? "None found");
+  select("#cmp_left_rating").textContent = String(
+    leftGame.rating ?? "None found",
+  );
+  select("#cmp_right_rating").textContent = String(
+    rightGame.rating ?? "None found",
+  );
 
   select("#cmp_left_release").textContent = leftGame.released || "None found";
   select("#cmp_right_release").textContent = rightGame.released || "None found";
 
-  select("#cmp_left_genre").textContent = leftGame?.genres?.[0]?.name || "None found";
-  select("#cmp_right_genre").textContent = rightGame?.genres?.[0]?.name || "None found";
+  select("#cmp_left_genre").textContent =
+    leftGame?.genres?.[0]?.name || "None found";
+  select("#cmp_right_genre").textContent =
+    rightGame?.genres?.[0]?.name || "None found";
 
-  select("#cmp_left_platform").textContent = leftGame?.platforms?.map((p) => p.platform?.name).filter(Boolean).join(", ") || "None found";
-  select("#cmp_right_platform").textContent = rightGame?.platforms?.map((p) => p.platform?.name).filter(Boolean).join(", ") || "None found";
+  select("#cmp_left_platform").textContent =
+    leftGame?.platforms
+      ?.map((p) => p.platform?.name)
+      .filter(Boolean)
+      .join(", ") || "None found";
+  select("#cmp_right_platform").textContent =
+    rightGame?.platforms
+      ?.map((p) => p.platform?.name)
+      .filter(Boolean)
+      .join(", ") || "None found";
 
   // show popup
   popup.classList.remove("hidden");
@@ -263,7 +295,12 @@ function renderModalResults(games, sideButton, gamesModalContainer, modal) {
     );
 
     const imgWrapper = document.createElement("div");
-    imgWrapper.classList.add("w-full", "h-32", "overflow-hidden", "bg-zinc-800");
+    imgWrapper.classList.add(
+      "w-full",
+      "h-32",
+      "overflow-hidden",
+      "bg-zinc-800",
+    );
 
     const img = createOptimizedImage(game.background_image, game.name, card);
     img.classList.add(
@@ -287,15 +324,10 @@ function renderModalResults(games, sideButton, gamesModalContainer, modal) {
     card.appendChild(imgWrapper);
     card.appendChild(info);
 
-    card.addEventListener("click", () =>
-      selectGame(game, sideButton, modal),
-    );
-
+    card.addEventListener("click", () => selectGame(game, sideButton, modal));
 
     gamesModalContainer.appendChild(card);
   });
-
-  
 }
 
 async function searchGames(query, gamesModalContainer, modal, button) {
@@ -364,12 +396,10 @@ function compareGamesButtons() {
       gamesModalContainer.innerHTML =
         '<p class="text-zinc-500 col-span-full text-center py-8 italic">Begin met zoeken om spellen te zien...</p>';
       gamesModal.classList.remove("hidden");
-      gamesModal.classList.add("flex"); 
+      gamesModal.classList.add("flex");
     });
   });
 }
-
-
 
 function initialize() {
   compareGamesButtons();

@@ -34,7 +34,7 @@ const applyCollectionMenuTheme = () => {
 const fetchGameData = async () => {
   const pathParts = window.location.pathname.split("/");
   const gameId = pathParts[pathParts.length - 1];
-  const url = `https://api.rawg.io/api/games/${gameId}?key=7b9081eb03f541489a470e4c82289453`;
+  const url = `https://api.rawg.io/api/games/${gameId}?key=35f28096a9d4438fb71603f6914b5a35`;
   const response = await fetch(url);
   currentGameData = await response.json();
   return currentGameData;
@@ -164,8 +164,6 @@ const renderCollectionsList = async (collections) => {
               allGames: [],
             }),
           });
-
-          console.log("Delete status:", deleteRes.status);
 
           setTimeout(async () => {
             await fetch("/game-info/addToCollection", {

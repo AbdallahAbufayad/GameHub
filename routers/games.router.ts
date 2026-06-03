@@ -75,7 +75,9 @@ export function games() {
     const clearField = req.query.clearField;
 
     let searchGame1 =
-      typeof req.query.searchGame === "string" ? req.query.searchGame.trim() : "";
+      typeof req.query.searchGame === "string"
+        ? req.query.searchGame.trim()
+        : "";
     if (clearField === "clicked") searchGame1 = "";
 
     const searchActive = searchGame1 !== "";

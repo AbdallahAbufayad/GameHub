@@ -44,7 +44,9 @@ async function loadGameSuggestions(query) {
     const params = new URLSearchParams();
     params.set("q", query.trim());
 
-    const response = await fetch(`/games/search-suggestions?${params.toString()}`);
+    const response = await fetch(
+      `/games/search-suggestions?${params.toString()}`,
+    );
     const data = await response.json();
 
     if (requestId !== suggestionRequestId) return;
@@ -145,7 +147,6 @@ const btnLeft = document.querySelector("#btn_left");
 const btnRight = document.querySelector("#btn_right");
 const gamesContainer = document.querySelector("#games_container");
 
-
 if (btnLeft) btnLeft.disabled = true;
 let currentPage = 0;
 
@@ -156,13 +157,17 @@ async function loadGamesPage(direction) {
   const params = new URLSearchParams();
   params.set("page", currentPage);
 
-  const activeSortfield = document.querySelector("input[name='sortfield']:checked");
+  const activeSortfield = document.querySelector(
+    "input[name='sortfield']:checked",
+  );
   if (activeSortfield) params.set("sortfield", activeSortfield.value);
 
   const res = await fetch(`/games/games-partial?${params}`);
   const { showAllGames, isFirstPage, isLastPage } = await res.json();
 
-  gamesContainer.innerHTML = showAllGames.map(game => `
+  gamesContainer.innerHTML = showAllGames
+    .map(
+      (game) => `
     <div class="game-card animate-fade-in relative w-full aspect-square">
       <div class="absolute inset-0">
         <img class="w-full h-full object-cover" alt="${game.name}" src="${game.background_image}" loading="lazy" decoding="async">
@@ -171,7 +176,9 @@ async function loadGamesPage(direction) {
         <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow">${game.name}</p>
       </a>
     </div>
-  `).join("");
+  `,
+    )
+    .join("");
 
   btnLeft.disabled = isFirstPage;
   btnRight.disabled = isLastPage;

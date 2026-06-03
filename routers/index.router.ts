@@ -6,8 +6,6 @@ export function index() {
     const theme = req.query.theme === "light";
     const themaName = theme ? "light" : "dark";
 
-    
-
     res.render("index", {
       title: "Onze games",
       themaName: themaName,

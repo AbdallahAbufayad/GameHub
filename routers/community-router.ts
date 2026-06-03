@@ -21,11 +21,10 @@ export function communityRoute() {
         });
       });
 
-    const publicUsers = allPublicUsers
-      .filter((user) => {
-        if (!searchTerm) return true;
-        return user.username.toLowerCase().includes(searchTerm);
-      });
+    const publicUsers = allPublicUsers.filter((user) => {
+      if (!searchTerm) return true;
+      return user.username.toLowerCase().includes(searchTerm);
+    });
 
     res.render("community", {
       title: "Community",

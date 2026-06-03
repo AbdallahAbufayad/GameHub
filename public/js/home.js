@@ -103,7 +103,7 @@ const btnLeft = document.querySelector("#btn_left");
 const btnRight = document.querySelector("#btn_right");
 const gamesContainer = document.querySelector("#games_container");
 
-if (btnLeft) btnLeft.disabled = true; 
+if (btnLeft) btnLeft.disabled = true;
 
 let currentPage = 0;
 
@@ -116,7 +116,9 @@ async function loadGamesPage(direction) {
   const res = await fetch(`/home/games-partial?${params}`);
   const { showAllGames, isFirstPage, isLastPage } = await res.json();
 
-  gamesContainer.innerHTML = showAllGames.map(game => `
+  gamesContainer.innerHTML = showAllGames
+    .map(
+      (game) => `
     <div class="game-card relative w-full aspect-square">
       <div class="absolute inset-0">
         <img class="w-full h-full object-cover" alt="${game.name}" src="${game.background_image}" loading="lazy" decoding="async">
@@ -125,12 +127,13 @@ async function loadGamesPage(direction) {
         <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow">${game.name}</p>
       </a>
     </div>
-  `).join("");
+  `,
+    )
+    .join("");
 
   btnLeft.disabled = isFirstPage;
   btnRight.disabled = isLastPage;
 }
-
 
 btnLeft?.addEventListener("click", () => loadGamesPage("prev"));
 btnRight?.addEventListener("click", () => loadGamesPage("next"));
