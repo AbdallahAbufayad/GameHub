@@ -94,7 +94,6 @@ export function gameInfo() {
       }
     }
 
-    /*
     const res1 = await fetch(
       "https://translation.googleapis.com/language/translate/v2?key=AIzaSyCLA2ozIXRi4bj1JChJ9V-uVMCRa6g6Llc",
       {
@@ -110,7 +109,7 @@ export function gameInfo() {
     );
 
     const data = await res1.json();
-    game.description_raw = data.data.translations[0].translatedText;*/
+    game.description_raw = data.data.translations[0].translatedText;
 
     res.render("game-info", {
       themaName: themaName,

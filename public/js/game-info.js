@@ -167,57 +167,57 @@ const renderCollectionsList = async (collections) => {
         const gameId = pathParts[pathParts.length - 1];
 
         try {
-          const userId = (await fetch("/game-info/userid").then((r) => r.json()))
-            .userId;
-
+          const userId = (
+            await fetch("/game-info/userid").then((r) => r.json())
+          ).userId;
 
           setTimeout(async () => {
-            await fetch("/game-info/addToCollection", {
+            await fetch("/game-info/addToCollection");
 
-          if (collection.collectionName === "Momenteel aan het spelen") {
-            const deleteRes = await fetch("/game-info/deleteGames", {
+            if (collection.collectionName === "Momenteel aan het spelen") {
+              const deleteRes = await fetch("/game-info/deleteGames", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  userId,
+                  collectionName: collection.collectionName,
+                  allGames: [],
+                }),
+              });
 
+              if (!deleteRes.ok) {
+                showNotification("⚠️ Kon huidige collectie niet leegmaken");
+                return;
+              }
+            }
+
+            const addRes = await fetch("/game-info/addToCollection", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 userId,
-                collectionName: collection.collectionName,
-                allGames: [],
+                newCollection: {
+                  collectionName: collection.collectionName,
+                  allGames: [
+                    {
+                      gameId: gameId,
+                      gameName: currentGameData.name,
+                      gameImge: currentGameData.background_image,
+                    },
+                  ],
+                },
               }),
             });
 
-            if (!deleteRes.ok) {
-              showNotification("⚠️ Kon huidige collectie niet leegmaken");
+            if (!addRes.ok) {
+              showNotification("⚠️ Spel toevoegen mislukt, probeer opnieuw");
               return;
             }
-          }
 
-          const addRes = await fetch("/game-info/addToCollection", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              userId,
-              newCollection: {
-                collectionName: collection.collectionName,
-                allGames: [
-                  {
-                    gameId: gameId,
-                    gameName: currentGameData.name,
-                    gameImge: currentGameData.background_image,
-                  },
-                ],
-              },
-            }),
+            showNotification(
+              `"${currentGameData.name}" toegevoegd aan "${collection.collectionName}"`,
+            );
           });
-
-          if (!addRes.ok) {
-            showNotification("⚠️ Spel toevoegen mislukt, probeer opnieuw");
-            return;
-          }
-
-          showNotification(
-            `"${currentGameData.name}" toegevoegd aan "${collection.collectionName}"`,
-          );
         } catch (error) {
           console.error("Add to collection failed:", error);
           showNotification("⚠️ Er ging iets mis, probeer opnieuw");
@@ -227,15 +227,16 @@ const renderCollectionsList = async (collections) => {
           setCollectionItemLoading(false);
         }
 
+        //if (collection_filed) {
+        //collection_filed.style.display = "none";
+        //}
+
         if (addToCollectionMenu) {
           addToCollectionMenu.style.display = "none";
         }
         if (modal_backdrop) {
           modal_backdrop.style.display = "none";
         }
-        //if (collection_filed) {
-        //collection_filed.style.display = "none";
-        //}
       });
 
       collectionItem.addEventListener("mouseenter", () => {
