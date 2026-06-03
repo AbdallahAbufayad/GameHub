@@ -1,6 +1,7 @@
 import { Collection, MongoClient, ObjectId } from "mongodb";
-import { Users, GamesApi, Collection_more } from "./types";
+import { Users, GamesApi, Collection_more, Results } from "./types";
 import { configDotenv } from "dotenv";
+import { fallbackSeeds, toFallbackResult } from "./cache/fallbackGames";
 
 configDotenv();
 
@@ -19,6 +20,10 @@ const client: MongoClient = new MongoClient(process.env.MONGODB);
 let userCollection: Collection<Users> = client
   .db("users")
   .collection("userinfo");
+type FallbackGameDoc = Results & { _id?: ObjectId };
+const fallbackGamesCollection: Collection<FallbackGameDoc> = client
+  .db("games")
+  .collection("fallback_games");
 
 export async function exit() {
   try {
@@ -42,6 +47,26 @@ export async function connect() {
     console.error(error);
     process.exit(1);
   }
+}
+
+export async function seedFallbackGamesIfEmpty() {
+  const docs = fallbackSeeds.map((seed) => toFallbackResult(seed));
+  if (docs.length === 0) return;
+
+  const ops = docs.map((doc) => ({
+    updateOne: {
+      filter: { id: doc.id },
+      update: { $set: doc },
+      upsert: true,
+    },
+  }));
+
+  await fallbackGamesCollection.bulkWrite(ops);
+}
+
+export async function getFallbackGames(): Promise<Results[]> {
+  const docs = await fallbackGamesCollection.find().toArray();
+  return docs.map(({ _id, ...rest }) => rest);
 }
 
 export async function addToCollection(

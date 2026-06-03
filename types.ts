@@ -147,7 +147,7 @@ export interface Game {
   released: string;
   tba: boolean;
   updated: string;
-  background_image: null;
+  background_image: string | null;
   background_image_additional: null;
   website: string;
   rating: Double;

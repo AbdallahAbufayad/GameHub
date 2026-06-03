@@ -175,6 +175,9 @@ async function main() {
     for (const userinfo of user.collection_more) {
       const collectionContainerOfGames = document.createElement("div");
       const btnCollectionName = document.createElement("button");
+      const collectionMeta = document.createElement("p");
+      const gamesCount = userinfo.allGames.length;
+      const gamesLabel = gamesCount === 1 ? "game" : "games";
       const btnDeleteCollection = document.createElement("button");
 
       collectionContainerOfGames.classList.add(
@@ -213,6 +216,13 @@ async function main() {
       );
 
       btnCollectionName.innerHTML = userinfo.collectionName;
+
+      collectionMeta.classList.add(
+        "text-xs",
+        "text-zinc-400",
+        "font-medium",
+      );
+      collectionMeta.textContent = `${gamesCount} ${gamesLabel}`;
 
       const openCollectionModalForUser = () => {
         openCollectionModal(userinfo.collectionName, userinfo.allGames, true);
@@ -277,10 +287,12 @@ async function main() {
         });
 
         collectionContainerOfGames.appendChild(btnCollectionName);
+        collectionContainerOfGames.appendChild(collectionMeta);
 
         collectionContainerOfGames.appendChild(btnDeleteCollection);
       } else {
         collectionContainerOfGames.appendChild(btnCollectionName);
+        collectionContainerOfGames.appendChild(collectionMeta);
       }
 
       collectioncontainer.appendChild(collectionContainerOfGames);
@@ -325,14 +337,13 @@ function showNotification(message) {
     notif.id = "notification";
     notif.setAttribute("role", "alert");
     notif.style.cssText =
-      "position:fixed;top:1.25rem;left:50%;transform:translateX(-50%) translateY(-120px);z-index:9999999;width:90%;max-width:28rem;padding:1rem 1.5rem;border-radius:0.875rem;box-shadow:0 10px 30px rgba(0,0,0,0.3);display:none;opacity:0;transition:opacity 0.3s ease,transform 0.3s ease;text-align:center;border-left:4px solid #10b981;";
+      "position:fixed;top:1.25rem;left:50%;transform:translateX(-50%) translateY(-120px);z-index:10000000;width:90%;max-width:28rem;padding:1rem 1.5rem;border-radius:0.875rem;box-shadow:0 10px 30px rgba(0,0,0,0.3);display:none;opacity:0;transition:opacity 0.3s ease,transform 0.3s ease;text-align:center;border-left:4px solid #10b981;backdrop-filter:none;filter:none;isolation:isolate;";
     text = document.createElement("p");
     text.id = "error_text";
     text.style.cssText =
       "font-size:0.95rem;margin:0;text-align:center;font-weight:500;letter-spacing:0.3px;";
     notif.appendChild(text);
-    document.querySelector(".games-header")?.appendChild(notif) ??
-      document.body.appendChild(notif);
+    document.body.appendChild(notif);
   }
 
   notif.style.backgroundColor = "#10b981";

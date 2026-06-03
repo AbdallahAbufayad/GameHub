@@ -55,7 +55,7 @@
 
                 <div class="game-card relative w-full aspect-square">
                   <div class="absolute inset-0">
-                    <img class="w-full h-full object-cover" alt="<%= mostPopulareGame.name%>" src="<%= mostPopulareGame.background_image %>" loading="lazy" decoding="async">    
+                    <img class="w-full h-full object-cover" alt="<%= mostPopulareGame.name%>" src="<%= mostPopulareGame.background_image && mostPopulareGame.background_image !== 'null' && mostPopulareGame.background_image !== 'undefined' ? mostPopulareGame.background_image : '/images/sword.png' %>" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='/images/sword.png';">    
                     </div>
                   <a class="absolute inset-0 z-10" href="/game-info/<%= mostPopulareGame.id%>" target="_self" aria-label="Ga naar <%= mostPopulareGame.name%>"><p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= mostPopulareGame.name%></p></a>
                 </div>
@@ -88,7 +88,7 @@
 
                 <div class="game-card relative w-full aspect-square">
                   <div class="absolute inset-0">
-                    <img class="w-full h-full object-cover" alt="<%= allrecentGame.name%>" src="<%= allrecentGame.background_image %>" loading="lazy" decoding="async">    
+                    <img class="w-full h-full object-cover" alt="<%= allrecentGame.name%>" src="<%= allrecentGame.background_image && allrecentGame.background_image !== 'null' && allrecentGame.background_image !== 'undefined' ? allrecentGame.background_image : '/images/sword.png' %>" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='/images/sword.png';">    
                     </div>
                   <a class="absolute inset-0 z-10" href="/game-info/<%= allrecentGame.id%>" target="_self" aria-label="Ga naar <%= allrecentGame.name%>"><p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= allrecentGame.name%></p></a>
                 </div>
@@ -131,7 +131,7 @@
       <%for(let showAllGame of showAllGames){%>
         <div class="game-card relative w-full aspect-square">
           <div class="absolute inset-0">
-            <img class="w-full h-full object-cover" alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image %>" loading="lazy" decoding="async">
+            <img class="w-full h-full object-cover" alt="<%= showAllGame.name%>" src="<%= showAllGame.background_image && showAllGame.background_image !== 'null' && showAllGame.background_image !== 'undefined' ? showAllGame.background_image : '/images/sword.png' %>" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='/images/sword.png';">
           </div>
           <a class="absolute inset-0 z-10" href="/game-info/<%= showAllGame.id%>" target="_self" aria-label="Ga naar <%= showAllGame.name%>">
             <p class="game-card-title absolute inset-x-0 bottom-0 p-4 text-center text-white font-bold text-base drop-shadow"><%= showAllGame.name%></p>

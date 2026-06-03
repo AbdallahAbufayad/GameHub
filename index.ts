@@ -16,11 +16,12 @@ import { ThemeMiddleware } from "./middleware/theme-middleware";
 import { secureMiddleware } from "./middleware/secureMiddleware";
 import { registerRoute } from "./routers/register-router";
 import { loginRoute } from "./routers/login-router";
-import { connect } from "./database";
+import { connect, seedFallbackGamesIfEmpty } from "./database";
 import { handleError } from "./routers/errorhandeler";
 import { logoutRouter } from "./routers/logout-router";
 import { resetPasswordRoute } from "./routers/reset-password-router";
 import { startCacheWorker } from "./cache/startCacheWorker";
+import { newPasswordRoute } from "./routers/new-password-router";
 
 dotenv.config();
 
@@ -55,6 +56,7 @@ app.use("/login", loginRoute());
 app.use("/logout", logoutRouter());
 app.use("/register", registerRoute());
 app.use("/reset-password", resetPasswordRoute());
+app.use("/new-password", newPasswordRoute());
 app.use("/profile", secureMiddleware, profileRoute());
 app.use("/public-profile", secureMiddleware, PublicProfileRoute());
 
@@ -71,7 +73,8 @@ app.get("/info", (req, res) => {
 app.use(handleError);
 
 app.listen(app.get("port"), async () => {
-  connect();
+  await connect();
+  await seedFallbackGamesIfEmpty();
   await startCacheWorker();
   console.log("Server started on http://localhost:" + app.get("port"));
 });

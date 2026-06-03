@@ -111,7 +111,11 @@ export function games() {
       };
       showAllGames = cacheMap[sortfield] ?? rawgCache.base?.results ?? [];
     } else {
-      const paged = await getRecentGameswithPageSize();
+      try {
+        await getRecentGameswithPageSize();
+      } catch (error) {
+        console.error("RAWG page fetch failed, using cache", error);
+      }
       showAllGames = rawgCache.byRatingDes?.results ?? [];
     }
 
