@@ -67,7 +67,7 @@ export function registerRoute(): Router {
         });
         return;
       }
-      
+
       await registerUser(newUser);
       req.session.notification =
         "Gebruiker succesvol geregistreerd! Je kan nu inloggen.";

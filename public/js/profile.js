@@ -217,11 +217,7 @@ async function main() {
 
       btnCollectionName.innerHTML = userinfo.collectionName;
 
-      collectionMeta.classList.add(
-        "text-xs",
-        "text-zinc-400",
-        "font-medium",
-      );
+      collectionMeta.classList.add("text-xs", "text-zinc-400", "font-medium");
       collectionMeta.textContent = `${gamesCount} ${gamesLabel}`;
 
       const openCollectionModalForUser = () => {

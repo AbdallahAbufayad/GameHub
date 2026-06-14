@@ -36,7 +36,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.5,
     ratings_count: 5000,
     tags: ["singleplayer", "multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
   },
   {
     id: -2,
@@ -45,7 +46,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.7,
     ratings_count: 4500,
     tags: ["singleplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
   },
   {
     id: -3,
@@ -54,7 +56,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.8,
     ratings_count: 4200,
     tags: ["singleplayer", "multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg",
   },
   {
     id: -4,
@@ -79,7 +82,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 3.9,
     ratings_count: 3500,
     tags: ["multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1938090/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1938090/header.jpg",
   },
   {
     id: -7,
@@ -88,7 +92,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.8,
     ratings_count: 4100,
     tags: ["singleplayer", "multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
   },
   {
     id: -8,
@@ -105,7 +110,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.8,
     ratings_count: 3800,
     tags: ["singleplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg",
   },
   {
     id: -10,
@@ -114,7 +120,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.8,
     ratings_count: 3600,
     tags: ["singleplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1888930/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1888930/header.jpg",
   },
   {
     id: -11,
@@ -123,7 +130,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 3.8,
     ratings_count: 3400,
     tags: ["singleplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
   },
   {
     id: -12,
@@ -132,7 +140,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.7,
     ratings_count: 2800,
     tags: ["singleplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1145360/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1145360/header.jpg",
   },
   {
     id: -13,
@@ -141,7 +150,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.6,
     ratings_count: 3000,
     tags: ["singleplayer", "multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/413150/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/413150/header.jpg",
   },
   {
     id: -14,
@@ -150,7 +160,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.1,
     ratings_count: 2600,
     tags: ["multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/header.jpg",
   },
   {
     id: -15,
@@ -159,7 +170,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.2,
     ratings_count: 3300,
     tags: ["multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg",
   },
   {
     id: -16,
@@ -210,7 +222,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.3,
     ratings_count: 2700,
     tags: ["multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/252950/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/252950/header.jpg",
   },
   {
     id: -22,
@@ -219,7 +232,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.9,
     ratings_count: 2900,
     tags: ["singleplayer", "multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",
   },
   {
     id: -23,
@@ -228,7 +242,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.3,
     ratings_count: 2600,
     tags: ["singleplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg",
   },
   {
     id: -24,
@@ -237,7 +252,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.6,
     ratings_count: 2100,
     tags: ["singleplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/2050650/header.jpg",
   },
   {
     id: -25,
@@ -246,7 +262,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.0,
     ratings_count: 2000,
     tags: ["multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/header.jpg",
   },
   {
     id: -26,
@@ -271,7 +288,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.5,
     ratings_count: 2000,
     tags: ["singleplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1462040/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1462040/header.jpg",
   },
   {
     id: -29,
@@ -288,7 +306,8 @@ export const fallbackSeeds: FallbackSeed[] = [
     rating: 4.0,
     ratings_count: 2600,
     tags: ["multiplayer"],
-    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/header.jpg",
+    image:
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/header.jpg",
   },
 ];
 

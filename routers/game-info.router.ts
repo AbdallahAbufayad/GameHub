@@ -55,9 +55,13 @@ export function gameInfo() {
   router.get("/:id", async (req, res) => {
     const themaName: string = res.locals.themaName;
     const id: string = req.params.id;
-    const url: string = `https://api.rawg.io/api/games/${id}?key=${process.env.RAWG_API_KEY}`;
+    let newId: number = Number(id);
+    if (newId < 0) newId = newId * -1;
+    const url: string = `https://api.rawg.io/api/games/${String(newId)}?key=${process.env.RAWG_API_KEY}`;
     const numericId = Number(id);
     let game: Game | null = null;
+
+    console.log(newId);
 
     if (!Number.isNaN(numericId) && numericId < 0) {
       game = getFallbackGameById(numericId);

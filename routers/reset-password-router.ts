@@ -33,7 +33,7 @@ export function resetPasswordRoute(): Router {
       const email: string = req.body.email.toLowerCase();
 
       const user = await getUser(email);
-    
+
       // never reveal if user exists
       if (!user) {
         return res.render("reset-password", {
@@ -143,7 +143,8 @@ export function resetPasswordRoute(): Router {
 
       await deletePasswordResetToken(token);
 
-      req.session.notification = "Wachtwoord succesvol bijgewerkt. Log opnieuw in.";
+      req.session.notification =
+        "Wachtwoord succesvol bijgewerkt. Log opnieuw in.";
       res.redirect("/login");
     } catch (e) {
       console.log(e);

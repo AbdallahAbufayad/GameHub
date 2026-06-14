@@ -34,7 +34,11 @@ const applyCollectionMenuTheme = () => {
 const fetchGameData = async () => {
   const pathParts = window.location.pathname.split("/");
   const gameId = pathParts[pathParts.length - 1];
-  const url = `https://api.rawg.io/api/games/${gameId}?key=35f28096a9d4438fb71603f6914b5a35`;
+  let newGameId = Number(gameId);
+
+  if (newGameId < 0) newGameId = newGameId * -1;
+  console.log(typeof newGameId);
+  const url = `https://api.rawg.io/api/games/${String(newGameId)}?key=0dd5b24612bc410abab2e6e861057278`;
   const response = await fetch(url);
   currentGameData = await response.json();
   return currentGameData;
