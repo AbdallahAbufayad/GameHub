@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "dev": "nodemon --exec tsx index.ts",
-    "start": "tsx index.ts",
-    "build": "echo 'No build step needed'"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "author": "",
   "license": "ISC",

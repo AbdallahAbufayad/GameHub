@@ -1,20 +1,15 @@
-# 1. Build stage for TypeScript
-FROM node:18-alpine AS builder
+FROM node:18-alpine
+
 WORKDIR /app
+
+# Install dependencies
 COPY package*.json ./
 RUN npm install
-COPY . .
-# Compiles your TypeScript to JavaScript (make sure you have a build script in package.json)
-RUN npm run build 
 
-# 2. Production execution stage
-FROM node:18-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm install --only=production
-# Copy the compiled JS files and your views folder containing your EJS templates
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/views ./views
+# Copy all code (including routers, views, config files)
+COPY . .
 
 EXPOSE 3000
-CMD ["node", "dist/index.js"]
+
+# Replace this with the actual start command from your package.json scripts
+CMD ["npm", "start"]
