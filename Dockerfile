@@ -1,21 +1,20 @@
-# Use Node base image
-FROM node:18-alpine
-
-# Create app directory
-WORKDIR /usr/src/app
-
-# Copy package files and install dependencies
+# 1. Build stage for TypeScript
+FROM node:18-alpine AS builder
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
-
-# Copy the rest of your app source code (routers, views, tsconfig, etc.)
 COPY . .
+# Compiles your TypeScript to JavaScript (make sure you have a build script in package.json)
+RUN npm run build 
 
-# Build your TypeScript code (assuming you have a build script in package.json)
-RUN npm run build
+# 2. Production execution stage
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --only=production
+# Copy the compiled JS files and your views folder containing your EJS templates
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/views ./views
 
-# Expose the port your Express app listens on (change 3000 to whatever your app uses)
 EXPOSE 3000
-
-# Start the application
-CMD [ "npm", "start" ]
+CMD ["node", "dist/index.js"]
